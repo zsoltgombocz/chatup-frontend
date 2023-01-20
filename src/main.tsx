@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
+import { BrowserRouter as Router } from "react-router-dom";
+import Application from './Application';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <h1 className={`text-3xl font-bold text-pr-red-light`}>
-      Hello world!
-    </h1>
+    <Router>
+      <Application />
+    </Router>
   </React.StrictMode>,
 )

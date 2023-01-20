@@ -19,10 +19,10 @@ const HomeView = () => {
                 animate={!isLoading && { y: -100 }}
                 exit={{ y: 0 }}
             >
-                <Logo size='big' />
+                <Logo size={'big'} />
                 <AnimatePresence>
                     {isLoading ? (<Version />) : (
-                        <m.div className={'text-2xl text-gray-600 font-pridi text-center'}
+                        <m.div className={'text-2xl text-gray-600 dark:font-pridi text-center'}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}

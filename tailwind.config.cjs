@@ -1,12 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  mode: 'jit',
+   purge: [
+     './src/**/*.{js,jsx,ts,tsx,vue}',
+   ],
   theme: {
     extend: {
+      fontFamily: {
+        'logo': ['Black Ops One', 'sans'],
+        'pridi': ['Pridi', 'sans'],
+        'cabin': ['Cabin Condensed', 'sans'],
+      },
       colors: {
         'pr-red': {
           light: '#F16158',

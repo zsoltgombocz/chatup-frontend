@@ -12,10 +12,13 @@ const Application = () => {
         <Routes>
             <Route path="/" element={<AppLayout disableLayout={location.pathname === '/'} />}>
                 <Route index element={<HomeView />} />
-                <Route path="settings" element={<SettingsView />} />
+                <Route path="settings">
+                    <Route index element={<SettingsView />} />
+                    <Route path={'privacy'} element={<SettingsView />} />
+                </Route>
             </Route>
 
-            <Route path="*" element={<div>not found</div>} />
+
         </Routes>
     );
 };

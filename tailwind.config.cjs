@@ -35,6 +35,9 @@ module.exports = {
         'bg-light-outer': '#FFFFFF',
         'bg-dark-inner': '#282C2D',
         'bg-dark-outer': '#3B3B3B',
+      },
+      borderRadius: {
+        'xl': '25px',
       }
     },
   },

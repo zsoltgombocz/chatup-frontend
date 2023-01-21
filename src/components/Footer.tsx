@@ -17,7 +17,7 @@ const Footer = ({ showLogo = true, showVersion = true }: Props) => {
                 exit={{ y: 20, opacity: 0 }}
             >
                 {showLogo && (
-                    <div className={'text-black flex flex-row justify-center items-center gap-1 font-medium'}>
+                    <div className={'text-black dark:text-white flex flex-row justify-center items-center gap-1 font-medium'}>
                         Powered by
                         <Logo />
                     </div>

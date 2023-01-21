@@ -3,6 +3,7 @@ import Logo from '../atoms/Logo';
 import Version from '../atoms/Version';
 import { AnimatePresence, motion as m } from 'framer-motion';
 import Button from '../components/Button';
+import LinkButton from '../components/LinkButton';
 
 
 const HomeView = () => {
@@ -46,7 +47,7 @@ const HomeView = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -250 }}
                     >
-                        <Button size={'secondary'} style={'outlined'} text={'beállítások'} />
+                        <Button size={'secondary'} style={'outlined'} text={'beállítások'} linkTo={'settings'} />
                     </m.div>
                 </div>)}
             </AnimatePresence>
@@ -57,7 +58,8 @@ const HomeView = () => {
                         initial={{ y: 250 }}
                         animate={{ y: 0 }}
                         exit={{ y: 250 }}
-                        className={'underline underline-offset-2 font-pridi text-gray-600 dark:text-white cursor-pointer absolute bottom-16'}>Development log</m.div>
+                        className={'absolute bottom-16'}><LinkButton linkTo={'devlog'}>
+                            Development log</LinkButton></m.div>
                 )}
             </AnimatePresence>
         </div>

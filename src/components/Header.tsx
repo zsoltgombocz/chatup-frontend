@@ -2,7 +2,8 @@ import React, { ReactNode } from 'react'
 import { motion as m, AnimatePresence } from 'framer-motion'
 import { config } from '../config/headerConfig';
 import { useLocation } from 'react-router-dom';
-import { getURLSegment } from '../utils/getURLSegment';
+import { getURLSegment } from '../utils/url';
+import NavigationHeader from './NavigationHeader';
 
 type Props = {
     visible: boolean,
@@ -17,7 +18,7 @@ function Header({ visible = true }: Props) {
         if (segment === undefined) return <></>;
 
         if (config.useNavigationRoutes.includes(segment)) {
-            return <>nav</>;
+            return <NavigationHeader />;
         } else if (segment === 'chat') {
             return <>chat</>;
         } else return <></>;

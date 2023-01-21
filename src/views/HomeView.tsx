@@ -23,7 +23,7 @@ const HomeView = () => {
             >
                 <Logo size={'big'} />
                 <AnimatePresence>
-                    {isLoading ? (<Version />) : (
+                    {isLoading ? (<Version showEnv={true} />) : (
                         <m.div className={'text-2xl dark:text-white text-gray-600 dark:font-pridi text-center'}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}

@@ -9,7 +9,8 @@ import LinkButton from '../components/LinkButton';
 const HomeView = () => {
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
-        setTimeout(() => setIsLoading(false), 3000);
+        //! WHEN NAVIGATING BACK CHECK THE READYNESS OF THE APP OR JUST DO LOADING AGAIN?
+        setTimeout(() => setIsLoading(false), 1000);
     }, []);
 
     return (

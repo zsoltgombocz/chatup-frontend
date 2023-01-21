@@ -17,8 +17,6 @@ const Application = () => {
                     <Route path={'privacy'} element={<SettingsView />} />
                 </Route>
             </Route>
-
-
         </Routes>
     );
 };

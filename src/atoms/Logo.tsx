@@ -10,7 +10,7 @@ function Logo({ customColor = undefined, size = 'small', className }: Props) {
     //! TODO: GET SAVED PRIMARY COLOR
     const textColor = customColor !== undefined ? `text-[${customColor}]` : 'text-pr-blue';
     const initialLetterSize = {
-        'small': 'text-xl',
+        'small': 'text-2xl',
         'medium': 'text-5xl',
         'big': 'text-8xl',
     }

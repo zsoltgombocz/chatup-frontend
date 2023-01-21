@@ -5,11 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { getURLSegment } from '../utils/url';
 import NavigationHeader from './NavigationHeader';
 
-type Props = {
-    visible: boolean,
-}
-
-function Header({ visible = true }: Props) {
+function Header() {
     const location = useLocation();
 
     const header = (): ReactNode => {
@@ -26,9 +22,9 @@ function Header({ visible = true }: Props) {
 
     return (
         <AnimatePresence>
-            <div className={'flex justify-center items-center bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl rounded-br-xl rounded-bl-xl py-5'}>
+            <m.div className={'header'} initial={{ y: -20 }} animate={{ y: 0 }} exit={{ y: -20 }}>
                 {header()}
-            </div>
+            </m.div>
         </AnimatePresence>
     );
 }

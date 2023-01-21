@@ -7,11 +7,12 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-body, #root {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  font-size: 16px !important;
-  overflow: hidden;
+html, body, #root {
+  margin: 0; height: 100%; overflow: hidden;
+}
+a {
+  text-decoration: none;
+}
+.link-basic {
+  @apply underline underline-offset-2 font-pridi text-gray-600 dark:text-white cursor-pointer;
 }

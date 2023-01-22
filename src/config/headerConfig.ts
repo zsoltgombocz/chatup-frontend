@@ -9,6 +9,10 @@ export const config: HeaderConfigInterface = {
     routeNames: {
         'devlogs': 'Verzióelőzmények',
         'settings': 'Beállítások',
-        'settings/privacy': 'Adatvédelem'
+        'settings/privacy': 'Adatvédelem',
+        'settings/customize': 'Testreszabás',
+        'settings/information': 'Névjegy',
+        'settings/help': 'Súgó',
+        'settings/contact': 'Kapcsolatfelvétel',
     }
 }

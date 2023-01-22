@@ -38,3 +38,7 @@ a {
 .footer {
   @apply flex flex-col justify-center items-center bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl rounded-tr-xl rounded-tl-xl py-5 w-screen h-fit;
 }
+
+.scrollable-view {
+  @apply flex-grow h-fit flex overflow-auto flex-col px-10 py-10;
+}

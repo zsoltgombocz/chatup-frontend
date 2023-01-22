@@ -11,7 +11,7 @@ type Props = {
 const Footer = ({ showLogo = true, showVersion = true }: Props) => {
     return (
         <AnimatePresence>
-            <m.div className={'footer'}
+            <m.div className={`footer`}
                 animate={{ y: 0, opacity: 1 }}
                 initial={{ y: 20, opacity: 0 }}
                 exit={{ y: 20, opacity: 0 }}

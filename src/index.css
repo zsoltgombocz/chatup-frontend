@@ -36,5 +36,5 @@ a {
   @apply flex justify-center items-center bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl rounded-br-xl rounded-bl-xl py-5;
 }
 .footer {
-  @apply flex flex-col justify-center items-center bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl rounded-tr-xl rounded-tl-xl py-5 absolute bottom-0 w-screen h-fit;
+  @apply flex flex-col justify-center items-center bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl rounded-tr-xl rounded-tl-xl py-5 w-screen h-fit;
 }

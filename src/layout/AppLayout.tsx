@@ -24,7 +24,9 @@ const AppLayout = ({ disableLayout = false }: Props) => {
         <div className={'bg-bg-light-inner dark:bg-bg-dark-inner flex flex-col w-full h-full'}>
             <Header />
             <AnimatePresence>
-                <Outlet />
+                <div className={'w-screen md:w-[600px] h-screen self-center'}>
+                    <Outlet />
+                </div>
             </AnimatePresence>
             {config.useStaticFooterRoutes.includes(currentMainRoute) && <Footer />}
         </div>);

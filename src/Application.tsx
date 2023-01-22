@@ -3,7 +3,6 @@ import HomeView from './views/HomeView';
 import { Routes, Route, useLocation } from "react-router-dom";
 import AppLayout from './layout/AppLayout';
 import SettingsView from './views/settings/SettingsView';
-import { AnimatePresence } from 'framer-motion';
 import Privacy from './views/settings/Privacy';
 import Customize from './views/settings/Customize';
 import Information from './views/settings/Information';

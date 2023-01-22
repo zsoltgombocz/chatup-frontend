@@ -60,5 +60,5 @@ export const config: SettingsConfigInterface = {
             text: 'Sötét'
         }
     ],
-    colors: []
+    colors: ['red', 'blue', 'green']
 }

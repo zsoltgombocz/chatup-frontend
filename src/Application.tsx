@@ -8,13 +8,17 @@ import Customize from './views/settings/Customize';
 import Information from './views/settings/Information';
 import Help from './views/settings/Help';
 import Contact from './views/settings/Contact';
+import { useUserSettings } from './store/userSettings';
+import { setTheme } from './utils/theme';
 
 const Application = () => {
 
     const location = useLocation();
 
+    const theme = useUserSettings(state => state.theme);
+
     useEffect(() => {
-        console.log('app mount');
+        setTheme(theme);
 
         return () => {
             console.log('app unmount')

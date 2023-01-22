@@ -1,4 +1,5 @@
 import React from 'react'
+import { useUserSettings } from '../store/userSettings';
 type size = 'small' | 'medium' | 'big';
 type Props = {
     customColor?: string | undefined
@@ -7,8 +8,8 @@ type Props = {
 }
 
 function Logo({ customColor = undefined, size = 'small', className }: Props) {
-    //! TODO: GET SAVED PRIMARY COLOR
-    const textColor = customColor !== undefined ? `text-[${customColor}]` : 'text-pr-blue';
+    const userColor = useUserSettings(state => state.color);
+    const textColor = customColor !== undefined ? `text-[${customColor}]` : `text-primary-${userColor}`;
     const initialLetterSize = {
         'small': 'text-2xl',
         'medium': 'text-5xl',

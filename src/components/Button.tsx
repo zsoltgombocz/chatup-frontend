@@ -2,6 +2,7 @@ import React from 'react'
 import classnames from "classnames";
 import { Link } from 'react-router-dom';
 import LinkButton from './LinkButton';
+import { useUserSettings } from '../store/userSettings';
 
 type customColor = {
     fill: string,
@@ -18,14 +19,17 @@ type Props = {
 }
 
 function Button({ size, style, color = undefined, text, className, linkTo = undefined }: Props) {
+    const userColor: string = useUserSettings(state => state.color);
+
     const buttonSize = {
         'primary': 'w-80 py-4',
         'secondary': 'w-50 px-14 h-10 leading-10',
     }
+
     const outlinedStyle = classnames('outlined', 'outlined-dark');
-    const fillColor = color !== undefined ? color.fill : 'bg-pr-blue';
-    const hoverColor = color !== undefined ? color.hover : 'hover:bg-pr-blue-light';
-    const filledStyle = classnames(fillColor, hoverColor, 'text-white');
+    const fillColor = color !== undefined ? color.fill : '';
+    const hoverColor = color !== undefined ? color.hover : '';
+    const filledStyle = classnames(fillColor, hoverColor, 'text-white', `bg-${userColor}-hover-light`);
     const buttonJSXElement = (
         <button className={`btn ${className} ${style === 'filled' ? filledStyle : outlinedStyle} ${buttonSize[size]}`}>
             <span>{text.toUpperCase()}</span>

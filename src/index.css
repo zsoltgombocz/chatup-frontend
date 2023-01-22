@@ -19,26 +19,63 @@ a {
 .link-basic {
   @apply underline underline-offset-2 text cursor-pointer;
 }
-
 .btn {
   @apply text-xl flex justify-center items-center tracking-wide font-cabin rounded-full;
 }
-
 .btn.outlined {
   @apply bg-transparent border-solid border text-gray-600 border-gray-600 hover:text-white hover:bg-gray-600;
 }
-
 .btn.outlined-dark {
   @apply dark:text-white dark:border-white hover:dark:text-gray-600 hover:dark:bg-white;
 }
-
 .header {
   @apply flex justify-center items-center bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl rounded-br-xl rounded-bl-xl py-5;
 }
 .footer {
   @apply flex flex-col justify-center items-center bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl rounded-tr-xl rounded-tl-xl py-5 w-screen h-fit;
 }
-
 .scrollable-view {
   @apply flex-grow h-fit flex overflow-auto flex-col px-10 py-10;
 }
+.color-circle {
+  @apply w-10 h-10 rounded-full cursor-pointer border-2 border-transparent;
+}
+.color-circle.red {
+  @apply bg-pr-red-light hover:border-pr-red dark:bg-pr-red dark:hover:border-pr-red-light;
+}
+.color-circle.red.border {
+  @apply border-pr-red dark:border-pr-red-light;
+}
+.color-circle.green {
+  @apply bg-pr-green-light hover:border-pr-green dark:bg-pr-green dark:hover:border-pr-green-light;
+}
+.color-circle.green.border {
+  @apply border-pr-green dark:border-pr-green-light;
+}
+.color-circle.blue {
+  @apply bg-pr-blue-light hover:border-pr-blue dark:bg-pr-blue dark:hover:border-pr-blue-light;
+}
+.color-circle.blue.border {
+  @apply border-pr-blue dark:border-pr-blue-light;
+}
+/* ! FOR PRIMARY BUTTONS (CUSTOM COLORS) */
+.bg-red-hover-light {
+  @apply bg-pr-red hover:bg-pr-red-light;
+}.bg-blue-hover-light {
+  @apply bg-pr-blue hover:bg-pr-blue-light;
+}
+.bg-green-hover-light {
+  @apply bg-pr-green hover:bg-pr-green-light;
+}
+.text-primary-red {
+  @apply text-pr-red;
+}
+
+.text-primary-green {
+  @apply text-pr-green;
+}
+
+.text-primary-blue {
+  @apply text-pr-blue;
+}
+

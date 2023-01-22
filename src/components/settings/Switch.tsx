@@ -17,7 +17,7 @@ function Switch({ options, onChange = undefined, className, initialSelectedIndex
 
     useEffect(() => {
         selectOption(initialSelectedIndex);
-    }, [options, onChange]);
+    }, [options]);
 
     const selectOption = (index: number) => {
         if (index > options.length || index < 0) { return; }

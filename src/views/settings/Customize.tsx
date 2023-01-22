@@ -17,6 +17,8 @@ const Customize = () => {
         }
     ];
     const updateTheme = useUserSettings(state => state.setTheme);
+    const theme = useUserSettings(state => state.theme);
+
     const handleThemeChange = (index: number) => {
         updateTheme(index);
         setTheme(index);
@@ -25,7 +27,7 @@ const Customize = () => {
         <>
             <m.div className={'scrollable-view'} initial={{ x: 500 }} animate={{ x: 0 }} exit={{ x: 500 }}>
                 <h5 className={'text text-xl mb-3'}>Téma választása</h5>
-                <Switch options={switchOptions} onChange={handleThemeChange} className={'mb-3 self-center'} />
+                <Switch options={switchOptions} onChange={handleThemeChange} className={'mb-3 self-center'} initialSelectedIndex={theme} />
             </m.div>
         </>);
 }

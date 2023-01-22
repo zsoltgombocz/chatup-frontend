@@ -7,13 +7,11 @@ import { motion as m } from 'framer-motion';
 function SettingsView() {
     return (
         <>
-            <m.div className={'flex-grow h-fit flex overflow-auto flex-col px-10 py-10'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
+            <m.div className={'scrollable-view'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
                 {config.categories.map(category =>
                     <Category key={category.name} icon={category.icon} text={category.display} redirect={category.route} />
                 )}
             </m.div>
-
-            <Footer />
         </>);
 }
 

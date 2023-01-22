@@ -1,4 +1,4 @@
-import { EnvelopeIcon, FingerPrintIcon, PencilIcon, QuestionMarkCircleIcon, UserCircleIcon, UserIcon } from "@heroicons/react/24/outline";
+import { EnvelopeIcon, FingerPrintIcon, MoonIcon, PencilIcon, QuestionMarkCircleIcon, SunIcon, UserIcon } from "@heroicons/react/24/outline";
 import { ReactNode } from "react";
 
 interface CategoryInterface {
@@ -8,8 +8,14 @@ interface CategoryInterface {
     icon: ReactNode
 }
 
+interface ThemeInterface {
+    icon: ReactNode,
+    text: string,
+}
 interface SettingsConfigInterface {
     categories: CategoryInterface[];
+    themes: ThemeInterface[],
+    colors: string[],
 }
 
 export const config: SettingsConfigInterface = {
@@ -44,5 +50,15 @@ export const config: SettingsConfigInterface = {
             route: '/settings/contact',
             icon: <EnvelopeIcon className={'h-8 w-8 text self-start'} />
         }
-    ]
+    ],
+    themes: [
+        {
+            icon: <SunIcon className={'w-7 h-7'} />,
+            text: 'Világos'
+        }, {
+            icon: <MoonIcon className={'w-7 h-7'} />,
+            text: 'Sötét'
+        }
+    ],
+    colors: []
 }

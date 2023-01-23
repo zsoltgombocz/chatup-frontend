@@ -35,7 +35,7 @@ a {
   @apply flex flex-col justify-center items-center bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl rounded-tr-xl rounded-tl-xl py-5 w-screen h-fit;
 }
 .scrollable-view {
-  @apply flex-grow h-fit flex overflow-auto flex-col px-10 py-10;
+  @apply flex-grow h-fit flex overflow-auto flex-col px-10 py-10 w-screen md:w-[600px] self-center;
 }
 .color-circle {
   @apply w-10 h-10 rounded-full cursor-pointer border-2 border-transparent;
@@ -77,5 +77,29 @@ a {
 
 .text-primary-blue {
   @apply text-pr-blue;
+}
+
+.text-primary-red {
+  @apply text-pr-red;
+}
+/* !----------------------------------------------- */
+
+/* ! ONLY BGs */
+.bg-red {
+  @apply bg-pr-red;
+}
+.bg-blue {
+  @apply bg-pr-blue;
+}
+.bg-green {
+  @apply bg-pr-green;
+}
+/* !----------------------------------------------- */
+.switch-base {
+  @apply w-14 h-7 border inline-block relative rounded-full;
+}
+
+.switch-circle {
+  @apply rounded-full w-5 h-5 absolute mx-1;
 }
 

@@ -10,14 +10,12 @@ type Props = {
 
 function Category({ icon, text, redirect }: Props) {
     return (
-        <Link to={redirect} className={'mb-5'}>
-            <div className={'flex flex-row text text-xl'}>
-                <div className={'flex flex-grow gap-3 w-full items-center'}>
-                    <span>{icon}</span>
-                    <span>{text}</span>
-                </div>
+        <Link to={redirect} className={'flex text text-xl w-full items-center'}>
 
-                <ChevronRightIcon className={'h-7 w-7 self-center'} /></div>
+            <div className={'flex-none w-10'}>{icon}</div>
+            <div className={'break-words flex-grow'}>{text}</div>
+            <ChevronRightIcon className={'h-7 w-7 self-center text flex-none'} />
+
         </Link>
     )
 }

@@ -24,31 +24,31 @@ export const config: SettingsConfigInterface = {
             name: 'privacy',
             display: 'Adatvédelem',
             route: '/settings/privacy',
-            icon: <FingerPrintIcon className={'h-8 w-8 text self-start'} />
+            icon: <FingerPrintIcon className={'h-8 w-8 text'} />
         },
         {
             name: 'customize',
             display: 'Testreszabás',
             route: '/settings/customize',
-            icon: <PencilIcon className={'h-8 w-8 text self-start'} />
+            icon: <PencilIcon className={'h-8 w-8 text'} />
         },
         {
             name: 'information',
             display: 'Névjegy',
             route: '/settings/information',
-            icon: <UserIcon className={'h-8 w-8 text self-start'} />
+            icon: <UserIcon className={'h-8 w-8 text'} />
         },
         {
             name: 'help',
             display: 'Súgó',
             route: '/settings/help',
-            icon: <QuestionMarkCircleIcon className={'h-8 w-8 text self-start'} />
+            icon: <QuestionMarkCircleIcon className={'h-8 w-8 text'} />
         },
         {
             name: 'contact',
             display: 'Kapcsolatfelvétel és hibajelentés',
             route: '/settings/contact',
-            icon: <EnvelopeIcon className={'h-8 w-8 text self-start'} />
+            icon: <EnvelopeIcon className={'h-8 w-8 text'} />
         }
     ],
     themes: [

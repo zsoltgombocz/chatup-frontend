@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion as m } from 'framer-motion';
-import Switch from '../../components/settings/Switch';
+import Switch from '../../components/Switch';
 import { config } from '../../config/settingsConfig';
 import { setTheme } from '../../utils/theme';
 import { useUserSettings } from '../../store/userSettings';

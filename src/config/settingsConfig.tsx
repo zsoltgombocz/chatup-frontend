@@ -15,7 +15,6 @@ interface ThemeInterface {
 
 interface PrivacySwitchInterface {
     text: string,
-    default: boolean,
     index: number
 }
 interface SettingsConfigInterface {
@@ -73,27 +72,21 @@ export const config: SettingsConfigInterface = {
     privacySwitches: [
         {
             text: 'Linkek küldése',
-            default: false,
             index: 0,
         }, {
             text: 'Képek / Videók küldése',
-            default: false,
             index: 1,
         }, {
             text: 'Aktivitási állapot megjelenítése',
-            default: false,
             index: 2,
         }, {
             text: 'Elérhetőség jelzése (AFK)',
-            default: false,
             index: 3,
         }, {
             text: 'Live-feedback követése',
-            default: false,
             index: 4,
         }, {
             text: 'Felhasználói adatok gyűjtése',
-            default: false,
             index: 5,
         }
     ],
@@ -119,5 +112,5 @@ export const config: SettingsConfigInterface = {
             route: '/devlog',
         }
     ],
-    contactEmail: 'info@chatup.hu'
+    contactEmail: 'info@chatup.hu',
 }

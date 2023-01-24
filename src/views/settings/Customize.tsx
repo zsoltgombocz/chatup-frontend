@@ -17,14 +17,13 @@ const Customize = () => {
         setTheme(index);
     }
     return (
-        <>
-            <m.div className={'scrollable-view'} initial={{ x: 500 }} animate={{ x: 0 }} exit={{ x: 500 }}>
-                <h5 className={'text text-xl mb-3'}>Téma választása</h5>
-                <Switch options={switchOptions} onChange={handleThemeChange} className={'mb-3 self-center'} initialSelectedIndex={theme} />
-                <h5 className={'text text-xl mt-5 mb-3'}>Téma színének választása</h5>
-                <ColorSwitcher colors={colorOptions} />
-            </m.div>
-        </>);
+        <m.div className={'scrollable-view'} initial={{ x: 500 }} animate={{ x: 0 }} exit={{ x: 500 }}>
+            <h5 className={'text text-xl mb-3'}>Téma választása</h5>
+            <Switch options={switchOptions} onChange={handleThemeChange} className={'mb-3 self-center'} initialSelectedIndex={theme} />
+            <h5 className={'text text-xl mt-5 mb-3'}>Téma színének választása</h5>
+            <ColorSwitcher colors={colorOptions} />
+        </m.div>
+    );
 }
 
 export default Customize

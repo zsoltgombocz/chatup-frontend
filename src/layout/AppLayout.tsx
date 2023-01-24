@@ -21,7 +21,7 @@ const AppLayout = ({ disableLayout = false }: Props) => {
 
 
     return disableLayout ? <Outlet /> : (
-        <div className={'bg-bg-light-inner dark:bg-bg-dark-inner flex flex-col w-full h-screen'}>
+        <div className={'bg-bg-light-inner dark:bg-bg-dark-inner flex flex-col w-full h-full'}>
             <Header />
             <AnimatePresence>
                 <Outlet />

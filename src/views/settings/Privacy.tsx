@@ -22,7 +22,7 @@ const Privacy = () => {
                 {interactionSwitches.map((sw) => (
                     <div className={'flex flex-row justify-between items-center mb-2'}>
                         <h5 className={'text text-lg'}>{sw.text}</h5>
-                        <ToggleSwitch onStateChanged={(state) => setPrivacy(sw.index, state)} checked={sw.default} />
+                        <ToggleSwitch onStateChanged={(state) => setPrivacy(sw.index, state)} checked={privacy[sw.index]} />
                     </div>
                 ))}
 
@@ -35,7 +35,7 @@ const Privacy = () => {
                 {activitySwitches.map((sw) => (
                     <div className={'flex flex-row justify-between items-center mb-2'}>
                         <h5 className={'text text-lg'}>{sw.text}</h5>
-                        <ToggleSwitch onStateChanged={(state) => setPrivacy(sw.index, state)} checked={sw.default} />
+                        <ToggleSwitch onStateChanged={(state) => setPrivacy(sw.index, state)} checked={privacy[sw.index]} />
                     </div>
                 ))}
 
@@ -49,7 +49,7 @@ const Privacy = () => {
                 {dataSwitches.map((sw) => (
                     <div className={'flex flex-row justify-between items-center mb-2'}>
                         <h5 className={'text text-lg'}>{sw.text}</h5>
-                        <ToggleSwitch onStateChanged={(state) => setPrivacy(sw.index, state)} checked={sw.default} />
+                        <ToggleSwitch onStateChanged={(state) => setPrivacy(sw.index, state)} checked={privacy[sw.index]} />
                     </div>
                 ))}
             </m.div>

@@ -3,16 +3,16 @@ import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
 type Props = {
-    icon: ReactNode,
+    icon?: ReactNode | undefined,
     text: string,
     redirect: string,
 }
 
-function Category({ icon, text, redirect }: Props) {
+function Category({ icon = undefined, text, redirect }: Props) {
     return (
-        <Link to={redirect} className={'flex text text-xl w-full items-center'}>
+        <Link to={redirect} className={'flex text text-xl w-full items-center font-light'}>
 
-            <div className={'flex-none w-10'}>{icon}</div>
+            {icon && (<div className={'flex-none w-10'}>{icon}</div>)}
             <div className={'break-words flex-grow'}>{text}</div>
             <ChevronRightIcon className={'h-7 w-7 self-center text flex-none'} />
 

@@ -24,6 +24,7 @@ interface SettingsConfigInterface {
     colors: string[],
     privacySwitches: PrivacySwitchInterface[] | [],
     informationLinks: CategoryInterface[],
+    contactEmail: string,
 }
 
 export const config: SettingsConfigInterface = {
@@ -48,7 +49,7 @@ export const config: SettingsConfigInterface = {
         },
         {
             name: 'help',
-            display: 'Súgó',
+            display: 'GY.I.K.',
             route: '/settings/help',
             icon: <QuestionMarkCircleIcon className={'h-8 w-8 text'} />
         },
@@ -117,5 +118,6 @@ export const config: SettingsConfigInterface = {
             display: 'Development Log',
             route: '/devlog',
         }
-    ]
+    ],
+    contactEmail: 'info@chatup.hu'
 }

@@ -15,10 +15,12 @@ type Props = {
     color?: customColor | undefined,
     text: string,
     className?: string,
-    linkTo?: string | undefined
+    linkTo?: string | undefined,
+    hugText?: boolean,
+    textUppercase?: boolean,
 }
 
-function Button({ size, style, color = undefined, text, className, linkTo = undefined }: Props) {
+function Button({ size, style, color = undefined, text, className, linkTo = undefined, hugText = false, textUppercase = true }: Props) {
     const userColor: string = useUserSettings(state => state.color);
 
     const buttonSize = {
@@ -31,8 +33,8 @@ function Button({ size, style, color = undefined, text, className, linkTo = unde
     const hoverColor = color !== undefined ? color.hover : '';
     const filledStyle = classnames(fillColor, hoverColor, 'text-white', `bg-${userColor}-hover-light`);
     const buttonJSXElement = (
-        <button className={`btn ${className} ${style === 'filled' ? filledStyle : outlinedStyle} ${buttonSize[size]}`}>
-            <span>{text.toUpperCase()}</span>
+        <button className={`btn ${className} ${style === 'filled' ? filledStyle : outlinedStyle} ${hugText ? 'px-3 py-1 w-fit' : buttonSize[size]}`}>
+            <span>{textUppercase ? text.toUpperCase() : text}</span>
         </button>
     )
 

@@ -102,4 +102,10 @@ a {
 .switch-circle {
   @apply rounded-full w-5 h-5 absolute mx-1;
 }
+.textarea {
+  @apply rounded-xl bg-bg-light-outer p-3 text-black border border-bg-dark-inner resize-none;
+}
+.textarea:focus {
+   outline: none;
+}
 

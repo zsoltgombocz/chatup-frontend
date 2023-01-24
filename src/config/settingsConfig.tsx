@@ -5,17 +5,25 @@ interface CategoryInterface {
     name: string,
     display: string,
     route: string,
-    icon: ReactNode
+    icon?: ReactNode
 }
 
 interface ThemeInterface {
     icon: ReactNode,
     text: string,
 }
+
+interface PrivacySwitchInterface {
+    text: string,
+    default: boolean,
+    index: number
+}
 interface SettingsConfigInterface {
     categories: CategoryInterface[];
     themes: ThemeInterface[],
     colors: string[],
+    privacySwitches: PrivacySwitchInterface[] | [],
+    informationLinks: CategoryInterface[],
 }
 
 export const config: SettingsConfigInterface = {
@@ -60,5 +68,54 @@ export const config: SettingsConfigInterface = {
             text: 'Sötét'
         }
     ],
-    colors: ['red', 'blue', 'green']
+    colors: ['red', 'blue', 'green'],
+    privacySwitches: [
+        {
+            text: 'Linkek küldése',
+            default: false,
+            index: 0,
+        }, {
+            text: 'Képek / Videók küldése',
+            default: false,
+            index: 1,
+        }, {
+            text: 'Aktivitási állapot megjelenítése',
+            default: false,
+            index: 2,
+        }, {
+            text: 'Elérhetőség jelzése (AFK)',
+            default: false,
+            index: 3,
+        }, {
+            text: 'Live-feedback követése',
+            default: false,
+            index: 4,
+        }, {
+            text: 'Felhasználói adatok gyűjtése',
+            default: false,
+            index: 5,
+        }
+    ],
+    informationLinks: [
+        {
+            name: 'privacy-policy',
+            display: 'Adatvédelem szabályzat',
+            route: '/information/privacy-policy',
+        },
+        {
+            name: 'terms-of-use',
+            display: 'Felhasználási feltételek',
+            route: '/information/terms-of-use',
+        },
+        {
+            name: 'guide',
+            display: 'Felhasználói útmutató szabályzat',
+            route: '/information/guide',
+        },
+        {
+            name: 'devlog',
+            display: 'Development Log',
+            route: '/devlog',
+        }
+    ]
 }

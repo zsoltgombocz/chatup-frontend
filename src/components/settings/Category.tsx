@@ -6,15 +6,16 @@ type Props = {
     icon?: ReactNode | undefined,
     text: string,
     redirect: string,
+    rightIcon?: ReactNode | undefined
 }
 
-function Category({ icon = undefined, text, redirect }: Props) {
+function Category({ icon = undefined, text, redirect, rightIcon = undefined }: Props) {
     return (
         <Link to={redirect} className={'flex text text-xl w-full items-center font-light'}>
 
             {icon && (<div className={'flex-none w-10'}>{icon}</div>)}
             <div className={'break-words flex-grow'}>{text}</div>
-            <ChevronRightIcon className={'h-7 w-7 self-center text flex-none'} />
+            {rightIcon ? rightIcon : <ChevronRightIcon className={'h-7 w-7 self-center text flex-none'} />}
 
         </Link>
     )

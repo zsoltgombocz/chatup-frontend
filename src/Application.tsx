@@ -11,6 +11,7 @@ import Contact from './views/settings/Contact';
 import { useUserSettings } from './store/userSettings';
 import { setTheme } from './utils/theme';
 import DevlogView from './views/DevlogView';
+import PreChatView from './views/PreChatView';
 
 const Application = () => {
 
@@ -39,6 +40,7 @@ const Application = () => {
                     <Route path={'help'} element={<Help />} />
                     <Route path={'contact'} element={<Contact />} />
                 </Route>
+                <Route path={'pre'} element={<PreChatView />} />
             </Route>
         </Routes>
     );

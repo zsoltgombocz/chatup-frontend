@@ -1,0 +1,9 @@
+[
+    {
+        "version": "Pre-alpha",
+        "changes": [
+            "Alkalmazás UI impelemtálása",
+            "Beállítások mentése/betöltése, testreszabhatóság"
+        ]
+    }
+]

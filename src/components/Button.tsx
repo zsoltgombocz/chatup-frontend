@@ -31,7 +31,7 @@ function Button({ size, style, color = undefined, text, className, linkTo = unde
     const outlinedStyle = classnames('outlined', 'outlined-dark');
     const fillColor = color !== undefined ? color.fill : '';
     const hoverColor = color !== undefined ? color.hover : '';
-    const filledStyle = classnames(fillColor, hoverColor, 'text-white', `bg-${userColor}-hover-light`);
+    const filledStyle = classnames(fillColor, hoverColor, 'text-white', `bg-${userColor}-hover-light`, 'shadow-lg');
     const buttonJSXElement = (
         <button className={`btn ${className} ${style === 'filled' ? filledStyle : outlinedStyle} ${hugText ? 'px-3 py-1 w-fit' : buttonSize[size]}`}>
             <span>{textUppercase ? text.toUpperCase() : text}</span>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import HomeView from './views/HomeView';
 import { Routes, Route, useLocation } from "react-router-dom";
 import AppLayout from './layout/AppLayout';
-import SettingsView from './views/settings/SettingsView';
+import SettingsView from './views/SettingsView';
 import Privacy from './views/settings/Privacy';
 import Customize from './views/settings/Customize';
 import Information from './views/settings/Information';
@@ -10,6 +10,7 @@ import Help from './views/settings/Help';
 import Contact from './views/settings/Contact';
 import { useUserSettings } from './store/userSettings';
 import { setTheme } from './utils/theme';
+import DevlogView from './views/DevlogView';
 
 const Application = () => {
 
@@ -29,6 +30,7 @@ const Application = () => {
         <Routes>
             <Route path="/" element={<AppLayout disableLayout={location.pathname === '/'} />}>
                 <Route index element={<HomeView />} />
+                <Route path={'devlog'} element={<DevlogView />} />
                 <Route path="settings">
                     <Route index element={<SettingsView />} />
                     <Route path={'privacy'} element={<Privacy />} />

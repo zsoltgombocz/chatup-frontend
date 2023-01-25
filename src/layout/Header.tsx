@@ -8,11 +8,16 @@ import NavigationHeader from '../components/NavigationHeader';
 function Header() {
     const location = useLocation();
     const [showNavigation, setShowNavigation] = useState(true);
+    const [hideRouteText, setHideRouteText] = useState(false);
+    const [noBackground, setNoBackground] = useState(false);
 
     useEffect(() => {
         const segment: string | undefined = getURLSegment(location.pathname, 0);
         setShowNavigation(config.useNavigationRoutes.includes(segment || ''));
+        setHideRouteText(config.onlyBackButtonRoutes.includes(segment || ''));
+        setNoBackground(config.noBackground.includes(segment || ''));
 
+        console.log(hideRouteText);
         return () => {
             console.log('header unmount')
         }
@@ -21,13 +26,13 @@ function Header() {
 
     return (
         <AnimatePresence>
-            <m.div className={'header'}
+            <m.div className={`header ${noBackground ? '!bg-transparent !shadow-none' : ''}`}
                 initial={{ y: -30 }}
                 animate={{ y: 0 }}
                 exit={{ y: -30 }}
             >
                 {
-                    showNavigation ? <NavigationHeader /> : <>chat</>
+                    showNavigation ? <NavigationHeader hideRouteText={hideRouteText} /> : <>chat</>
                 }
             </m.div>
         </AnimatePresence>

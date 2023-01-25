@@ -1,11 +1,15 @@
 interface HeaderConfigInterface {
     useNavigationRoutes: string[],
-    routeNames: { [id: string]: string };
+    routeNames: { [id: string]: string },
+    onlyBackButtonRoutes: string[],
+    noBackground: string[],
 
 }
 
 export const config: HeaderConfigInterface = {
-    useNavigationRoutes: ['settings', 'devlog'],
+    useNavigationRoutes: ['settings', 'devlog', 'pre'],
+    onlyBackButtonRoutes: ['pre'],
+    noBackground: ['pre'],
     routeNames: {
         'devlogs': 'Verzióelőzmények',
         'settings': 'Beállítások',

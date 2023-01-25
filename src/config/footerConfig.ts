@@ -3,5 +3,5 @@ interface FooterConfigInterface {
 }
 
 export const config: FooterConfigInterface = {
-    useStaticFooterRoutes: ['settings']
+    useStaticFooterRoutes: ['settings', 'devlog']
 }

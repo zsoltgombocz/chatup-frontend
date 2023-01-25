@@ -5,7 +5,7 @@ interface HeaderConfigInterface {
 }
 
 export const config: HeaderConfigInterface = {
-    useNavigationRoutes: ['settings'],
+    useNavigationRoutes: ['settings', 'devlog'],
     routeNames: {
         'devlogs': 'Verzióelőzmények',
         'settings': 'Beállítások',
@@ -14,5 +14,6 @@ export const config: HeaderConfigInterface = {
         'settings/information': 'Névjegy',
         'settings/help': 'Súgó',
         'settings/contact': 'Kapcsolatfelvétel',
+        'devlog': 'Verzióelőzmények'
     }
 }

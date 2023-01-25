@@ -41,7 +41,7 @@ const HomeView = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -250 }}
                     >
-                        <Button size={'primary'} style={'filled'} text={'chat indítása'} />
+                        <Button size={'primary'} style={'filled'} text={'chat indítása'} linkTo={'pre'} />
                     </m.div>
                     <m.div
                         initial={{ opacity: 0, y: -250 }}

@@ -13,8 +13,20 @@ html, body, #root {
 a {
   text-decoration: none;
 }
+svg.map {
+  pointer-events: none;
+}
+
+path.county {
+  pointer-events: auto;
+}
+
 .text {
   @apply text-gray-600 dark:text-white font-pridi
+}
+
+.text-cabin {
+  @apply text-gray-600 dark:text-white font-cabin
 }
 .link-basic {
   @apply underline underline-offset-2 text cursor-pointer;
@@ -93,6 +105,16 @@ a {
 }
 .bg-green {
   @apply bg-pr-green;
+}
+
+.fill-red {
+  @apply fill-pr-red;
+}
+.fill-blue {
+  @apply fill-pr-blue;
+}
+.fill-green {
+  @apply fill-pr-green;
 }
 /* !----------------------------------------------- */
 .switch-base {

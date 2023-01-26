@@ -6,7 +6,7 @@ import Version from '../atoms/Version';
 type Props = {
     showLogo?: boolean,
     showVersion?: boolean,
-    children?: string | ReactNode | undefined
+    children?: string | ReactNode | undefined,
 }
 
 const Footer = ({ showLogo = true, showVersion = true, children = undefined }: Props) => {

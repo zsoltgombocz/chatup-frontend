@@ -11,7 +11,7 @@ const CountySelectionView = () => {
             <m.div className={'scrollable-view !px-0 !pt-1'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
                 <h5 className={'text-cabin font-bold text-center text-lg'}>Válassz vármegyét:</h5>
                 <Map />
-                <TextCarousel data={countyCarouselData} className={'!px-10'} />
+                <TextCarousel data={countyCarouselData} className={'!px-10 mt-10'} />
             </m.div>
             <Footer />
         </>

@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 // import required modules
-import { Pagination } from "swiper";
+import { Pagination, Autoplay } from "swiper";
 import { TextPage } from './TextPage';
 import TextCarouselNavigator from './TextCarouselNavigator';
 
@@ -25,7 +25,11 @@ export const TextCarousel = ({ data, className }: Props) => {
     return (
         <div className={className}>
             <Swiper
-                modules={[Pagination]}
+                autoplay={{
+                    delay: 5000,
+                    disableOnInteraction: false,
+                }}
+                modules={[Autoplay, Pagination]}
                 className="w-full flex flex-col h-fit"
                 onSlideChange={(swiper) => setActive(swiper?.activeIndex)}
             >

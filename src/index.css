@@ -116,11 +116,20 @@ path.county {
 .fill-green {
   @apply fill-pr-green;
 }
+
+.border-color-blue {
+  @apply border-pr-blue;
+}
+.border-color-red {
+  @apply border-pr-red;
+}
+.border-color-green {
+  @apply border-pr-green;
+}
 /* !----------------------------------------------- */
 .switch-base {
   @apply w-14 h-7 border inline-block relative rounded-full;
 }
-
 .switch-circle {
   @apply rounded-full w-5 h-5 absolute mx-1;
 }

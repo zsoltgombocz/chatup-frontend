@@ -33,7 +33,7 @@ export const TextCarousel = ({ data, className }: Props) => {
                 className="w-full flex flex-col h-fit"
                 onSlideChange={(swiper) => setActive(swiper?.activeIndex)}
             >
-                {data.map(page => <SwiperSlide className='p-1'><TextPage title={page.title} text={page.text} /></SwiperSlide>)}
+                {data.map(page => <SwiperSlide key={page.title} className='p-1 cursor-pointer select-none'><TextPage title={page.title} text={page.text} /></SwiperSlide>)}
                 <TextCarouselNavigator max={data.length} className={'mt-3'} activeIndex={active} />
             </Swiper>
         </div>

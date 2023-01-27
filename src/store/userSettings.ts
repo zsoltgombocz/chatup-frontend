@@ -48,7 +48,7 @@ export const useUserSettings = create<UserSettingsInterface>((set, get) => ({
     privacy: getPrivacy(),
     map: {
         counties: [],
-        allSelected: false
+        allSelected: true
     },
     setTheme: (index: number) => {
         localStorage.setItem('chatup_theme', '' + index);
@@ -65,16 +65,19 @@ export const useUserSettings = create<UserSettingsInterface>((set, get) => ({
         set(state => ({ ...state, privacy: current }));
     },
     setMap: (countyId: County | 'all', b: boolean) => {
-        if (countyId === 'all') set(state => ({ ...state, map: { counties: [], allSelected: true } }));
-        const countyExist: number = get().map.counties.findIndex(c => c.id === countyId);
-
-        let counties: CountyStateInterface[] = get().map.counties;
-        if (countyExist === -1 && countyId !== 'all') {
-            counties.push({ id: countyId, selected: b });
+        if (countyId === 'all') {
+            set(state => ({ ...state, map: { counties: [], allSelected: b } }));
         } else {
-            counties[countyExist].selected = b;
+            const countyExist: number = get().map.counties.findIndex(c => c.id === countyId);
+
+            let counties: CountyStateInterface[] = get().map.counties;
+            if (countyExist === -1) {
+                counties.push({ id: countyId, selected: b });
+            } else {
+                counties[countyExist].selected = b;
+            }
+            set(state => ({ ...state, map: { allSelected: false, counties } }))
+            console.log(get().map);
         }
-        set(state => ({ ...state, map: { allSelected: false, counties } }))
-        console.log(get().map);
     },
 }));

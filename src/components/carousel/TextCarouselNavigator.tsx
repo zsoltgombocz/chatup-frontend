@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useSwiper } from "swiper/react";
 import { useUserSettings } from '../../store/userSettings';
 import { motion as m } from 'framer-motion';
+import { v4 as uuidv4 } from 'uuid';
+
 
 type Props = {
     max: number,
@@ -17,11 +19,11 @@ const TextCarouselNavigator = ({ max, className, activeIndex }: Props) => {
         const dotArray = new Array(max).fill(false);
         dotArray[activeIndex || 0] = true;
         setDots(dotArray);
-    }, [activeIndex])
+    }, [activeIndex]);
 
     return (
         <m.div className={'w-full flex flex-row gap-2 justify-center ' + className}>
-            {dots.map(dot => <m.div className={`h-2 w-2 bg-white rounded-full ${dot ? ('w-4 bg-' + userColor) : ''}`} layout />)}
+            {dots.map((dot, i) => <m.div key={i} className={`h-2 bg-white rounded-full ${dot ? ('w-4 bg-' + userColor) : 'w-2'}`} layout />)}
         </m.div>
     )
 }

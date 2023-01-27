@@ -3,12 +3,17 @@ import React, { useState, useEffect, SyntheticEvent } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import { useUserSettings } from '../store/userSettings';
 import { motion as m } from 'framer-motion';
+import { CheckIcon } from '@heroicons/react/24/outline';
 
 type Props = {
     options: string[],
     name: string,
     className?: string,
-    radioGap?: number
+    radioGap?: number,
+    variant?: 'circle' | 'box',
+    selectedIndex?: number | undefined,
+    onChange?: Function | undefined,
+    textClass?: string,
 }
 
 interface RadioInterface {
@@ -18,7 +23,7 @@ interface RadioInterface {
     name: string,
 }
 
-const RadioGroup = ({ options, name, className, radioGap = 1 }: Props) => {
+const RadioGroup = ({ options, name, className, radioGap = 1, variant = 'circle', selectedIndex = undefined, onChange, textClass = 'text-lg' }: Props) => {
     const [radios, setRadios] = useState<RadioInterface[]>([]);
 
     const userColor = useUserSettings(state => state.color);
@@ -27,11 +32,12 @@ const RadioGroup = ({ options, name, className, radioGap = 1 }: Props) => {
 
     useEffect(() => {
         setRadios([]);
-        options.map(opt => {
+        options.map((opt, i) => {
+            console.log('constr', [opt, selectedIndex, i]);
             const radio: RadioInterface = {
                 id: uuidv4(),
                 display: opt,
-                state: false,
+                state: selectedIndex !== undefined && selectedIndex === i ? true : false,
                 name
             };
 
@@ -39,32 +45,43 @@ const RadioGroup = ({ options, name, className, radioGap = 1 }: Props) => {
         });
     }, [options]);
 
-    const handleRadioClicked = (id: string) => {
+    const handleRadioClicked = (e: SyntheticEvent<HTMLInputElement>, id: string) => {
         const newArr: RadioInterface[] = radios.map(radio => {
             if (radio.id === id) {
                 radio.state = true;
             } else radio.state = false;
             return radio;
-        })
+        });
 
         setRadios(newArr);
+        onChange?.(e);
+
     }
 
     return (
         <div className={className}>
             {radios.map((radio, index) => (
                 <div className={gap} key={radio.id}>
-                    <input type="radio" id={radio.id} name={radio.name} value={index} className={'hidden'} onChange={() => handleRadioClicked(radio.id)} />
-                    <label htmlFor={radio.id} className={'text text-lg font-light flex flex-row items-center gap-2'}>
-                        <div className={'w-5 h-5 rounded-full border border-bg-dark-inner dark:border-bg-light-inner relative flex items-center justify-center'}>
-                            <AnimatePresence>
-                                <m.div animate={{ scale: radio.state ? 1 : 0 }} className={`w-2 h-2 absolute bg-${userColor} rounded-full`} />
-                            </AnimatePresence>
+                    <input type="radio" id={radio.id} name={radio.name} value={index} className={'hidden'} onChange={(e) => handleRadioClicked(e, radio.id)} />
+                    <label htmlFor={radio.id} className={`text ${textClass} font-light flex flex-row items-center gap-2`}>
+                        <div className={`w-5 h-5 ${variant === 'circle' && 'rounded-full'} ${variant === 'box' && 'rounded-md'} border ${(variant === 'box' && radio.state) ? 'border-color-' + userColor : 'border-bg-dark-inner dark:border-bg-light-inner'} relative flex items-center justify-center`}>
+                            {variant === 'circle' &&
+                                (<AnimatePresence>
+                                    <m.div animate={{ scale: radio.state ? 1 : 0 }} className={`w-2 h-2 absolute bg-${userColor} rounded-full`} />
+                                </AnimatePresence>)
+                            }
+                            {variant === 'box' &&
+                                (<AnimatePresence>
+                                    <m.div animate={{ scale: radio.state ? 1 : 0 }} className={`w-full h-full absolute bg-${userColor} rounded-md flex flex-auto`}>
+                                        <CheckIcon className={'w-4 h-4'} />
+                                    </m.div>
+                                </AnimatePresence>)
+                            }
                         </div>{radio.display}
                     </label>
-                </div>
+                </div >
             ))}
-        </div>
+        </div >
     )
 }
 

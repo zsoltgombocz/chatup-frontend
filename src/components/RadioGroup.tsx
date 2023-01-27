@@ -33,7 +33,6 @@ const RadioGroup = ({ options, name, className, radioGap = 1, variant = 'circle'
     useEffect(() => {
         setRadios([]);
         options.map((opt, i) => {
-            console.log('constr', [opt, selectedIndex, i]);
             const radio: RadioInterface = {
                 id: uuidv4(),
                 display: opt,

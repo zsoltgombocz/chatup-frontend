@@ -23,7 +23,7 @@ function SexSelectionView() {
     }
     return (
         <>
-            <m.div className={'scrollable-view'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
+            <m.div className={'scrollable-view !pt-2'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
                 <div className={'flex flex-col content-between flex-grow'}>
                     <div className={'flex flex-col flex-grow content-evenly mb-8'}>
                         <div className={'flex flex-col flex-auto'}>

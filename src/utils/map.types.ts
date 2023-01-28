@@ -21,10 +21,13 @@ export enum County {
     BAZ = 'baz'
 }
 
+interface CountyStateInterface extends CountyInterface {
+    selected: boolean,
+}
+
 export interface CountyInterface {
     id: County,
     name: string,
-    isSelected: boolean,
     path: string,
 }
 

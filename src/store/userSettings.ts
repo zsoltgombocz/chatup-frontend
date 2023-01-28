@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { County, CountyInterface } from '../utils/map.types';
+import { County } from '../utils/map.types';
 
 interface CountyStateInterface {
     id: County,
@@ -18,7 +18,6 @@ interface UserSettingsInterface {
     setTheme: (index: number) => void,
     setColor: (color: string) => void,
     setPrivacy: (index: number, b: boolean) => void,
-    setMap: (countyId: County | 'all', b: boolean) => void
 }
 
 const getTheme = (): number => {
@@ -63,21 +62,5 @@ export const useUserSettings = create<UserSettingsInterface>((set, get) => ({
         current[index] = b;
         localStorage.setItem('chatup_privacy', JSON.stringify(current));
         set(state => ({ ...state, privacy: current }));
-    },
-    setMap: (countyId: County | 'all', b: boolean) => {
-        if (countyId === 'all') {
-            set(state => ({ ...state, map: { counties: [], allSelected: b } }));
-        } else {
-            const countyExist: number = get().map.counties.findIndex(c => c.id === countyId);
-
-            let counties: CountyStateInterface[] = get().map.counties;
-            if (countyExist === -1) {
-                counties.push({ id: countyId, selected: b });
-            } else {
-                counties[countyExist].selected = b;
-            }
-            set(state => ({ ...state, map: { allSelected: false, counties } }))
-            console.log(get().map);
-        }
-    },
+    }
 }));

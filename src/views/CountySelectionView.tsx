@@ -5,13 +5,8 @@ import TextCarousel from '../components/carousel/TextCarousel';
 import countyCarouselData from '../config/carousels/county.json';
 import Map from '../components/map/Map';
 import RadioGroup from '../components/RadioGroup';
-import { useUserSettings } from '../store/userSettings';
 import Button from '../components/Button';
 import { useMapPreferences } from '../store/mapPreferences';
-interface Box {
-    id: string,
-    state: boolean,
-}
 
 const CountySelectionView = () => {
     const setCheckbox = useMapPreferences(state => state.setTickedCheckbox);

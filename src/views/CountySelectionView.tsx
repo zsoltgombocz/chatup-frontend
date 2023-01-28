@@ -34,8 +34,8 @@ const CountySelectionView = () => {
                 <Map />
                 <TextCarousel data={countyCarouselData} className={'!px-10 mt-10'} />
             </m.div>
-            <Footer>
-                <Button size={'primary'} style={'filled'} text={'tovább'} linkTo={'/pre?t=sex'} />
+            <Footer showVersion={false}>
+                <Button size={'primary'} style={'filled'} text={'tovább'} linkTo={'/pre?t=sex'} className={'mb-3'} />
             </Footer>
         </>
     )

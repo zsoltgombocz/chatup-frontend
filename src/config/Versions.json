@@ -5,5 +5,13 @@
             "Alkalmazás UI impelemtálása",
             "Beállítások mentése/betöltése, testreszabhatóság"
         ]
+    },
+    {
+        "version": "0.0.2",
+        "changes": [
+            "Térképes szűrő oldal hozzáadva",
+            "Kisebb javítások alkalmazás szerte"
+        ],
+        "date": "2023.01.28"
     }
 ]

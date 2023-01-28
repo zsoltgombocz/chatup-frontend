@@ -7,20 +7,22 @@ import Map from '../components/map/Map';
 import RadioGroup from '../components/RadioGroup';
 import { useUserSettings } from '../store/userSettings';
 import Button from '../components/Button';
+import { useMapPreferences } from '../store/mapPreferences';
 interface Box {
     id: string,
     state: boolean,
 }
 
 const CountySelectionView = () => {
-    const updateMap = useUserSettings(state => state.setMap);
+    const setCheckbox = useMapPreferences(state => state.setTickedCheckbox);
+    const selectedCheckbox = useMapPreferences(state => state.mapCheckbox)
+
     const boxClicked = (e: SyntheticEvent<HTMLInputElement>) => {
         const ind: number = parseInt((e.target as HTMLInputElement).value);
+
         if (ind === 0) {
-            updateMap('all', true);
-        } else {
-            updateMap('all', false);
-        }
+            setCheckbox(0);
+        } else setCheckbox(1);
     }
 
 
@@ -28,7 +30,7 @@ const CountySelectionView = () => {
         <>
             <m.div className={'scrollable-view !px-0 !pt-1'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
                 <h5 className={'text-cabin font-semibold text-center text-xl'}>Válassz vármegyét:</h5>
-                <RadioGroup textClass={'text-base'} className={'mt-5 flex flex-row items-center justify-center gap-5'} onChange={boxClicked} selectedIndex={0} variant={'box'} options={['Országos', 'Egyéni']} name={'county_toggle'} radioGap={0} />
+                <RadioGroup textClass={'text-base'} className={'mt-5 flex flex-row items-center justify-center gap-5'} onChange={boxClicked} selectedIndex={selectedCheckbox} variant={'box'} options={['Országos', 'Egyéni']} name={'county_toggle'} radioGap={0} />
                 <Map />
                 <TextCarousel data={countyCarouselData} className={'!px-10 mt-10'} />
             </m.div>

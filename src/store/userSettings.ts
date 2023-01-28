@@ -1,20 +1,9 @@
 import { create } from 'zustand';
-import { County } from '../utils/map.types';
 
-interface CountyStateInterface {
-    id: County,
-    selected: boolean,
-}
-
-interface MapStateInterface {
-    counties: CountyStateInterface[],
-    allSelected: boolean,
-}
 interface UserSettingsInterface {
     theme: number,
     color: string,
     privacy: boolean[],
-    map: MapStateInterface,
     setTheme: (index: number) => void,
     setColor: (color: string) => void,
     setPrivacy: (index: number, b: boolean) => void,

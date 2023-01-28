@@ -21,7 +21,7 @@ export enum County {
     BAZ = 'baz'
 }
 
-interface CountyStateInterface extends CountyInterface {
+export interface CountyStateInterface extends CountyInterface {
     selected: boolean,
 }
 

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { County } from '../utils/map.types';
+import { County } from '../utils/interfaces/map';
 
 interface MapPreferencesInterface {
     mapCheckbox: 0 | 1,

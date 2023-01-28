@@ -2,7 +2,7 @@ import React from 'react'
 import { MapStructure } from '../../config/mapConfig';
 import County from './County';
 import { motion as m } from 'framer-motion';
-import { County as CountyEnum, CountyInterface } from '../../utils/map.types';
+import { County as CountyEnum, CountyInterface } from '../../utils/interfaces/map';
 import { useMapPreferences } from '../../store/mapPreferences';
 
 type Props = {

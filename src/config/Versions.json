@@ -13,5 +13,12 @@
             "Kisebb javítások alkalmazás szerte"
         ],
         "date": "2023.01.28"
+    },
+    {
+        "version": "0.0.3",
+        "changes": [
+            "Nemi identitás választó oldal"
+        ],
+        "date": "2023.01.28"
     }
 ]

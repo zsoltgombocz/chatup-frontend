@@ -1,11 +1,43 @@
 import React from 'react'
+import { motion as m } from 'framer-motion';
+import Footer from '../layout/Footer';
+import TextCarousel from '../components/carousel/TextCarousel';
+import sexCarouselData from '../config/carousels/sex.json';
+import Button from '../components/Button';
+import Switch from '../components/Switch';
+import { config } from '../config/sexConfig';
+import { useSexPreferences } from '../store/sexPreferences';
 
-type Props = {}
+function SexSelectionView() {
+    const ownSexState = useSexPreferences(state => state.ownSex);
+    const partnerSexState = useSexPreferences(state => state.partnerSex);
 
-function SexSelectionView({ }: Props) {
+    const setOwnsex = useSexPreferences(state => state.setOwnSex);
+    const setPartnerSex = useSexPreferences(state => state.setPartnerSex);
+
+    const ownSexChanged = (index: number) => {
+        setOwnsex(index);
+    }
+    const partnerSexChanged = (index: number) => {
+        setPartnerSex(index);
+    }
     return (
-        <div>SexSelectionView</div>
+        <>
+            <m.div className={'scrollable-view !px-0 !pt-1'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
+                <h5 className={'text-cabin font-semibold text-center text-xl mb-3'}>Válaszd ki a nemed:</h5>
+                <p className={'font-light text-sm text text-center mb-6'}>Kérjük, hogy a valós nemed add meg a komoly és eredménydús beszélgetés érdekében.</p>
+
+                <Switch options={config.ownSex} className={'mb-12 self-center'} initialSelectedIndex={ownSexState} onChange={ownSexChanged} />
+                <h5 className={'text-cabin font-semibold text-center text-xl mb-6'}>Kivel szeretnél beszélgetni:</h5>
+
+                <Switch options={config.partnerSex} className={'mb-16 self-center'} initialSelectedIndex={partnerSexState} onChange={partnerSexChanged} />
+                <TextCarousel data={sexCarouselData} className={'!px-10 mt-10'} />
+            </m.div>
+            <Footer showVersion={false}>
+                <Button size={'primary'} style={'filled'} text={'tovább'} linkTo={'/pre?t=interest'} className={'mb-3'} />
+            </Footer>
+        </>
     )
 }
 
-export default SexSelectionView
+export default SexSelectionView;

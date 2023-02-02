@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useSwiper } from "swiper/react";
 import { useUserSettings } from '../../store/userSettings';
 import { motion as m } from 'framer-motion';
-import { v4 as uuidv4 } from 'uuid';
 
 
 type Props = {

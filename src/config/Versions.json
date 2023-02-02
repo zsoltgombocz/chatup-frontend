@@ -28,5 +28,12 @@
             "Egyéb apró hibajavítások nézeteknél"
         ],
         "date": "2023.02.02"
+    },
+    {
+        "version": "0.0.41",
+        "changes": [
+            "Téma körök I. fázis"
+        ],
+        "date": "2023.02.02"
     }
 ]

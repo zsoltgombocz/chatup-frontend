@@ -20,5 +20,13 @@
             "Nemi identitás választó oldal"
         ],
         "date": "2023.01.28"
+    },
+    {
+        "version": "0.0.4",
+        "changes": [
+            "Mobil: Megye választásnál kék jelőlő négyzet kivéve",
+            "Egyéb apró hibajavítások nézeteknél"
+        ],
+        "date": "2023.02.02"
     }
 ]

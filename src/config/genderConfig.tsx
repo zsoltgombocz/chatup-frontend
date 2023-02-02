@@ -3,13 +3,13 @@ import MaleIcon from "../atoms/MaleIcon";
 import NeutralIcon from "../atoms/NeutralIcon";
 import { SwitchOptionInterface } from "../utils/interfaces/components/switch";
 
-interface sexInterface {
-    ownSex: SwitchOptionInterface[],
-    partnerSex: SwitchOptionInterface[]
+interface genderInterface {
+    ownGender: SwitchOptionInterface[],
+    partnerGender: SwitchOptionInterface[]
 }
 
-export const config: sexInterface = {
-    ownSex: [{
+export const config: genderInterface = {
+    ownGender: [{
         icon: <MaleIcon size={28} />,
         text: undefined
     },
@@ -17,7 +17,7 @@ export const config: sexInterface = {
         icon: <FemaleIcon size={28} />,
         text: undefined
     }],
-    partnerSex: [
+    partnerGender: [
         {
             icon: <MaleIcon size={28} />,
             text: undefined

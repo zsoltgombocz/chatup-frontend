@@ -47,8 +47,12 @@ path.county {
 .footer {
   @apply flex flex-col justify-center items-center bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl rounded-tr-xl rounded-tl-xl py-5 w-screen h-fit;
 }
+
+.view {
+  @apply flex-grow h-fit flex overflow-hidden flex-col px-10 py-10 w-screen md:w-[600px] self-center;
+}
 .scrollable-view {
-  @apply flex-grow h-fit flex overflow-auto flex-col px-10 py-10 w-screen md:w-[600px] self-center;
+  @apply view overflow-auto;
 }
 .color-circle {
   @apply w-10 h-10 rounded-full cursor-pointer border-2 border-transparent;
@@ -139,5 +143,9 @@ path.county {
 }
 .textarea:focus {
    outline: none;
+}
+
+.interest {
+  @apply rounded-full w-[110px] h-[110px] object-center object-contain bg-white;
 }
 

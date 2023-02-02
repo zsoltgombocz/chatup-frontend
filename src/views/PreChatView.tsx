@@ -4,7 +4,7 @@ import { motion as m } from 'framer-motion';
 import Map from '../components/map/Map';
 import { useSearchParams } from 'react-router-dom';
 import CountySelectionView from './CountySelectionView';
-import SexSelectionView from './SexSelectionView';
+import GenderSelectionView from './GenderSelectionView';
 import InterestSelectionView from './InterestSelectionView';
 function PreChatView() {
     const [searcParams] = useSearchParams();
@@ -18,7 +18,7 @@ function PreChatView() {
         case 'county':
             return <CountySelectionView />;
         case 'sex':
-            return <SexSelectionView />;
+            return <GenderSelectionView />;
         case 'interest':
             return <InterestSelectionView />;
         default:

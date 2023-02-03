@@ -1,17 +1,19 @@
-import React, { useEffect } from 'react';
-import HomeView from './views/HomeView';
+import React, { lazy, useEffect } from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
+
 import AppLayout from './layout/AppLayout';
-import SettingsView from './views/SettingsView';
-import Privacy from './views/settings/Privacy';
-import Customize from './views/settings/Customize';
-import Information from './views/settings/Information';
-import Help from './views/settings/Help';
-import Contact from './views/settings/Contact';
 import { useUserSettings } from './store/userSettings';
 import { setTheme } from './utils/theme';
-import DevlogView from './views/DevlogView';
-import PreChatView from './views/PreChatView';
+
+const HomeView = lazy(() => import('./views/HomeView'));
+const SettingsView = lazy(() => import('./views/SettingsView'));
+const Privacy = lazy(() => import('./views/settings/Privacy'));
+const Customize = lazy(() => import('./views/settings/Customize'));
+const Information = lazy(() => import('./views/settings/Information'));
+const Help = lazy(() => import('./views/settings/Help'));
+const Contact = lazy(() => import('./views/settings/Contact'));
+const DevlogView = lazy(() => import('./views/DevlogView'));
+const PreChatView = lazy(() => import('./views/PreChatView'));
 
 const Application = () => {
 

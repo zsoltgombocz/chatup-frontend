@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { FC, FunctionComponent, useEffect, useState } from 'react'
 
 import { motion as m } from 'framer-motion';
 import Map from '../components/map/Map';
@@ -21,8 +21,7 @@ function PreChatView() {
             return <GenderSelectionView />;
         case 'interest':
             return <InterestSelectionView />;
-        default:
-            return <CountySelectionView />;
+
     }
 }
-export default PreChatView
+export default PreChatView as FunctionComponent;

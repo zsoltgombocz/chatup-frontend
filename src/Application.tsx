@@ -1,7 +1,8 @@
-import React, { lazy, useEffect } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import AppLayout from './layout/AppLayout';
+import LazyLoad from './layout/LazyLoad';
 import { useUserSettings } from './store/userSettings';
 import { setTheme } from './utils/theme';
 
@@ -32,17 +33,17 @@ const Application = () => {
     return (
         <Routes>
             <Route path="/" element={<AppLayout disableLayout={location.pathname === '/'} />}>
-                <Route index element={<HomeView />} />
-                <Route path={'devlog'} element={<DevlogView />} />
+                <Route index element={<LazyLoad><HomeView /></LazyLoad>} />
+                <Route path={'devlog'} element={<LazyLoad><DevlogView /></LazyLoad>} />
                 <Route path="settings">
-                    <Route index element={<SettingsView />} />
-                    <Route path={'privacy'} element={<Privacy />} />
-                    <Route path={'customize'} element={<Customize />} />
-                    <Route path={'information'} element={<Information />} />
-                    <Route path={'help'} element={<Help />} />
-                    <Route path={'contact'} element={<Contact />} />
+                    <Route index element={<LazyLoad><SettingsView /></LazyLoad>} />
+                    <Route path={'privacy'} element={<LazyLoad><Privacy /></LazyLoad>} />
+                    <Route path={'customize'} element={<LazyLoad><Customize /></LazyLoad>} />
+                    <Route path={'information'} element={<LazyLoad><Information /></LazyLoad>} />
+                    <Route path={'help'} element={<LazyLoad><Help /></LazyLoad>} />
+                    <Route path={'contact'} element={<LazyLoad><Contact /></LazyLoad>} />
                 </Route>
-                <Route path={'pre'} element={<PreChatView />} />
+                <Route path={'pre'} element={<LazyLoad><PreChatView /></LazyLoad>} />
             </Route>
         </Routes>
     );

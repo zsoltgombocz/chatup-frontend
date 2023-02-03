@@ -10,21 +10,20 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper";
 import Interest from './Interest';
 import CarouselNavigator from '../CarouselNavigator';
+import { useInterestPreferences } from '../../../store/interestPreferences';
 
 type Props = {
     data: InterestCarouselDataInterface[],
     className?: string,
-}
-
-interface windowDimension {
-    w: number,
-    h: number
+    onItemClicked?: undefined | Function
 }
 
 export const InterestCarousel = ({ data }: Props) => {
     const [itemsPaginated, setItemsPaginated] = useState<any[]>([]);
     const [itemsPerPage, setItemsPerPage] = useState(6);
     const [active, setActive] = useState(0);
+
+    const interests = useInterestPreferences(state => state.interests);
 
     useEffect(() => {
         const paginateData = (array: any[]) => {
@@ -36,7 +35,6 @@ export const InterestCarousel = ({ data }: Props) => {
         }
 
         paginateData(data);
-        console.log(itemsPaginated.length);
     }, [data, itemsPerPage]);
 
     useEffect(() => {
@@ -73,10 +71,14 @@ export const InterestCarousel = ({ data }: Props) => {
                 autoHeight={true}
                 onSlideChange={(swiper) => setActive(swiper?.activeIndex)}
             >
-                {itemsPaginated.map(pages =>
-                    <SwiperSlide className='flex flex-wrap flex-grow justify-center items-center'>
+                {itemsPaginated.map((pages, index) =>
+                    <SwiperSlide key={index} className='flex flex-wrap flex-grow justify-center items-center'>
                         {pages.map((interest: InterestCarouselDataInterface) =>
-                            <Interest key={interest.id} src={interest.src} display={interest.display} />
+                            <Interest key={interest.id} id={interest.id}
+                                src={interest.src} display={interest.display}
+                                defaultSelected={interests.includes(interest.id)}
+                                disabled={interests.length >= 3 && !interests.includes(interest.id)}
+                            />
                         )}
                     </SwiperSlide>
                 )}

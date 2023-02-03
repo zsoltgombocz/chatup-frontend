@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion as m } from 'framer-motion';
 import Footer from '../layout/Footer';
-import TextCarousel from '../components/textCarousel/TextCarousel';
+import TextCarousel from '../components/carousels/textCarousel/TextCarousel';
 import genderCarouselData from '../config/carousels/gender.json';
 import Button from '../components/Button';
 import Switch from '../components/Switch';

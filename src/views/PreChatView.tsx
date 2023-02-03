@@ -21,6 +21,7 @@ function PreChatView() {
             return <GenderSelectionView />;
         case 'interest':
             return <InterestSelectionView />;
+        default: return <CountySelectionView />
 
     }
 }

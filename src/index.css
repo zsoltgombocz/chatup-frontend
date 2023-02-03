@@ -52,7 +52,7 @@ path.county {
   @apply flex-grow h-fit flex overflow-hidden flex-col px-10 py-10 w-screen md:w-[600px] self-center;
 }
 .scrollable-view {
-  @apply view overflow-auto;
+  @apply view !overflow-y-auto;
 }
 .color-circle {
   @apply w-10 h-10 rounded-full cursor-pointer border-2 border-transparent;

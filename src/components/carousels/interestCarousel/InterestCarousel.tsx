@@ -64,7 +64,7 @@ export const InterestCarousel = ({ data }: Props) => {
     }, []);
 
     return (
-        <div className={'flex'}>
+        <div className={'flex relative'}>
             <Swiper
                 threshold={25}
                 direction={"vertical"}
@@ -81,7 +81,7 @@ export const InterestCarousel = ({ data }: Props) => {
                     </SwiperSlide>
                 )}
             </Swiper>
-            <CarouselNavigator max={itemsPaginated.length} className={''} activeIndex={active} variant={1} />
+            <CarouselNavigator max={itemsPaginated.length} className={'absolute right-0'} activeIndex={active} variant={1} />
         </div>
     );
 }

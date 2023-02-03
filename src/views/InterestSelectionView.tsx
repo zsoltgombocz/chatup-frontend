@@ -14,7 +14,7 @@ function InterestSelectionView() {
                         <h5 className={'text-cabin font-semibold text-center text-xl mb-3'}>Válassz ki 3 témát:</h5>
                         <p className={'font-light text-sm text text-center'}>A kiválasztott témák segitenek a partnerednek abban, hogy milyen témák érdekelnek téged.</p>
                     </div>
-                    <div className={'flex flex-grow'}>
+                    <div className={'flex flex-grow justify-center'}>
                         <InterestCarousel data={config.interests.sort(() => 0.5 - Math.random())} />
                     </div>
                 </div>

@@ -66,6 +66,7 @@ export const InterestCarousel = ({ data }: Props) => {
     return (
         <div className={'flex'}>
             <Swiper
+                threshold={25}
                 direction={"vertical"}
                 modules={[Pagination]}
                 className="h-fit max-w-md"

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from "swiper/react";
-import { InterestCarouselDataInterface } from '../../utils/interfaces/components/interestCarousel';
+import { InterestCarouselDataInterface } from '../../../utils/interfaces/components/interestCarousel';
 
 // Import Swiper styles
 import "swiper/css";
@@ -9,6 +9,7 @@ import "swiper/css/pagination";
 // import required modules
 import { Pagination } from "swiper";
 import Interest from './Interest';
+import CarouselNavigator from '../CarouselNavigator';
 
 type Props = {
     data: InterestCarouselDataInterface[],
@@ -23,6 +24,7 @@ interface windowDimension {
 export const InterestCarousel = ({ data }: Props) => {
     const [itemsPaginated, setItemsPaginated] = useState<any[]>([]);
     const [itemsPerPage, setItemsPerPage] = useState(6);
+    const [active, setActive] = useState(0);
 
     useEffect(() => {
         const paginateData = (array: any[]) => {
@@ -34,6 +36,7 @@ export const InterestCarousel = ({ data }: Props) => {
         }
 
         paginateData(data);
+        console.log(itemsPaginated.length);
     }, [data, itemsPerPage]);
 
     useEffect(() => {
@@ -61,20 +64,24 @@ export const InterestCarousel = ({ data }: Props) => {
     }, []);
 
     return (
-        <Swiper
-            direction={"vertical"}
-            modules={[Pagination]}
-            className="h-fit max-w-md"
-            autoHeight={true}
-        >
-            {itemsPaginated.map(pages =>
-                <SwiperSlide className='flex flex-wrap flex-grow justify-center items-center'>
-                    {pages.map((interest: InterestCarouselDataInterface) =>
-                        <Interest key={interest.id} src={interest.src} display={interest.display} />
-                    )}
-                </SwiperSlide>
-            )}
-        </Swiper>
+        <div className={'flex'}>
+            <Swiper
+                direction={"vertical"}
+                modules={[Pagination]}
+                className="h-fit max-w-md"
+                autoHeight={true}
+                onSlideChange={(swiper) => setActive(swiper?.activeIndex)}
+            >
+                {itemsPaginated.map(pages =>
+                    <SwiperSlide className='flex flex-wrap flex-grow justify-center items-center'>
+                        {pages.map((interest: InterestCarouselDataInterface) =>
+                            <Interest key={interest.id} src={interest.src} display={interest.display} />
+                        )}
+                    </SwiperSlide>
+                )}
+            </Swiper>
+            <CarouselNavigator max={itemsPaginated.length} className={''} activeIndex={active} variant={1} />
+        </div>
     );
 }
 

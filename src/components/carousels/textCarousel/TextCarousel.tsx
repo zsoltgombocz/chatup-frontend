@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 // import required modules
 import { Pagination, Autoplay } from "swiper";
 import { TextPage } from './TextPage';
-import TextCarouselNavigator from './TextCarouselNavigator';
+import CarouselNavigator from '../CarouselNavigator';
 
 type Props = {
     data: PageInterface[],
@@ -34,7 +34,7 @@ export const TextCarousel = ({ data, className }: Props) => {
                 onSlideChange={(swiper) => setActive(swiper?.activeIndex)}
             >
                 {data.map(page => <SwiperSlide key={page.title} className='p-1 cursor-pointer select-none'><TextPage title={page.title} text={page.text} /></SwiperSlide>)}
-                <TextCarouselNavigator max={data.length} className={'mt-3'} activeIndex={active} />
+                <CarouselNavigator max={data.length} className={'mt-3'} activeIndex={active} />
             </Swiper>
         </div>
     );

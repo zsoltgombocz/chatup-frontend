@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../components/Button'
-import InterestCarousel from '../components/interestCarousel/InterestCarousel'
+import InterestCarousel from '../components/carousels/interestCarousel/InterestCarousel'
 import { config } from '../config/interestConfig'
 import Footer from '../layout/Footer'
 import { motion as m } from 'framer-motion';
@@ -10,7 +10,6 @@ function InterestSelectionView() {
         <>
             <m.div className={'view !pt-1'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
                 <div className={'flex flex-col content-evenly flex-grow'}>
-
                     <div className={'flex flex-col'}>
                         <h5 className={'text-cabin font-semibold text-center text-xl mb-3'}>Válassz ki 3 témát:</h5>
                         <p className={'font-light text-sm text text-center'}>A kiválasztott témák segitenek a partnerednek abban, hogy milyen témák érdekelnek téged.</p>

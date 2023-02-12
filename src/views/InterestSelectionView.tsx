@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from '../components/Button'
 import InterestCarousel from '../components/carousels/interestCarousel/InterestCarousel'
 import { config } from '../config/interestConfig'
@@ -20,7 +20,7 @@ function InterestSelectionView() {
                 </div>
             </m.div>
             <Footer showVersion={false}>
-                <Button size={'primary'} style={'filled'} text={'keresés'} linkTo={'/search'} className={'mb-3'} />
+                <Button linkTo={'/search'} size={'primary'} style={'filled'} text={'keresés'} className={'mb-3'} />
             </Footer>
         </>
     )

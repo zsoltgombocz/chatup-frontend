@@ -13,7 +13,7 @@ function SexSelectionView() {
     const partnerGenderState = useGenderPreferebces(state => state.partnerGender);
 
     const setOwnsex = useGenderPreferebces(state => state.setOwnGender);
-    const setPartnerSex = useGenderPreferebces(state => state.setOwnGender);
+    const setPartnerSex = useGenderPreferebces(state => state.setPartnerGender);
 
     const ownSexChanged = (index: number) => {
         setOwnsex(index);

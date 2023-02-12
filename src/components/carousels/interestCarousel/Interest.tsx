@@ -16,6 +16,12 @@ const Interest = ({ id, src, display, defaultSelected = false, disabled = false 
     const [selected, setSelected] = useState(defaultSelected);
     const userColor = useUserSettings(state => state.color);
     const updateInterests = useInterestPreferences(state => state.updateInterests);
+    const onInterestClick = () => {
+        if (disabled) return;
+
+        setSelected(!selected);
+        updateInterests(id, !selected);
+    }
 
     return (
         <div className={'flex flex-col p-1 w-32 h-40 items-evenly justify-evenly select-none'} >
@@ -24,7 +30,7 @@ const Interest = ({ id, src, display, defaultSelected = false, disabled = false 
                     loading={'lazy'}
                     src={src}
                     className={`${disabled ? 'cursor-not-allowed' : 'cursor-pointer'} interest border-color-blue z-50 ${selected ? 'saturate-100' : 'saturate-0'}`}
-                    onClick={() => { setSelected(!selected); updateInterests(id, !selected); }}
+                    onClick={onInterestClick}
                 />
                 <m.div initial={{ opacity: 0 }} animate={selected ? { opacity: 1 } : { opacity: 0 }} className={`bg-${userColor} absolute z-0 rounded-full w-[114px] h-[114px]`} />
             </div>

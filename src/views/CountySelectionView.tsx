@@ -19,8 +19,6 @@ const CountySelectionView = () => {
             setCheckbox(0);
         } else setCheckbox(1);
     }
-
-
     return (
         <>
             <m.div className={'scrollable-view !px-0 !pt-1'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>

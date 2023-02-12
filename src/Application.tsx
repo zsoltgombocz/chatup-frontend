@@ -1,9 +1,8 @@
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, { lazy, useEffect } from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import AppLayout from './layout/AppLayout';
 import LazyLoad from './layout/LazyLoad';
-import { useUserCookies } from './store/userCookies';
 import { useUserSettings } from './store/userSettings';
 import { setTheme } from './utils/theme';
 import Search from './views/Search';

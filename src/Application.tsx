@@ -3,8 +3,10 @@ import { Routes, Route, useLocation } from "react-router-dom";
 
 import AppLayout from './layout/AppLayout';
 import LazyLoad from './layout/LazyLoad';
+import { useUserCookies } from './store/userCookies';
 import { useUserSettings } from './store/userSettings';
 import { setTheme } from './utils/theme';
+import Search from './views/Search';
 
 const HomeView = lazy(() => import('./views/HomeView'));
 const SettingsView = lazy(() => import('./views/SettingsView'));
@@ -44,6 +46,7 @@ const Application = () => {
                     <Route path={'contact'} element={<LazyLoad><Contact /></LazyLoad>} />
                 </Route>
                 <Route path={'pre'} element={<LazyLoad><PreChatView /></LazyLoad>} />
+                <Route path={'search'} element={<LazyLoad><Search /></LazyLoad>} />
             </Route>
         </Routes>
     );

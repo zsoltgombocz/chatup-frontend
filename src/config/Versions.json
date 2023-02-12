@@ -52,5 +52,13 @@
             "Téma választó teljesen implementáláva"
         ],
         "date": "2023.02.03"
+    },
+    {
+        "version": "0.0.44",
+        "changes": [
+            "Teszt keresés oldal hozzáadva szerver tesztelés érdekében",
+            "Téma választó hiba javítása"
+        ],
+        "date": "2023.02.12"
     }
 ]

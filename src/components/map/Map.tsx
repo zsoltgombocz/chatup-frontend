@@ -15,10 +15,6 @@ const Map = ({ className }: Props) => {
   const checkbox = useMapPreferences(state => state.mapCheckbox);
 
   const onCountyClicked = (id: CountyEnum, b: boolean) => {
-    if (checkbox === 0) {
-      updateCounty('all', false);
-    }
-
     updateCounty(id, b);
   }
   return (

@@ -19,7 +19,8 @@ export const useUserData = create<userData>((set, get) => ({
     token: getTokenFromCookie(),
     location: null,
     setUserLocation: (location: CountyInterface | null) => {
-        console.log(location);
+        set(state => ({ ...state, location }))
+        console.log('saved', location);
     },
     setToken: (token: string) => {
         cookies.set('token', token);

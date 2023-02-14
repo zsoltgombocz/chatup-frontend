@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { counties } from "../config/mapConfig";
+import { useUserData } from "../store/userData";
 import { GeoLocationPermission } from "../utils/enums";
 import { GeoLocation } from "../utils/interfaces/geoLocation";
 import { CountyInterface } from "../utils/interfaces/map";
@@ -7,39 +8,35 @@ import { isSimilar } from "../utils/string";
 
 interface useGeoLocationInterface {
     permission: GeoLocationPermission,
-    geoLocation: Promise<null | CountyInterface>,
+    location: null | CountyInterface,
 }
 
 export const useGeoLocation = (): useGeoLocationInterface => {
     const [permission, setPermission] = useState<GeoLocationPermission>(GeoLocationPermission.DENIED);
-    const [location, setLocation] = useState<GeoLocation | null>(null);
+    const setUserLocation = useUserData(state => state.setUserLocation);
+    const userLocation = useUserData(state => state.location);
 
-    const fetchLocationInfo = (coords: GeoLocation): Promise<any> => {
-        return new Promise((resolve, reject) => {
-            fetch(`https://api.geoapify.com/v1/geocode/reverse?apiKey=${import.meta.env.VITE_GEOAPI_KEY}&lat=${coords.lat}&lon=${coords.lon}`)
-                .then(response => response.json())
-                .then(result => resolve(result.features[0].properties.county))
-                .catch(err => reject(err))
-        });
-    }
+    const geoLocation = useCallback(async (location: GeoLocation) => {
+        fetch(`https://api.geoapify.com/v1/geocode/reverse?apiKey=${import.meta.env.VITE_GEOAPI_KEY}&lat=${location?.lat}&lon=${location?.lon}`)
+            .then(response => response.json())
+            .then(result => {
+                const county = result.features[0].properties.county;
+                const similar = counties.filter(c => isSimilar(c.name, county));
+                setUserLocation(similar[0]);
+            })
+            .catch(err => console.log(err))
+    }, []);
 
     const getLocation = (): void => {
         navigator.geolocation.getCurrentPosition(
             ({ coords }) => {
-                setLocation({ lat: coords.latitude, lon: coords.longitude });
+                const coordinates = { lat: coords.latitude, lon: coords.longitude };
+                geoLocation(coordinates);
+                setPermission(GeoLocationPermission.GRANTED);
             },
-            (err) => { console.log(err) }
+            (err) => { setPermission(GeoLocationPermission.DENIED); }
         );
     }
-
-    const geoLocation: Promise<null | CountyInterface> = useMemo(async () => {
-        if (location === null) return null;
-
-        const county = await fetchLocationInfo(location);
-        const similar = counties.filter(c => isSimilar(c.name, county));
-        return similar[0];
-
-    }, [location]);
 
     useEffect(() => {
         navigator.permissions.query({ name: 'geolocation' })
@@ -51,9 +48,10 @@ export const useGeoLocation = (): useGeoLocationInterface => {
 
     useEffect(() => {
         if ((permission === GeoLocationPermission.PROMPT || permission === GeoLocationPermission.GRANTED)
-            && geoLocation === null) getLocation();
-    }, [permission])
+            && userLocation === null) {
+            getLocation();
+        }
+    }, [permission]);
 
-
-    return { permission, geoLocation };
+    return { permission, location: userLocation };
 }

@@ -15,7 +15,10 @@ const Information = lazy(() => import('./views/settings/Information'));
 const Help = lazy(() => import('./views/settings/Help'));
 const Contact = lazy(() => import('./views/settings/Contact'));
 const DevlogView = lazy(() => import('./views/DevlogView'));
-const PreChatView = lazy(() => import('./views/PreChatView'));
+const CountySelectionView = lazy(() => import('./views/pre/CountySelectionView'));
+const GenderSelectionView = lazy(() => import('./views/pre/GenderSelectionView'));
+const InterestSelectionView = lazy(() => import('./views/pre/InterestSelectionView'));
+
 
 const Application = () => {
 
@@ -44,7 +47,12 @@ const Application = () => {
                     <Route path={'help'} element={<LazyLoad><Help /></LazyLoad>} />
                     <Route path={'contact'} element={<LazyLoad><Contact /></LazyLoad>} />
                 </Route>
-                <Route path={'pre'} element={<LazyLoad><PreChatView /></LazyLoad>} />
+                <Route path={'pre'}>
+                    <Route index element={<LazyLoad><CountySelectionView /></LazyLoad>} />
+                    <Route path={'location'} element={<LazyLoad><CountySelectionView /></LazyLoad>} />
+                    <Route path={'gender'} element={<LazyLoad><GenderSelectionView /></LazyLoad>} />
+                    <Route path={'interest'} element={<LazyLoad><InterestSelectionView /></LazyLoad>} />
+                </Route>
                 <Route path={'search'} element={<LazyLoad><Search /></LazyLoad>} />
             </Route>
         </Routes>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { io } from "socket.io-client";
-import { useUserToken } from '../store/userToken';
+import { useUserData } from '../store/userData';
 
 
 type Props = {}
@@ -10,8 +10,8 @@ type Props = {}
 const Search = (props: Props) => {
     const [connectedUsers, setConnectedUsers] = useState(0);
     const [socket, setSocket] = useState<any>(undefined);
-    const savedtoken = useUserToken(state => state.token);
-    const saveToken = useUserToken(state => state.setToken);
+    const savedtoken = useUserData(state => state.token);
+    const saveToken = useUserData(state => state.setToken);
 
 
     useEffect(() => {

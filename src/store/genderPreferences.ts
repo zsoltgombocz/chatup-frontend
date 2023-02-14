@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Gender } from '../utils/types';
+import { Gender } from '../utils/enums';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();

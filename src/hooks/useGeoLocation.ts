@@ -18,7 +18,7 @@ const API_URL = import.meta.env.VITE_GEOAPI_URL;
 const API_KEY = import.meta.env.VITE_GEOAPI_KEY;
 
 export const useGeoLocation = (): useGeoLocationInterface => {
-    const [permission, setPermission] = useState<GeoLocationPermission>(GeoLocationPermission.DENIED);
+    const [permission, setPermission] = useState<GeoLocationPermission>(GeoLocationPermission.PROMPT);
     const setUserLocation = useUserData(state => state.setUserLocation);
     const userLocation = useUserData(state => state.location);
 
@@ -55,7 +55,9 @@ export const useGeoLocation = (): useGeoLocationInterface => {
                 geoLocation(coordinates);
                 setPermission(GeoLocationPermission.GRANTED);
             },
-            (err) => { setPermission(GeoLocationPermission.DENIED); }
+            (err) => {
+                setPermission(GeoLocationPermission.DENIED);
+            }
         );
     }
 
@@ -71,6 +73,8 @@ export const useGeoLocation = (): useGeoLocationInterface => {
         if ((permission === GeoLocationPermission.PROMPT || permission === GeoLocationPermission.GRANTED)
             && (userLocation === undefined || userLocation === null)) {
             getLocation();
+        } else {
+            setUserLocation(null);
         }
     }, [permission]);
 

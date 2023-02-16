@@ -26,7 +26,6 @@ export const useGeoLocation = (): useGeoLocationInterface => {
         fetch(`${API_URL}/reverse?apiKey=${API_KEY}&lat=${location?.lat}&lon=${location?.lon}`)
             .then(response => response.json())
             .then(async result => {
-                console.log('reverse', result)
                 const county: string | null = result.features[0].properties.county || await getCountyBasedoOnFormattedText(result.features[0].properties.formatted);
                 let userCounty: CountyInterface | null;
                 if (county === null) userCounty = null;
@@ -35,7 +34,6 @@ export const useGeoLocation = (): useGeoLocationInterface => {
                 setUserLocation(userCounty);
             })
             .catch(err => {
-                console.log('reverse-error', err)
                 setUserLocation(null)
             });
     }, []);
@@ -46,11 +44,9 @@ export const useGeoLocation = (): useGeoLocationInterface => {
             fetch(`${API_URL}/search?apiKey=${API_KEY}&text=${text}`)
                 .then(response => response.json())
                 .then(result => {
-                    console.log('search', result)
                     resolve(result.features[0].properties.county || null);
                 })
                 .catch(err => {
-                    console.log('search-error', err)
                     resolve(null)
                 });
         });
@@ -82,7 +78,6 @@ export const useGeoLocation = (): useGeoLocationInterface => {
             && (userLocation === undefined || userLocation === null)) {
             getLocation();
         } else {
-            console.log('permission useefet', permission);
             setUserLocation(null);
         }
     }, [permission]);

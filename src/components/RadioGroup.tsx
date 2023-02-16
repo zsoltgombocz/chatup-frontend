@@ -54,7 +54,6 @@ const RadioGroup = ({ options, name, className, radioGap = 1, variant = 'circle'
 
         setRadios(newArr);
         onChange?.(e);
-
     }
 
     return (
@@ -66,12 +65,12 @@ const RadioGroup = ({ options, name, className, radioGap = 1, variant = 'circle'
                         <div className={`w-5 h-5 flex items-center justify-center ${variant === 'circle' ? 'rounded-full' : ''} ${variant === 'box' ? 'rounded-md' : ''} border ${(variant === 'box' && radio.state) ? 'border-color-' + userColor : 'border-bg-dark-inner dark:border-bg-light-inner'} relative`}>
                             {variant === 'circle' &&
                                 (<AnimatePresence>
-                                    <m.div animate={{ scale: radio.state ? 1 : 0 }} className={`w-2 h-2 absolute bg-${userColor} rounded-full`} />
+                                    <m.div initial={{ scale: 0 }} animate={{ scale: radio.state ? 1 : 0 }} className={`w-2 h-2 absolute bg-${userColor} rounded-full`} />
                                 </AnimatePresence>)
                             }
                             {variant === 'box' &&
                                 (<AnimatePresence>
-                                    <m.div animate={{ scale: radio.state ? 1 : 0 }} className={`w-full h-full absolute bg-${userColor} rounded-md top-0 left-0 flex items-center justify-center`}>
+                                    <m.div initial={{ scale: 0 }} animate={{ scale: radio.state ? 1 : 0 }} className={`w-full h-full absolute bg-${userColor} rounded-md top-0 left-0 flex items-center justify-center`}>
                                         <CheckIcon className={'w-5 h-5 text-white '} />
                                     </m.div>
                                 </AnimatePresence>)

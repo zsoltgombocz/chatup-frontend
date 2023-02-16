@@ -17,7 +17,6 @@ function Header() {
         setHideRouteText(config.onlyBackButtonRoutes.includes(segment || ''));
         setNoBackground(config.noBackground.includes(segment || ''));
 
-        console.log(hideRouteText);
         return () => {
             console.log('header unmount')
         }

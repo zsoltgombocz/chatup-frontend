@@ -12,10 +12,7 @@ function Contact() {
         const desc = target.desc.value;
         if (type === '' || desc === '') return;
 
-        //! MAYBE USE SOME KND OF POPUP TO SHOW SUCCESS OR ERRORS
-
-        console.log(target.type.value);
-        console.log(target.desc.value);
+        //TODO: FINISH AFTER SETTING UP PROPER EMAIL SERVER AND A BACKEND
     }
     return (
         <m.div className={'scrollable-view'} initial={{ x: 500 }} animate={{ x: 0 }} exit={{ x: 500 }}>

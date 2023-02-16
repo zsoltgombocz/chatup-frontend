@@ -46,9 +46,6 @@ const ColorCircle = ({ color, selected = false, onClick = undefined }: ColorCirc
         'blue': 'color-circle blue'
     }
     const classNames = classes(variants[color], selected && 'border');
-    useEffect(() => {
-        console.log(color, selected)
-    }, [selected])
 
     return (<div className={'flex justify-center items-center relative'}>
         <AnimatePresence>

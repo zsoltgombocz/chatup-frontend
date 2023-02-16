@@ -21,6 +21,8 @@ function SexSelectionView() {
     const partnerSexChanged = (index: number) => {
         setPartnerSex(index);
     }
+
+    console.log(ownGenderState, partnerGenderState)
     return (
         <>
             <m.div className={'scrollable-view !pt-1'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>

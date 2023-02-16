@@ -1,7 +1,7 @@
 import FemaleIcon from "../atoms/FemaleIcon";
 import MaleIcon from "../atoms/MaleIcon";
 import NeutralIcon from "../atoms/NeutralIcon";
-import { SwitchOptionInterface } from "../utils/interfaces/components/switch";
+import { SwitchOptionInterface } from "../utils/interfaces/switchOptionInterface";
 
 interface genderInterface {
     ownGender: SwitchOptionInterface[],

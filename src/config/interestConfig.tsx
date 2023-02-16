@@ -17,13 +17,13 @@ import friends from '../media/images/friends.webp';
 import lmbtq from '../media/images/lmbtq.webp';
 import series from '../media/images/series.webp';
 
-import { InterestCarouselDataInterface } from "../utils/interfaces/components/interestCarousel";
+import { InterestInterface } from "../utils/interfaces/interestInterface";
 
-interface InterestInterface {
-    interests: InterestCarouselDataInterface[],
+interface InterestConfigInterface {
+    interests: InterestInterface[],
 }
 
-export const config: InterestInterface = {
+export const config: InterestConfigInterface = {
     interests: [
         {
             id: 'gaming',

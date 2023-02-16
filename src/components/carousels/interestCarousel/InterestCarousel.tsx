@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from "swiper/react";
-import { InterestCarouselDataInterface } from '../../../utils/interfaces/components/interestCarousel';
+import { InterestInterface } from '../../../utils/interfaces/interestInterface';
 
 // Import Swiper styles
 import "swiper/css";
@@ -13,7 +13,7 @@ import CarouselNavigator from '../CarouselNavigator';
 import { useInterestPreferences } from '../../../store/interestPreferences';
 
 type Props = {
-    data: InterestCarouselDataInterface[],
+    data: InterestInterface[],
     className?: string,
     onItemClicked?: undefined | Function
 }
@@ -73,7 +73,7 @@ export const InterestCarousel = ({ data }: Props) => {
             >
                 {itemsPaginated.map((pages, index) =>
                     <SwiperSlide key={index} className='flex flex-wrap flex-grow justify-center items-center'>
-                        {pages.map((interest: InterestCarouselDataInterface) =>
+                        {pages.map((interest: InterestInterface) =>
                             <Interest key={interest.id} id={interest.id}
                                 src={interest.src} display={interest.display}
                                 defaultSelected={interests.includes(interest.id)}

@@ -60,5 +60,15 @@
             "Téma választó hiba javítása"
         ],
         "date": "2023.02.12"
+    },
+    {
+        "version": "0.0.5",
+        "changes": [
+            "További teljesítmény javítás a 'pre' oldalon",
+            "Automatikus helymeghatározás implementálva",
+            "Apró render problémák javítva",
+            "Nemi identitás választó kapcsoló bug javítva"
+        ],
+        "date": "2023.02.16"
     }
 ]

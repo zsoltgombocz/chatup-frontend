@@ -6,7 +6,7 @@ const cookies = new Cookies();
 
 interface userData {
     token: string | undefined,
-    location: CountyInterface | null,
+    location: CountyInterface | null | undefined,
     setToken: (token: string) => void
     setUserLocation: (location: CountyInterface | null) => void,
 }
@@ -17,10 +17,9 @@ const getTokenFromCookie = (): string | undefined => {
 
 export const useUserData = create<userData>((set, get) => ({
     token: getTokenFromCookie(),
-    location: null,
+    location: undefined,
     setUserLocation: (location: CountyInterface | null) => {
         set(state => ({ ...state, location }))
-        console.log('saved', location);
     },
     setToken: (token: string) => {
         cookies.set('token', token);

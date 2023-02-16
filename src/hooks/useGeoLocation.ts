@@ -33,7 +33,7 @@ export const useGeoLocation = (): useGeoLocationInterface => {
 
                 setUserLocation(userCounty);
             })
-            .catch(err => console.log(err))
+            .catch(err => setUserLocation(null));
     }, []);
 
     //Emergency call when no county found in reverse geolocation

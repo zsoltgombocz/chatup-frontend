@@ -6,7 +6,7 @@ import LoadingIcon from './LoadingIcon'
 
 type GeoLocation = {
     permission: GeoLocationPermission,
-    county: CountyInterface | null
+    county: CountyInterface | null | undefined
 }
 
 type GeoLocationWrapper = {
@@ -14,17 +14,22 @@ type GeoLocationWrapper = {
 }
 
 const GeoLocationWrapper = ({ children }: GeoLocationWrapper) => {
-    return <p className={'text-cabin font-extralight text-sm text-center'}>{children}</p>;
+    return <div className={'text-cabin font-extralight text-sm text-center'}>{children}</div>;
 }
 
 const GeoLocation = ({ permission, county }: GeoLocation) => {
+    const wildCard = (<GeoLocationWrapper><SignalSlashIcon width={15} height={15} className={'inline-block'} /> Jelenlegi tartózkodási helyed: <span className={'font-semibold'}>Mindenhol</span></GeoLocationWrapper>);
+    const loadingComponent = (<GeoLocationWrapper><LoadingIcon size={5} /></GeoLocationWrapper>);
+    if (county === null) return wildCard;
+    if (county === undefined) return loadingComponent;
+
     switch (permission) {
         case GeoLocationPermission.PROMPT:
-            return <GeoLocationWrapper><LoadingIcon size={5} /></GeoLocationWrapper>
+            return loadingComponent;
         case GeoLocationPermission.GRANTED:
             return <GeoLocationWrapper>Jelenlegi tartózkodási helyed: <span className={'font-semibold'}>{county?.name}</span> vármegye</GeoLocationWrapper>
         case GeoLocationPermission.DENIED:
-            return <GeoLocationWrapper><SignalSlashIcon width={15} height={15} className={'inline-block'} /> Jelenlegi tartózkodási helyed: <span className={'font-semibold'}>Budapest</span> vármegye</GeoLocationWrapper>
+            return wildCard;
     }
 }
 

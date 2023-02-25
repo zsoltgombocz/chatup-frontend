@@ -70,5 +70,13 @@
             "Nemi identitás választó kapcsoló bug javítva"
         ],
         "date": "2023.02.16"
+    },
+    {
+        "version": "0.0.6",
+        "changes": [
+            "UI változások 'pre' oldalakon",
+            "Helymeghatározás: Apró hibák javítva"
+        ],
+        "date": "2023.02.25"
     }
 ]

@@ -8,7 +8,7 @@ interface HeaderConfigInterface {
 
 export const config: HeaderConfigInterface = {
     useNavigationRoutes: ['settings', 'devlog', 'pre'],
-    onlyBackButtonRoutes: ['pre'],
+    onlyBackButtonRoutes: ['pre/gender'],
     noBackground: ['pre'],
     routeNames: {
         'devlogs': 'Verzióelőzmények',
@@ -18,6 +18,9 @@ export const config: HeaderConfigInterface = {
         'settings/information': 'Névjegy',
         'settings/help': 'Súgó',
         'settings/contact': 'Kapcsolatfelvétel',
-        'devlog': 'Verzióelőzmények'
+        'devlog': 'Verzióelőzmények',
+        'pre': 'Válassz vármegyét',
+        'pre/gender': 'Válaszd ki a nemed',
+        'pre/interest': 'Válassz ki 3 témát',
     }
 }

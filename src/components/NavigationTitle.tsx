@@ -10,7 +10,7 @@ const NavigationTitle = () => {
     useEffect(() => {
         const segment: string = getURLSegment(location.pathname, null) || '';
 
-        setTitle(config.routeNames[segment]);
+        setTitle(config.routeNames[segment] ?? 'headerConfig: No entry');
     }, [location]);
 
     return <>{title}</>;

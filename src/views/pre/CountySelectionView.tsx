@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react'
+import { SyntheticEvent } from 'react'
 import { motion as m } from 'framer-motion';
 import Footer from '../../layout/Footer';
 import TextCarousel from '../../components/carousels/textCarousel/TextCarousel';
@@ -27,8 +27,16 @@ const CountySelectionView = () => {
     return (
         <>
             <m.div className={'scrollable-view !px-0 !pt-1'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
-                <h5 className={'text-cabin font-semibold text-center text-xl'}>Válassz vármegyét:</h5>
-                <RadioGroup textClass={'text-base'} className={'mt-5 flex flex-row items-center justify-center gap-5'} onChange={boxClicked} selectedIndex={selectedCheckbox} variant={'box'} options={['Országos', 'Egyéni']} name={'county_toggle'} radioGap={0} />
+                <RadioGroup
+                    textClass={'text-base'}
+                    className={'mt-5 flex flex-row items-center justify-center gap-5'}
+                    onChange={boxClicked}
+                    selectedIndex={selectedCheckbox}
+                    variant={'box'}
+                    options={['Országos', 'Egyéni']}
+                    name={'county_toggle'}
+                    radioGap={0}
+                />
                 <Map />
                 <GeoLocation permission={permission} county={location} />
                 <TextCarousel data={countyCarouselData} className={'!px-10 mt-10'} />

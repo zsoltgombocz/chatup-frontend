@@ -5,7 +5,7 @@ import { CountyInterface } from '../utils/interfaces/map'
 import LoadingIcon from './LoadingIcon'
 
 type GeoLocation = {
-    permission: GeoLocationPermission,
+    permission: GeoLocationPermission | undefined,
     county: CountyInterface | null | undefined
 }
 
@@ -18,7 +18,7 @@ const GeoLocationWrapper = ({ children }: GeoLocationWrapper) => {
 }
 
 const GeoLocation = ({ permission, county }: GeoLocation) => {
-    const wildCard = (<GeoLocationWrapper><SignalSlashIcon width={15} height={15} className={'inline-block'} /> Jelenlegi tartózkodási helyed: <span className={'font-semibold'}>Mindenhol</span></GeoLocationWrapper>);
+    const wildCard = (<GeoLocationWrapper> Jelenlegi tartózkodási helyed: <span className={'font-semibold'}>Ismeretlen</span></GeoLocationWrapper>);
     const loadingComponent = (<GeoLocationWrapper><LoadingIcon size={5} /></GeoLocationWrapper>);
     if (county === null) return wildCard;
     if (county === undefined) return loadingComponent;
@@ -30,6 +30,8 @@ const GeoLocation = ({ permission, county }: GeoLocation) => {
             return <GeoLocationWrapper>Jelenlegi tartózkodási helyed: <span className={'font-semibold'}>{county?.name}</span> vármegye</GeoLocationWrapper>
         case GeoLocationPermission.DENIED:
             return wildCard;
+        default:
+            return loadingComponent;
     }
 }
 

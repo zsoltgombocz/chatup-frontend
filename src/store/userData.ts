@@ -12,7 +12,8 @@ interface userData {
 }
 
 const getTokenFromCookie = (): string | undefined => {
-    return cookies.get('token');
+    const savedToken: string | null = sessionStorage.getItem('token')
+    return savedToken === null ? undefined : savedToken;
 }
 
 export const useUserData = create<userData>((set, get) => ({
@@ -20,9 +21,10 @@ export const useUserData = create<userData>((set, get) => ({
     location: undefined,
     setUserLocation: (location: CountyInterface | null) => {
         set(state => ({ ...state, location }))
+        console.log(get());
     },
     setToken: (token: string) => {
-        cookies.set('token', token);
+        sessionStorage.setItem('token', token);
         set(state => ({ ...state, token }))
     },
 }));

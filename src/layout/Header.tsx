@@ -12,11 +12,16 @@ function Header() {
     const [noBackground, setNoBackground] = useState(false);
 
     useEffect(() => {
-        const segment: string | undefined = getURLSegment(location.pathname, 0);
-        setShowNavigation(config.useNavigationRoutes.includes(segment || ''));
-        setHideRouteText(config.onlyBackButtonRoutes.includes(segment || ''));
-        setNoBackground(config.noBackground.includes(segment || ''));
-
+        //TODO: REFACTOR - HOOKS / FUNCTIONS TO DETERMINE STATE VALUES
+        const mainSegment: string | undefined = getURLSegment(location.pathname, 0);
+        const secondarySegment: string | undefined = getURLSegment(location.pathname, 1);
+        setShowNavigation(config.useNavigationRoutes.includes(mainSegment || ''));
+        setHideRouteText(
+            config.onlyBackButtonRoutes.includes(mainSegment || '')
+            || config.onlyBackButtonRoutes.includes(mainSegment + '/' + secondarySegment || '')
+        );
+        setNoBackground(config.noBackground.includes(mainSegment || ''));
+        console.log(hideRouteText)
         return () => {
             console.log('header unmount')
         }

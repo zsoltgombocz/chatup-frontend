@@ -10,7 +10,7 @@ interface GeoLocationInterface {
 
 }
 interface useGeoLocationInterface {
-    permission: GeoLocationPermission,
+    permission: GeoLocationPermission | undefined,
     location: null | CountyInterface | undefined,
 }
 
@@ -18,7 +18,7 @@ const API_URL = import.meta.env.VITE_GEOAPI_URL;
 const API_KEY = import.meta.env.VITE_GEOAPI_KEY;
 
 export const useGeoLocation = (): useGeoLocationInterface => {
-    const [permission, setPermission] = useState<GeoLocationPermission>(GeoLocationPermission.PROMPT);
+    const [permission, setPermission] = useState<GeoLocationPermission | undefined>(undefined);
     const setUserLocation = useUserData(state => state.setUserLocation);
     const userLocation = useUserData(state => state.location);
 
@@ -34,6 +34,7 @@ export const useGeoLocation = (): useGeoLocationInterface => {
                 setUserLocation(userCounty);
             })
             .catch(err => {
+                console.error(err);
                 setUserLocation(null)
             });
     }, []);
@@ -61,6 +62,7 @@ export const useGeoLocation = (): useGeoLocationInterface => {
             },
             (err) => {
                 setPermission(GeoLocationPermission.DENIED);
+                setUserLocation(null);
             }
         );
     }
@@ -76,9 +78,8 @@ export const useGeoLocation = (): useGeoLocationInterface => {
     useEffect(() => {
         if ((permission === GeoLocationPermission.PROMPT || permission === GeoLocationPermission.GRANTED)
             && (userLocation === undefined || userLocation === null)) {
+            console.log('location lekerese', userLocation);
             getLocation();
-        } else {
-            setUserLocation(null);
         }
     }, [permission]);
 

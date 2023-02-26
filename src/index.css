@@ -149,3 +149,10 @@ path.county {
   @apply rounded-full w-[110px] h-[110px] object-center object-contain bg-white;
 }
 
+.toast-base {
+  @apply cursor-pointer z-50 bg-bg-light-outer shadow-xl mx-auto relative;
+}
+
+.toast-icon {
+  @apply mt-[2px] ml-[2px] h-[60px] w-[60px] flex justify-center items-center rounded-full;
+}

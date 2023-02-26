@@ -20,6 +20,7 @@
     "string-similarity": "^4.0.4",
     "swiper": "^8.4.6",
     "universal-cookie": "^4.0.4",
+    "use-sound": "^4.0.1",
     "uuidv4": "^6.2.13",
     "zustand": "^4.3.2"
   },

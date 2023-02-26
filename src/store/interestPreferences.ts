@@ -1,14 +1,19 @@
-import Cookies from "universal-cookie";
 import { create } from "zustand";
-
-const cookies = new Cookies();
 interface InterestPreferencesInterface {
     interests: string[]
     updateInterests: (id: string | 'all', b: boolean) => void
 }
 
+const getStoredInterests = (): string[] | [] => {
+    const storedValue: null | string = sessionStorage.getItem('chatup_interests');
+
+    if (storedValue === null) return [];
+
+    return JSON.parse(storedValue);
+}
+
 export const useInterestPreferences = create<InterestPreferencesInterface>((set, get) => ({
-    interests: cookies.get('chatup_interests') || [],
+    interests: getStoredInterests(),
     updateInterests: (id: string | 'all', b: boolean) => {
         if (id === 'all') {
             set(state => ({ ...state, interests: [] }));
@@ -21,6 +26,6 @@ export const useInterestPreferences = create<InterestPreferencesInterface>((set,
             }
         }
 
-        cookies.set('chatup_interests', get().interests);
+        sessionStorage.setItem('chatup_interests', JSON.stringify(get().interests));
     }
 }));

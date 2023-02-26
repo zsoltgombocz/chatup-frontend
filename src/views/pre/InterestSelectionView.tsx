@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import Button from '../../components/Button'
 import InterestCarousel from '../../components/carousels/interestCarousel/InterestCarousel'
 import { config } from '../../config/interestConfig'

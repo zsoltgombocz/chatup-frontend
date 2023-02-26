@@ -39,8 +39,6 @@ const getSounds = (): boolean => {
     else return parseInt(sounds) === 1;
 }
 
-
-
 export const useUserSettings = create<UserSettingsInterface>((set, get) => ({
     theme: getTheme(),
     color: getColor(),

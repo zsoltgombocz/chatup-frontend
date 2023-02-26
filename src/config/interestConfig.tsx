@@ -16,6 +16,7 @@ import read from '../media/images/read.webp';
 import friends from '../media/images/friends.webp';
 import lmbtq from '../media/images/lmbtq.webp';
 import series from '../media/images/series.webp';
+import dualipa from '../media/images/dua_lipa.webp';
 
 import { InterestInterface } from "../utils/interfaces/interestInterface";
 
@@ -114,6 +115,11 @@ export const config: InterestConfigInterface = {
             id: 'series',
             display: 'Sorozat',
             src: series
+        },
+        {
+            id: 'dua_lipa',
+            display: 'Dua Lipa',
+            src: dualipa
         }
     ]
 }

@@ -10,6 +10,7 @@ function Header() {
     const [showNavigation, setShowNavigation] = useState(true);
     const [hideRouteText, setHideRouteText] = useState(false);
     const [noBackground, setNoBackground] = useState(false);
+    const [hideHeader, setHideHeader] = useState(false);
 
     useEffect(() => {
         //TODO: REFACTOR - HOOKS / FUNCTIONS TO DETERMINE STATE VALUES
@@ -21,14 +22,14 @@ function Header() {
             || config.onlyBackButtonRoutes.includes(mainSegment + '/' + secondarySegment || '')
         );
         setNoBackground(config.noBackground.includes(mainSegment || ''));
-        console.log(hideRouteText)
+        setHideHeader(config.hideHeaderRoutes.includes(mainSegment || ''))
         return () => {
             console.log('header unmount')
         }
     }, [location.pathname]);
 
 
-    return (
+    return !hideHeader ? (
         <AnimatePresence>
             <m.div className={`header ${noBackground ? '!bg-transparent !shadow-none' : ''}`}
                 initial={{ y: -30 }}
@@ -40,7 +41,7 @@ function Header() {
                 }
             </m.div>
         </AnimatePresence>
-    );
+    ) : <></>;
 }
 
 export default Header

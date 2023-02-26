@@ -3,13 +3,14 @@ interface HeaderConfigInterface {
     routeNames: { [id: string]: string },
     onlyBackButtonRoutes: string[],
     noBackground: string[],
-
+    hideHeaderRoutes: string[]
 }
 
 export const config: HeaderConfigInterface = {
     useNavigationRoutes: ['settings', 'devlog', 'pre'],
     onlyBackButtonRoutes: ['pre/gender'],
     noBackground: ['pre'],
+    hideHeaderRoutes: ['search'],
     routeNames: {
         'devlogs': 'Verzióelőzmények',
         'settings': 'Beállítások',

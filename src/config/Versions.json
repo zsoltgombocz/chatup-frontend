@@ -78,5 +78,15 @@
             "Helymeghatározás: Apró hibák javítva"
         ],
         "date": "2023.02.25"
+    },
+    {
+        "version": "0.0.7",
+        "changes": [
+            "Javtások: Töltő képernyő",
+            "Hangok implementáva (Navigációs)",
+            "Teljesíthető eredmények (achievements) 1. interáció megvalósítva",
+            "Felugró üzenet ablak"
+        ],
+        "date": "2023.02.26"
     }
 ]

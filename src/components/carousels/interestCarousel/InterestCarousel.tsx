@@ -11,6 +11,8 @@ import { Pagination } from "swiper";
 import Interest from './Interest';
 import CarouselNavigator from '../CarouselNavigator';
 import { useInterestPreferences } from '../../../store/interestPreferences';
+import { useUserData } from '../../../store/userData';
+import { config } from '../../../config/interestConfig';
 
 type Props = {
     data: InterestInterface[],
@@ -24,8 +26,15 @@ export const InterestCarousel = ({ data }: Props) => {
     const [active, setActive] = useState(0);
 
     const interests = useInterestPreferences(state => state.interests);
+    const userAchievements = useUserData(state => state.achievements);
 
     useEffect(() => {
+        const alterBasedOnAchievement = (array: any[]) => {
+            const remove = userAchievements.includes('dua_lipa') ? 'fun' : 'dua_lipa';
+
+            return array.filter(interest => interest.id !== remove);
+        }
+
         const paginateData = (array: any[]) => {
             setItemsPaginated([]);
             for (let i = 0; i < array.length; i += itemsPerPage) {
@@ -34,7 +43,8 @@ export const InterestCarousel = ({ data }: Props) => {
             }
         }
 
-        paginateData(data);
+        const alteredData = alterBasedOnAchievement(data);
+        paginateData(alteredData);
     }, [data, itemsPerPage]);
 
     useEffect(() => {

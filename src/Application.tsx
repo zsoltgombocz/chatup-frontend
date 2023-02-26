@@ -5,7 +5,6 @@ import AppLayout from './layout/AppLayout';
 import LazyLoad from './layout/LazyLoad';
 import { useUserSettings } from './store/userSettings';
 import { setTheme } from './utils/theme';
-import Search from './views/Search';
 
 const HomeView = lazy(() => import('./views/HomeView'));
 const SettingsView = lazy(() => import('./views/SettingsView'));
@@ -18,7 +17,7 @@ const DevlogView = lazy(() => import('./views/DevlogView'));
 const CountySelectionView = lazy(() => import('./views/pre/CountySelectionView'));
 const GenderSelectionView = lazy(() => import('./views/pre/GenderSelectionView'));
 const InterestSelectionView = lazy(() => import('./views/pre/InterestSelectionView'));
-
+const Search = lazy(() => import('./views/Search'));
 
 const Application = () => {
 

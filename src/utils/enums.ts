@@ -5,3 +5,7 @@ export enum Gender {
 export enum GeoLocationPermission {
     DENIED = 'denied', PROMPT = 'prompt', GRANTED = 'granted'
 }
+
+export enum SearchState {
+    ACTIVE, RE_SEARCH
+}

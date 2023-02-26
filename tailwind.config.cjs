@@ -16,14 +16,17 @@ module.exports = {
         'pr-red': {
           light: '#F16158',
           DEFAULT: '#A91B12',
+          dark: '#87130c'
         },
         'pr-blue': {
           light: '#77BFC9',
           DEFAULT: '#34ACBC',
+          dark: '#278591'
         },
         'pr-green': {
           light: '#8AF1B9',
-          DEFAULT: '#42AB73'
+          DEFAULT: '#42AB73',
+          dark: '#2e7850',
         },
         gray: {
           300: '#626262',

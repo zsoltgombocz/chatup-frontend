@@ -1,7 +1,9 @@
-import React from 'react'
+import useSound from 'use-sound';
+import navigateSound from '../media/sounds/navigate.wav';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import NavigationTitle from './NavigationTitle';
+import { useUserSettings } from '../store/userSettings';
 
 type Props = {
     hideRouteText: boolean
@@ -9,8 +11,11 @@ type Props = {
 
 const NavigationHeader = ({ hideRouteText = false }: Props) => {
     const navigate = useNavigate();
-
+    const sounds = useUserSettings(state => state.sounds);
+    const [play] = useSound(navigateSound);
     const handleBackClick = () => {
+        if (sounds) play();
+
         navigate(-1);
     }
     return (

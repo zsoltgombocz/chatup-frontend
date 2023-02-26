@@ -4,9 +4,11 @@ interface UserSettingsInterface {
     theme: number,
     color: string,
     privacy: boolean[],
+    sounds: boolean,
     setTheme: (index: number) => void,
     setColor: (color: string) => void,
     setPrivacy: (index: number, b: boolean) => void,
+    setSounds: (sound: boolean) => void,
 }
 
 const getTheme = (): number => {
@@ -30,10 +32,20 @@ const getPrivacy = (): boolean[] => {
     else return JSON.parse(privacy);
 }
 
+const getSounds = (): boolean => {
+    const sounds: string | null = localStorage.getItem('chatup_sounds');
+
+    if (sounds === null) return true;
+    else return parseInt(sounds) === 1;
+}
+
+
+
 export const useUserSettings = create<UserSettingsInterface>((set, get) => ({
     theme: getTheme(),
     color: getColor(),
     privacy: getPrivacy(),
+    sounds: getSounds(),
     map: {
         counties: [],
         allSelected: true
@@ -51,5 +63,10 @@ export const useUserSettings = create<UserSettingsInterface>((set, get) => ({
         current[index] = b;
         localStorage.setItem('chatup_privacy', JSON.stringify(current));
         set(state => ({ ...state, privacy: current }));
-    }
+    },
+    setSounds: (sound: boolean) => {
+        const numberValue = sound ? 1 : 0;
+        localStorage.setItem('chatup_sounds', '' + numberValue);
+        set(state => ({ ...state, sounds: sound }));
+    },
 }));

@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { animate, motion as m, useAnimationControls, useMotionValue } from 'framer-motion';
+import { useEffect, useState } from 'react'
+import { motion as m, useAnimationControls } from 'framer-motion';
 import { useUserSettings } from '../../../store/userSettings';
 import { useInterestPreferences } from '../../../store/interestPreferences';
 import useAchievement from '../../../hooks/useAchievement';
 import { config } from '../../../config/interestConfig';
 import { InterestInterface } from '../../../utils/interfaces/interestInterface';
 import useSound from 'use-sound';
-import dualipa from '../../../media/sounds/dua_lipa.mp3';
 
 type Props = {
     id: string,
@@ -23,8 +22,6 @@ const Interest = ({ id, src, display, defaultSelected = false, disabled = false 
     const updateInterests = useInterestPreferences(state => state.updateInterests);
     const [funInterestClicked, setFunInterestClicked] = useState(0);
     const [interestData, setInterestData] = useState<InterestInterface>({ id, src: src ?? '', display });
-
-    const [play] = useSound(dualipa);
 
     const controls = useAnimationControls()
 
@@ -63,16 +60,17 @@ const Interest = ({ id, src, display, defaultSelected = false, disabled = false 
         });
     }
 
-
     useEffect(() => {
         if (funInterestClicked >= 15 && id === 'fun' && !isAchievementCompleted('dua_lipa')) {
             achievementCompleted('dua_lipa');
             const interest = config.interests.find(interest => interest.id === 'dua_lipa');
             if (interest === undefined) return;
-
+            setSelected(false);
             transformInterestInto(interest);
 
+            const [play] = useSound('../../../media/sounds/dua_lipa.mp3');
             play();
+
         }
     }, [funInterestClicked]);
 

@@ -13,6 +13,7 @@ import GeoLocation from '@atoms/GeoLocation';
 const CountySelectionView = () => {
     const setCheckbox = useMapPreferences(state => state.setTickedCheckbox);
     const selectedCheckbox = useMapPreferences(state => state.mapCheckbox)
+    const selectedCounties = useMapPreferences(state => state.counties);
 
     const boxClicked = (e: SyntheticEvent<HTMLInputElement>) => {
         const ind: number = parseInt((e.target as HTMLInputElement).value);
@@ -42,7 +43,7 @@ const CountySelectionView = () => {
                 <TextCarousel data={countyCarouselData} className={'!px-10 mt-10'} />
             </m.div>
             <Footer showVersion={false}>
-                <Button size={'primary'} style={'filled'} text={'tovább'} linkTo={'/pre/gender'} className={'mb-3'} />
+                <Button disabled={selectedCheckbox === 1 && selectedCounties.length < 1} size={'primary'} style={'filled'} text={'tovább'} linkTo={'/pre/gender'} className={'mb-3'} />
             </Footer>
         </>
     )

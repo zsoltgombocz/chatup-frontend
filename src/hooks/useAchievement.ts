@@ -1,5 +1,6 @@
 import { achievementInterface, config } from '../config/achievementConfig';
 import { useUserData } from '../store/userData';
+import { useAudio } from './useAudio';
 import { useNotify } from './useNotify';
 interface useAchievementInterface {
     isAchievementExists: (id: string) => undefined | achievementInterface,
@@ -12,6 +13,7 @@ const useAchievement = (): useAchievementInterface => {
     const { notify } = useNotify();
     const setAchievements = useUserData(state => state.setAchievements);
     const userAchievements = useUserData(state => state.achievements);
+    const { play } = useAudio();
 
     const isAchievementExists = (id: string): undefined | achievementInterface => {
         return achievements.find(achievement => achievement.id === id);
@@ -27,6 +29,9 @@ const useAchievement = (): useAchievementInterface => {
 
         notify(`'${achievement.title}' eredmény feloldva!`, 'Feloldott eredményeidet megtekintheted a beállítások oldalon.', 7000);
         setAchievements(achievement.id);
+
+        if (achievement.sound) play(achievement.sound.split('.')[0]);
+
         callback?.();
     }
 

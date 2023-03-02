@@ -111,6 +111,15 @@ path.county {
 .bg-green {
   @apply bg-pr-green;
 }
+.bg-darker-red {
+  @apply bg-pr-red-dark;
+}
+.bg-darker-blue {
+  @apply bg-pr-blue-dark;
+}
+.bg-darker-green {
+  @apply bg-pr-green-dark;
+}
 
 .fill-red {
   @apply fill-pr-red;

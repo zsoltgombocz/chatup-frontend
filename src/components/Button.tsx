@@ -20,6 +20,7 @@ type Props = {
     onClick?: undefined | Function,
     replace?: boolean,
     enableSound?: boolean,
+    disabled?: boolean,
 }
 
 const Button = ({
@@ -33,7 +34,8 @@ const Button = ({
     textUppercase = true,
     onClick = undefined,
     replace = false,
-    enableSound = true
+    enableSound = true,
+    disabled = false
 }: Props) => {
     const userColor: string = useUserSettings(state => state.color);
     const buttonSize = {
@@ -50,14 +52,22 @@ const Button = ({
     const outlinedStyle = classnames('outlined', 'outlined-dark');
     const fillColor = color !== undefined ? color.fill : '';
     const hoverColor = color !== undefined ? color.hover : '';
-    const filledStyle = classnames(fillColor, hoverColor, 'text-white', `bg-${userColor}-hover-light`, 'shadow-lg');
+    const filledStyle = classnames(
+        fillColor,
+        hoverColor,
+        { [`bg-${userColor}-hover-light text-white`]: !disabled },
+        { [`bg-darker-${userColor} text-gray-200`]: disabled },
+        'shadow-lg',
+        'disabled:cursor-not-allowed'
+    );
+
     const buttonJSXElement = (
-        <button onClick={() => { playSound(); onClick?.() }} className={`btn ${className} ${style === 'filled' ? filledStyle : outlinedStyle} ${hugText ? 'px-3 py-1 w-fit' : buttonSize[size]}`}>
+        <button disabled={disabled} onClick={() => { playSound(); onClick?.() }} className={`btn ${className} ${style === 'filled' ? filledStyle : outlinedStyle} ${hugText ? 'px-3 py-1 w-fit' : buttonSize[size]}`}>
             <span>{textUppercase ? text.toUpperCase() : text}</span>
         </button>
     )
 
-    return linkTo !== undefined ? <LinkButton replace={replace} linkTo={linkTo} noStyle={true}>{buttonJSXElement}</LinkButton> : buttonJSXElement;
+    return linkTo !== undefined && !disabled ? <LinkButton replace={replace} linkTo={linkTo} noStyle={true}>{buttonJSXElement}</LinkButton> : buttonJSXElement;
 }
 
 export default Button

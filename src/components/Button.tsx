@@ -2,8 +2,8 @@ import classnames from "classnames";
 import LinkButton from './LinkButton';
 import { useUserSettings } from '../store/userSettings';
 
-import useSound from 'use-sound';
 import navigateSound from '../media/sounds/navigate.wav';
+import { useAudio } from "../hooks/useAudio";
 
 type customColor = {
     fill: string,
@@ -38,14 +38,14 @@ function Button({
     enableSound = true
 }: Props) {
     const userColor: string = useUserSettings(state => state.color);
-    const userSoundsEnabled: boolean = useUserSettings(state => state.sounds);
     const buttonSize = {
         'primary': 'w-80 py-4',
         'secondary': 'w-50 px-14 h-10 leading-10',
     }
-    const [play] = useSound(navigateSound);
+    const { play } = useAudio();
+
     const playSound = () => {
-        if (userSoundsEnabled && enableSound) play()
+        if (enableSound) play('navigate');
         else return undefined;
     }
 

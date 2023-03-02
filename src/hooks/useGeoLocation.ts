@@ -81,6 +81,8 @@ export const useGeoLocation = (): useGeoLocationInterface => {
             console.log('location lekerese', userLocation);
             getLocation();
         }
+
+        if (permission === GeoLocationPermission.DENIED) setUserLocation(null);
     }, [permission]);
 
     return { permission, location: userLocation };

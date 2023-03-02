@@ -27,13 +27,17 @@ const Interest = ({ id, src, display, defaultSelected = false, disabled = false 
     const { achievementCompleted, isAchievementCompleted } = useAchievement();
 
     const onInterestClick = () => {
-        if (id === 'fun') {
+        if (interestData.id === 'fun') {
             setFunInterestClicked(funInterestClicked + 1);
         }
         if (disabled) return;
 
-        setSelected(!selected);
-        updateInterests(id, !selected);
+        toggleInterest();
+    }
+
+    const toggleInterest = (forceState: boolean | undefined = undefined) => {
+        setSelected(forceState !== undefined ? forceState : !selected);
+        updateInterests(interestData.id, forceState !== undefined ? forceState : !selected);
     }
 
     const transformInterestInto = async (interest: InterestInterface) => {
@@ -62,12 +66,15 @@ const Interest = ({ id, src, display, defaultSelected = false, disabled = false 
     useEffect(() => {
         if (funInterestClicked >= 15 && id === 'fun' && !isAchievementCompleted('dua_lipa')) {
             achievementCompleted('dua_lipa');
-            const interest = config.interests.find(interest => interest.id === 'dua_lipa');
-            if (interest === undefined) return;
-            setSelected(false);
-            transformInterestInto(interest);
+            const duaLipaInterest = config.interests.find(interest => interest.id === 'dua_lipa');
+            if (duaLipaInterest === undefined) return;
+
+            toggleInterest(false);
+            transformInterestInto(duaLipaInterest);
         }
     }, [funInterestClicked]);
+
+    useEffect(() => console.log(interestData), [interestData]);
 
 
     return (

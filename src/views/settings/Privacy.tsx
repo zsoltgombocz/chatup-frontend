@@ -1,8 +1,7 @@
-import React from 'react'
 import { motion as m } from 'framer-motion';
-import ToggleSwitch from '../../components/ToggleSwitch';
-import { useUserSettings } from '../../store/userSettings';
-import { config } from '../../config/settingsConfig';
+import ToggleSwitch from '@components/ToggleSwitch';
+import { useUserSettings } from '@store/userSettings';
+import { config } from '@config/settingsConfig';
 
 const Privacy = () => {
     const setPrivacy = useUserSettings(state => state.setPrivacy);

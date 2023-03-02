@@ -1,4 +1,4 @@
-import React, { lazy, useEffect } from 'react';
+import { lazy, useEffect } from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useAudio } from '@hooks/useAudio';
 

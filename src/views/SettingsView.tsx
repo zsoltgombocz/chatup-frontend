@@ -1,6 +1,6 @@
 import React from 'react'
-import { config } from '../config/settingsConfig';
-import Category from '../components/settings/Category';
+import { config } from '@config/settingsConfig';
+import Category from '@components/settings/Category';
 import { motion as m } from 'framer-motion';
 
 function SettingsView() {

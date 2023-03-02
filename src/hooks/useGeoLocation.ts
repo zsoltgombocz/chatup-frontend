@@ -78,7 +78,6 @@ export const useGeoLocation = (): useGeoLocationInterface => {
     useEffect(() => {
         if ((permission === GeoLocationPermission.PROMPT || permission === GeoLocationPermission.GRANTED)
             && (userLocation === undefined || userLocation === null)) {
-            console.log('location lekerese', userLocation);
             getLocation();
         }
 

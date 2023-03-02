@@ -1,12 +1,11 @@
-import React from 'react'
 import { motion as m } from 'framer-motion';
-import Footer from '../../layout/Footer';
-import TextCarousel from '../../components/carousels/TextCarousel';
-import genderCarouselData from '../../config/carousels/gender.json';
-import Button from '../../components/Button';
-import Switch from '../../components/Switch';
-import { config } from '../../config/genderConfig';
-import { useGenderPreferebces } from '../../store/genderPreferences';
+import Footer from '@layout/Footer';
+import TextCarousel from '@components/carousels/TextCarousel';
+import genderCarouselData from '@config/carousels/gender.json';
+import Button from '@components/Button';
+import Switch from '@components/Switch';
+import { config } from '@config/genderConfig';
+import { useGenderPreferebces } from '@store/genderPreferences';
 
 function SexSelectionView() {
     const ownGenderState = useGenderPreferebces(state => state.ownGender);
@@ -22,7 +21,6 @@ function SexSelectionView() {
         setPartnerSex(index);
     }
 
-    console.log(ownGenderState, partnerGenderState)
     return (
         <>
             <m.div className={'scrollable-view !pt-1'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>

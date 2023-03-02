@@ -1,14 +1,14 @@
 import { SyntheticEvent } from 'react'
 import { motion as m } from 'framer-motion';
-import Footer from '../../layout/Footer';
-import TextCarousel from '../../components/carousels/TextCarousel';
-import countyCarouselData from '../../config/carousels/county.json';
-import Map from '../../components/map/Map';
-import RadioGroup from '../../components/RadioGroup';
-import Button from '../../components/Button';
-import { useMapPreferences } from '../../store/mapPreferences';
-import { useGeoLocation } from '../../hooks/useGeoLocation';
-import GeoLocation from '../../atoms/GeoLocation';
+import Footer from '@layout/Footer';
+import TextCarousel from '@components/carousels/TextCarousel';
+import countyCarouselData from '@config/carousels/county.json';
+import Map from '@components/Map';
+import RadioGroup from '@components/RadioGroup';
+import Button from '@components/Button';
+import { useMapPreferences } from '@store/mapPreferences';
+import { useGeoLocation } from '@hooks/useGeoLocation';
+import GeoLocation from '@atoms/GeoLocation';
 
 const CountySelectionView = () => {
     const setCheckbox = useMapPreferences(state => state.setTickedCheckbox);

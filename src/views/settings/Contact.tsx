@@ -1,9 +1,9 @@
-import React, { FormEvent } from 'react'
+import { FormEvent } from 'react'
 import { motion as m } from 'framer-motion';
-import { config } from '../../config/settingsConfig';
+import { config } from '@config/settingsConfig';
 import { EnvelopeIcon } from '@heroicons/react/24/outline';
-import RadioGroup from '../../components/RadioGroup';
-import Button from '../../components/Button';
+import RadioGroup from '@components/RadioGroup';
+import Button from '@components/Button';
 function Contact() {
     const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

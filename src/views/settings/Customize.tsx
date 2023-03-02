@@ -1,11 +1,10 @@
-import React from 'react'
 import { motion as m } from 'framer-motion';
-import Switch from '../../components/Switch';
-import { config } from '../../config/settingsConfig';
-import { setTheme } from '../../utils/theme';
-import { useUserSettings } from '../../store/userSettings';
-import ColorSwitcher from '../../components/settings/ColorSwitcher';
-import ToggleSwitch from '../../components/ToggleSwitch';
+import Switch from '@components/Switch';
+import { config } from '@config/settingsConfig';
+import { setTheme } from '@utils/theme';
+import { useUserSettings } from '@store/userSettings';
+import ColorSwitcher from '@components/settings/ColorSwitcher';
+import ToggleSwitch from '@components/ToggleSwitch';
 
 const Customize = () => {
     const switchOptions = config.themes;

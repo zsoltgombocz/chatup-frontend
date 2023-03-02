@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import Logo from '../atoms/Logo';
-import Version from '../atoms/Version';
+import { useEffect, useState } from 'react';
+import Logo from '@atoms/Logo';
+import Version from '@atoms/Version';
 import { AnimatePresence, motion as m } from 'framer-motion';
-import Button from '../components/Button';
-import LinkButton from '../components/LinkButton';
+import Button from '@components/Button';
+import LinkButton from '@components/LinkButton';
 
 
 const HomeView = () => {

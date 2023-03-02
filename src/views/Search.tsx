@@ -1,10 +1,10 @@
 import { motion as m } from 'framer-motion';
 import { useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import Button from '../components/Button';
-import Footer from '../layout/Footer';
-import { useUserData } from '../store/userData';
-import { SearchState } from '../utils/enums';
+import Button from '@components/Button';
+import Footer from '@layout/Footer';
+import { useUserData } from '@store/userData';
+import { SearchState } from '@utils/enums';
 
 const Search = () => {
     const userSearchState = useUserData(state => state.search);

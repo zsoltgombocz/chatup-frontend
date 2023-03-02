@@ -1,7 +1,6 @@
-import React from 'react'
 import { motion as m } from 'framer-motion';
-import faq from '../../config/FAQ.json'
-import LinkButton from '../../components/LinkButton';
+import faq from '@config/FAQ.json'
+import LinkButton from '@components/LinkButton';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 
 const Help = () => {

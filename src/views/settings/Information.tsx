@@ -1,7 +1,6 @@
-import React from 'react'
 import { motion as m } from 'framer-motion';
-import { config } from '../../config/settingsConfig';
-import Category from '../../components/settings/Category';
+import { config } from '@config/settingsConfig';
+import Category from '@components/settings/Category';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 
 function Information() {

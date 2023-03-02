@@ -1,4 +1,4 @@
-import interests from "@media/images/interests";
+import interests from "@media/interests";
 import { InterestInterface } from "@utils/interfaces/interestInterface";
 
 interface InterestConfigInterface {

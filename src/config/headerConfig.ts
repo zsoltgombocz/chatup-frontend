@@ -8,7 +8,7 @@ interface HeaderConfigInterface {
 
 export const config: HeaderConfigInterface = {
     useNavigationRoutes: ['settings', 'devlog', 'pre'],
-    onlyBackButtonRoutes: ['pre/gender'],
+    onlyBackButtonRoutes: [],
     noBackground: ['pre'],
     hideHeaderRoutes: ['search'],
     routeNames: {

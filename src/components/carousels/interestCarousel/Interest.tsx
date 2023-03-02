@@ -5,7 +5,6 @@ import { useInterestPreferences } from '../../../store/interestPreferences';
 import useAchievement from '../../../hooks/useAchievement';
 import { config } from '../../../config/interestConfig';
 import { InterestInterface } from '../../../utils/interfaces/interestInterface';
-import useSound from 'use-sound';
 
 type Props = {
     id: string,
@@ -67,10 +66,6 @@ const Interest = ({ id, src, display, defaultSelected = false, disabled = false 
             if (interest === undefined) return;
             setSelected(false);
             transformInterestInto(interest);
-
-            const [play] = useSound('../../../media/sounds/dua_lipa.mp3');
-            play();
-
         }
     }, [funInterestClicked]);
 

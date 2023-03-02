@@ -82,11 +82,20 @@
     {
         "version": "0.0.7",
         "changes": [
-            "Javtások: Töltő képernyő",
+            "Javítások: Töltő képernyő",
             "Hangok implementáva (Navigációs)",
             "Teljesíthető eredmények (achievements) 1. interáció megvalósítva",
             "Felugró üzenet ablak"
         ],
         "date": "2023.02.26"
+    },
+    {
+        "version": "0.0.71",
+        "changes": [
+            "Hibajavítás az első elérhető eredmény elérésekor",
+            "Gazdaságosabb hang betöltés és lejátszás",
+            "Helymeghatározás: Elutasított állapot megjelenítés javítva"
+        ],
+        "date": "2023.03.02"
     }
 ]

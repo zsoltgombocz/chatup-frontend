@@ -1,4 +1,4 @@
-import { useToastStore } from '../store/toastStore';
+import { useToastStore } from '@store/toastStore';
 
 interface useNotifyInterface {
     notify: (text: string, title: string, hideAfter?: number) => void,

@@ -1,5 +1,5 @@
-import { achievementInterface, config } from '../config/achievementConfig';
-import { useUserData } from '../store/userData';
+import { achievementInterface, config } from '@config/achievementConfig';
+import { useUserData } from '@store/userData';
 import { useAudio } from './useAudio';
 import { useNotify } from './useNotify';
 interface useAchievementInterface {

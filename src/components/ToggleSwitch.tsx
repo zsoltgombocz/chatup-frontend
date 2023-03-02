@@ -1,7 +1,7 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react'
+import { SyntheticEvent, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import { motion as m } from 'framer-motion';
-import { useUserSettings } from '../store/userSettings';
+import { useUserSettings } from '@store/userSettings';
 
 type Props = {
     onStateChanged: (state: boolean) => void,

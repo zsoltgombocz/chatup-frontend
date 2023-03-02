@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Gender } from '../utils/enums';
+import { Gender } from '@utils/enums';
 interface GenderPreferencesInterface {
     ownGender: Gender,
     partnerGender: Gender

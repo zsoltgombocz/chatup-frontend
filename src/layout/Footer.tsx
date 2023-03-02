@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
-import Logo from '../atoms/Logo'
+import Logo from '@atoms/Logo'
 import { motion as m, AnimatePresence } from 'framer-motion';
-import Version from '../atoms/Version';
+import Version from '@atoms/Version';
 
 type Props = {
     showLogo?: boolean,

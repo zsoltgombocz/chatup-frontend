@@ -1,5 +1,7 @@
 import { create } from 'zustand';
+
 type audioElements = { [id: string]: HTMLAudioElement };
+
 interface audioStore {
     audioSources: string[],
     audio: audioElements,

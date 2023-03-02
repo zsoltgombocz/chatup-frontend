@@ -1,7 +1,7 @@
 import { SyntheticEvent } from 'react'
 import { motion as m } from 'framer-motion';
 import Footer from '../../layout/Footer';
-import TextCarousel from '../../components/carousels/textCarousel/TextCarousel';
+import TextCarousel from '../../components/carousels/TextCarousel';
 import countyCarouselData from '../../config/carousels/county.json';
 import Map from '../../components/map/Map';
 import RadioGroup from '../../components/RadioGroup';

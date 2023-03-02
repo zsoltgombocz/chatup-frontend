@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { counties } from "../config/mapConfig";
-import { useUserData } from "../store/userData";
-import { GeoLocationPermission } from "../utils/enums";
-import { CountyInterface } from "../utils/interfaces/map";
-import { isSimilar } from "../utils/string";
+import { useCallback, useEffect, useState } from "react";
+import { counties } from "@config/mapConfig";
+import { useUserData } from "@store/userData";
+import { GeoLocationPermission } from "@utils/enums";
+import { CountyInterface } from "@utils/interfaces/map";
+import { isSimilar } from "@utils/string";
 interface GeoLocationInterface {
     lat: number,
     lon: number,

@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react'
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from './Footer';
 import Header from './Header';
-import { config } from '../config/footerConfig';
-import { getURLSegment } from '../utils/url';
+import { config } from '@config/footerConfig';
+import { getURLSegment } from '@utils/url';
 
-import { useUserSettings } from '../store/userSettings';
-import Toast from '../components/Toast';
+import { useUserSettings } from '@store/userSettings';
+import Toast from '@components/Toast';
 
 type Props = {
     disableLayout?: boolean

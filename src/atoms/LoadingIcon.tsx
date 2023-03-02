@@ -1,9 +1,7 @@
-import React from 'react'
-import { useUserSettings } from '../store/userSettings';
-interface Props {
-    size?: number
-}
-const LoadingIcon = ({ size }: Props) => {
+import { IconProps } from '@utils/types';
+import { useUserSettings } from '@store/userSettings';
+
+const LoadingIcon = ({ size }: IconProps) => {
     const userColor = useUserSettings(state => state.color);
     return (
         <div role="status">

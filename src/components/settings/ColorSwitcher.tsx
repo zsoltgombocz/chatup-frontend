@@ -1,14 +1,20 @@
 import classes from 'classnames';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion as m } from 'framer-motion';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
-import { useUserSettings } from '../../store/userSettings';
+import { useUserSettings } from '@store/userSettings';
 
 type Props = {
     colors: string[],
     onChange?: Function | undefined,
     className?: string,
     initialSelectedIndex?: number,
+}
+
+type ColorCircleProps = {
+    color: string,
+    selected?: boolean,
+    onClick: Function | undefined,
 }
 
 const ColorSwitcher = ({ colors }: Props) => {
@@ -31,12 +37,6 @@ const ColorSwitcher = ({ colors }: Props) => {
     return (
         <div className={'flex flex-row gap-5 items-center justify-center'}>{colors.map((color) => <ColorCircle key={color} color={color} selected={selectedColor === color} onClick={() => selectColor(color)} />)}</div>
     )
-}
-
-type ColorCircleProps = {
-    color: string,
-    selected?: boolean,
-    onClick: Function | undefined,
 }
 
 const ColorCircle = ({ color, selected = false, onClick = undefined }: ColorCircleProps) => {

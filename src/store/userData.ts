@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { CountyInterface } from '../utils/interfaces/map';
-import { SearchState } from '../utils/enums';
+import { CountyInterface } from '@utils/interfaces/map';
+import { SearchState } from '@utils/enums';
 
 interface userData {
     token: string | undefined,

@@ -1,9 +1,9 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion as m, AnimatePresence } from 'framer-motion'
-import { config } from '../config/headerConfig';
+import { config } from '@config/headerConfig';
 import { useLocation } from 'react-router-dom';
-import { getURLSegment } from '../utils/url';
-import NavigationHeader from '../components/NavigationHeader';
+import { getURLSegment } from '@utils/url';
+import NavigationHeader from '@components/NavigationHeader';
 
 function Header() {
     const location = useLocation();

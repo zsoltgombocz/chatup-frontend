@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Swiper, SwiperSlide } from "swiper/react";
+import CarouselNavigator from './CarouselNavigator';
 
 // Import Swiper styles
 import "swiper/css";
@@ -7,12 +8,16 @@ import "swiper/css/pagination";
 
 // import required modules
 import { Pagination, Autoplay } from "swiper";
-import { TextPage } from './TextPage';
-import CarouselNavigator from '../CarouselNavigator';
+
 
 type Props = {
     data: PageInterface[],
     className: string,
+}
+
+type TextProps = {
+    title: string,
+    text: string,
 }
 
 interface PageInterface {
@@ -20,7 +25,7 @@ interface PageInterface {
     text: string,
 }
 
-export const TextCarousel = ({ data, className }: Props) => {
+const TextCarousel = ({ data, className }: Props) => {
     const [active, setActive] = useState(0);
     return (
         <div className={className}>
@@ -38,6 +43,13 @@ export const TextCarousel = ({ data, className }: Props) => {
             </Swiper>
         </div>
     );
+}
+
+const TextPage = ({ title, text }: TextProps) => {
+    return (<div>
+        <h5 className={'text-cabin text-base font-bold text-center mb-3'}>{title}</h5>
+        <p className={`text-cabin font-extralight text-sm text-justify md:text-center leading-relaxed`}>{text}</p>
+    </div>)
 }
 
 export default TextCarousel

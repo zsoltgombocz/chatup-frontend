@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { config } from "../config/achievementConfig";
-import { useAudioStore } from "../store/audioStore";
-import { useUserSettings } from "../store/userSettings";
+import { useEffect } from "react";
+import { config } from "@config/achievementConfig";
+import { useAudioStore } from "@store/audioStore";
+import { useUserSettings } from "@store/userSettings";
 
 interface useAudioInterface {
     initAudio: () => void,

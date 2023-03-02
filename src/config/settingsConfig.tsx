@@ -1,4 +1,12 @@
-import { EnvelopeIcon, FingerPrintIcon, MoonIcon, PencilIcon, QuestionMarkCircleIcon, SunIcon, UserIcon } from "@heroicons/react/24/outline";
+import {
+    EnvelopeIcon,
+    FingerPrintIcon,
+    MoonIcon,
+    PencilIcon,
+    QuestionMarkCircleIcon,
+    SunIcon,
+    UserIcon
+} from "@heroicons/react/24/outline";
 import { ReactNode } from "react";
 
 interface CategoryInterface {

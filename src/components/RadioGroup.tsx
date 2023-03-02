@@ -1,7 +1,6 @@
 import { AnimatePresence } from 'framer-motion';
-import React, { useState, useEffect, SyntheticEvent } from 'react'
-import { v4 as uuidv4 } from 'uuid';
-import { useUserSettings } from '../store/userSettings';
+import { useState, useEffect, SyntheticEvent } from 'react'
+import { useUserSettings } from '@store/userSettings';
 import { motion as m } from 'framer-motion';
 import { CheckIcon } from '@heroicons/react/24/outline';
 

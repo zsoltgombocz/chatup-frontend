@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion as m } from 'framer-motion';
-import { SwitchOptionInterface } from '../utils/interfaces/switchOptionInterface';
+import { SwitchOptionInterface } from '@utils/interfaces/switchOptionInterface';
 
 
 type Props = {

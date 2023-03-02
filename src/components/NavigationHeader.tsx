@@ -1,8 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
-import NavigationTitle from './NavigationTitle';
-import { useUserSettings } from '../store/userSettings';
-import { useAudio } from '../hooks/useAudio';
+import { useUserSettings } from '@store/userSettings';
+import { useAudio } from '@hooks/useAudio';
+import { config } from '@config/headerConfig';
+import { getURLSegment } from '@utils/url';
 
 type Props = {
     hideRouteText: boolean
@@ -23,6 +25,19 @@ const NavigationHeader = ({ hideRouteText = false }: Props) => {
             {!hideRouteText ? <NavigationTitle /> : <div className={'opacity-0'}>ROUTE</div>}
         </div>
     )
+}
+
+const NavigationTitle = () => {
+    const location = useLocation();
+    const [title, setTitle] = useState('');
+
+    useEffect(() => {
+        const segment: string = getURLSegment(location.pathname, null) || '';
+
+        setTitle(config.routeNames[segment] ?? 'headerConfig: No entry');
+    }, [location]);
+
+    return <>{title}</>;
 }
 
 export default NavigationHeader;

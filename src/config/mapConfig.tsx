@@ -1,4 +1,4 @@
-import { MapInterface, CountyInterface, County } from "../utils/interfaces/map";
+import { MapInterface, CountyInterface, County } from "@utils/interfaces/map";
 
 export const counties: CountyInterface[] = [
     {

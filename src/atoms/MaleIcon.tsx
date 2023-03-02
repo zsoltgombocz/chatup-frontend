@@ -1,8 +1,6 @@
-import React from 'react'
-type Props = {
-    size?: number
-}
-const MaleIcon = ({ size = 16 }: Props) => {
+import { IconProps } from '@utils/types'
+
+const MaleIcon = ({ size = 16 }: IconProps) => {
     return (
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="currentColor" className="bi bi-gender-male" viewBox="0 0 16 16">

@@ -1,10 +1,6 @@
-import React from 'react'
+import { IconProps } from '@utils/types'
 
-type Props = {
-    size: number
-}
-
-const NeutralIcon = ({ size = 16 }: Props) => {
+const NeutralIcon = ({ size = 16 }: IconProps) => {
     return (
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="currentColor" className="bi bi-command" viewBox="0 0 16 16">

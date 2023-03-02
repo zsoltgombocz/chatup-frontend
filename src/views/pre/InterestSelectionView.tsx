@@ -1,5 +1,5 @@
 import Button from '../../components/Button'
-import InterestCarousel from '../../components/carousels/interestCarousel/InterestCarousel'
+import InterestCarousel from '../../components/carousels/InterestCarousel'
 import { config } from '../../config/interestConfig'
 import Footer from '../../layout/Footer'
 import { motion as m } from 'framer-motion';

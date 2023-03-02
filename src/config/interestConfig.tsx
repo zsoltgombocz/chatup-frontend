@@ -1,24 +1,5 @@
-import gaming from '../media/images/gaming.webp';
-import sport from '../media/images/sport.webp';
-import love from '../media/images/love.webp';
-import studies from '../media/images/studies.webp';
-import animals from '../media/images/animals.webp';
-import cars from '../media/images/cars.webp';
-import photo from '../media/images/photo.webp';
-import party from '../media/images/party.webp';
-import computer from '../media/images/computer.webp';
-import nature from '../media/images/nature.webp';
-import music from '../media/images/music.webp';
-import travel from '../media/images/travel.webp';
-import art from '../media/images/art.webp';
-import languages from '../media/images/languages.webp';
-import read from '../media/images/read.webp';
-import friends from '../media/images/friends.webp';
-import lmbtq from '../media/images/lmbtq.webp';
-import series from '../media/images/series.webp';
-import dualipa from '../media/images/dua_lipa.webp';
-
-import { InterestInterface } from "../utils/interfaces/interestInterface";
+import interests from "@media/images/interests";
+import { InterestInterface } from "@utils/interfaces/interestInterface";
 
 interface InterestConfigInterface {
     interests: InterestInterface[],
@@ -29,97 +10,97 @@ export const config: InterestConfigInterface = {
         {
             id: 'gaming',
             display: 'Gaming',
-            src: gaming
+            src: interests.gaming
         },
         {
             id: 'sport',
             display: 'Sport',
-            src: sport
+            src: interests.sport
         },
         {
             id: 'love',
             display: 'Szerelem',
-            src: love
+            src: interests.love
         },
         {
             id: 'studies',
             display: 'Tanulmányok',
-            src: studies
+            src: interests.studies
         },
         {
             id: 'animals',
             display: 'Állatok',
-            src: animals
+            src: interests.animals
         },
         {
             id: 'cars',
             display: 'Gépjárművek',
-            src: cars
+            src: interests.cars
         },
         {
             id: 'photo',
             display: 'Fotózás',
-            src: photo
+            src: interests.photo
         },
         {
             id: 'fun',
             display: 'Szórakozás',
-            src: party
+            src: interests.party
         },
         {
             id: 'it',
             display: 'IT',
-            src: computer
+            src: interests.computer
         },
         {
             id: 'nature',
             display: 'Természet',
-            src: nature
+            src: interests.nature
         },
         {
             id: 'music',
             display: 'Zene',
-            src: music
+            src: interests.music
         },
         {
             id: 'travel',
             display: 'Utazás',
-            src: travel
+            src: interests.travel
         },
         {
             id: 'art',
             display: 'Művészetek',
-            src: art
+            src: interests.art
         },
         {
             id: 'languages',
             display: 'Nyelvek',
-            src: languages
+            src: interests.languages
         },
         {
             id: 'read',
             display: 'Olvasás',
-            src: read
+            src: interests.read
         },
         {
             id: 'friends',
             display: 'Barátok',
-            src: friends
+            src: interests.friends
         },
         {
             id: 'lmbtq',
             display: 'LMBTQ',
-            src: lmbtq
+            src: interests.lmbtq
         },
         {
             id: 'series',
             display: 'Sorozat',
-            src: series
+            src: interests.series
         },
         {
             id: 'dua_lipa',
             display: 'Dua Lipa',
-            src: dualipa
+            src: interests.dualipa
         }
     ]
 }

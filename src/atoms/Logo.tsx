@@ -1,5 +1,5 @@
-import React from 'react'
-import { useUserSettings } from '../store/userSettings';
+import { useUserSettings } from '@store/userSettings';
+
 type size = 'small' | 'medium' | 'big';
 type Props = {
     customColor?: string | undefined

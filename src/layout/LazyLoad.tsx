@@ -1,5 +1,5 @@
 import React, { ReactNode, Suspense } from 'react'
-import LoadingIcon from '../atoms/LoadingIcon'
+import LoadingIcon from '@atoms/LoadingIcon'
 
 type Props = {
   children: string | ReactNode | undefined

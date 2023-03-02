@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUserSettings } from '../../store/userSettings';
 import { motion as m } from 'framer-motion';
 

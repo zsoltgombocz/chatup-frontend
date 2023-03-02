@@ -1,8 +1,8 @@
 import { InformationCircleIcon, TrophyIcon } from '@heroicons/react/24/outline';
-import { AnimatePresence, motion as m, useMotionValue, useTime, useTransform } from 'framer-motion';
-import { ReactElement, SyntheticEvent, useEffect, useState } from 'react';
-import { useToastStore } from '../store/toastStore';
-import { useUserSettings } from '../store/userSettings';
+import { AnimatePresence, motion as m } from 'framer-motion';
+import { ReactElement, useEffect, useState } from 'react';
+import { useToastStore } from '@store/toastStore';
+import { useUserSettings } from '@store/userSettings';
 
 
 

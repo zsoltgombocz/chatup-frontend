@@ -1,24 +1,24 @@
 import React, { lazy, useEffect } from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
-import { useAudio } from './hooks/useAudio';
+import { useAudio } from '@hooks/useAudio';
 
-import AppLayout from './layout/AppLayout';
-import LazyLoad from './layout/LazyLoad';
-import { useUserSettings } from './store/userSettings';
-import { setTheme } from './utils/theme';
+import AppLayout from '@layout/AppLayout';
+import LazyLoad from '@layout/LazyLoad';
+import { useUserSettings } from '@store/userSettings';
+import { setTheme } from '@utils/theme';
 
-const HomeView = lazy(() => import('./views/HomeView'));
-const SettingsView = lazy(() => import('./views/SettingsView'));
-const Privacy = lazy(() => import('./views/settings/Privacy'));
-const Customize = lazy(() => import('./views/settings/Customize'));
-const Information = lazy(() => import('./views/settings/Information'));
-const Help = lazy(() => import('./views/settings/Help'));
-const Contact = lazy(() => import('./views/settings/Contact'));
-const DevlogView = lazy(() => import('./views/DevlogView'));
-const CountySelectionView = lazy(() => import('./views/pre/CountySelectionView'));
-const GenderSelectionView = lazy(() => import('./views/pre/GenderSelectionView'));
-const InterestSelectionView = lazy(() => import('./views/pre/InterestSelectionView'));
-const Search = lazy(() => import('./views/Search'));
+const HomeView = lazy(() => import('@views/HomeView'));
+const SettingsView = lazy(() => import('@views/SettingsView'));
+const Privacy = lazy(() => import('@views/settings/Privacy'));
+const Customize = lazy(() => import('@views/settings/Customize'));
+const Information = lazy(() => import('@views/settings/Information'));
+const Help = lazy(() => import('@views/settings/Help'));
+const Contact = lazy(() => import('@views/settings/Contact'));
+const DevlogView = lazy(() => import('@views/DevlogView'));
+const CountySelectionView = lazy(() => import('@views/pre/CountySelectionView'));
+const GenderSelectionView = lazy(() => import('@views/pre/GenderSelectionView'));
+const InterestSelectionView = lazy(() => import('@views/pre/InterestSelectionView'));
+const Search = lazy(() => import('@views/Search'));
 
 const Application = () => {
 

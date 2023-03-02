@@ -1,5 +1,6 @@
 import React, { lazy, useEffect } from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
+import { useAudio } from './hooks/useAudio';
 
 import AppLayout from './layout/AppLayout';
 import LazyLoad from './layout/LazyLoad';
@@ -25,8 +26,12 @@ const Application = () => {
 
     const theme = useUserSettings(state => state.theme);
 
+    const { initAudio } = useAudio(['navigate.wav']);
+
     useEffect(() => {
         setTheme(theme);
+        console.log('app mount')
+        initAudio();
 
         return () => {
             console.log('app unmount')

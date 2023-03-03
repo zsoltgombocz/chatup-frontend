@@ -1,4 +1,4 @@
-import { SyntheticEvent } from 'react'
+import { SyntheticEvent, useEffect } from 'react'
 import { motion as m } from 'framer-motion';
 import Footer from '@layout/Footer';
 import TextCarousel from '@components/carousels/TextCarousel';
@@ -9,11 +9,17 @@ import Button from '@components/Button';
 import { useMapPreferences } from '@store/mapPreferences';
 import { useGeoLocation } from '@hooks/useGeoLocation';
 import GeoLocation from '@atoms/GeoLocation';
+import { useUserData } from '@store/userData';
+import { PrePage } from '@utils/enums';
+import { useNavigate } from 'react-router-dom';
 
 const CountySelectionView = () => {
     const setCheckbox = useMapPreferences(state => state.setTickedCheckbox);
     const selectedCheckbox = useMapPreferences(state => state.mapCheckbox)
     const selectedCounties = useMapPreferences(state => state.counties);
+
+    const markPageAsVisited = useUserData(state => state.markPageAsVisited);
+    const navigate = useNavigate();
 
     const boxClicked = (e: SyntheticEvent<HTMLInputElement>) => {
         const ind: number = parseInt((e.target as HTMLInputElement).value);
@@ -24,6 +30,12 @@ const CountySelectionView = () => {
     }
 
     const { permission, location } = useGeoLocation();
+
+    useEffect(() => {
+        const markable = markPageAsVisited(PrePage.LOCATION);
+        if (!markable) navigate('/', { replace: true });
+    }, []);
+
 
     return (
         <>

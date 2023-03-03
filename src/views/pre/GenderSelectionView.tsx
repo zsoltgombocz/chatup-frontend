@@ -6,13 +6,20 @@ import Button from '@components/Button';
 import Switch from '@components/Switch';
 import { config } from '@config/genderConfig';
 import { useGenderPreferebces } from '@store/genderPreferences';
+import { useEffect } from 'react';
+import { PrePage } from '@utils/enums';
+import { useUserData } from '@store/userData';
+import { useNavigate } from 'react-router-dom';
 
-function SexSelectionView() {
+const SexSelectionView = () => {
     const ownGenderState = useGenderPreferebces(state => state.ownGender);
     const partnerGenderState = useGenderPreferebces(state => state.partnerGender);
 
     const setOwnsex = useGenderPreferebces(state => state.setOwnGender);
     const setPartnerSex = useGenderPreferebces(state => state.setPartnerGender);
+
+    const markPageAsVisited = useUserData(state => state.markPageAsVisited);
+    const navigate = useNavigate();
 
     const ownSexChanged = (index: number) => {
         setOwnsex(index);
@@ -20,6 +27,12 @@ function SexSelectionView() {
     const partnerSexChanged = (index: number) => {
         setPartnerSex(index);
     }
+
+    useEffect(() => {
+        const markable = markPageAsVisited(PrePage.GENDER);
+        if (!markable) navigate('/', { replace: true });
+    }, [])
+
 
     return (
         <>

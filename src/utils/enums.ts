@@ -9,3 +9,7 @@ export enum GeoLocationPermission {
 export enum SearchState {
     ACTIVE, RE_SEARCH
 }
+
+export enum PrePage {
+    LOCATION = 'location', GENDER = 'gender', INTERESTS = 'interests'
+}

@@ -7,11 +7,14 @@ import { useUserData } from '@store/userData';
 import { SearchState } from '@utils/enums';
 
 const Search = () => {
-    const userSearchState = useUserData(state => state.search);
+    const { prePageSteps, prePagesVisited, search } = useUserData();
+    const allPrePageVisited = prePagesVisited(Object.keys(prePageSteps));
 
-    if (userSearchState === undefined) return <Navigate to={'/'} replace />
+    if (search === undefined || !allPrePageVisited) {
+        return <Navigate to={'/'} replace />
+    }
 
-    switch (userSearchState) {
+    switch (search) {
         case SearchState.ACTIVE:
             return <ActiveSearch />
         case SearchState.RE_SEARCH:

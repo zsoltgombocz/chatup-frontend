@@ -111,7 +111,7 @@ export const config: SettingsConfigInterface = {
         },
         {
             name: 'guide',
-            display: 'Felhasználói útmutató szabályzat',
+            display: 'Felhasználói útmutató',
             route: '/information/guide',
         },
         {

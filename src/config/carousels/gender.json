@@ -1,14 +1,14 @@
 [
     {
-        "title": "Ki legyen a partnerem?",
-        "text": "A beszélgetés fontos eleme a partner megválasztása, ezáltal a partnered neme befolyásolhatja a beszélgetés témáját, hangnemét és idejét."
-    },
-    {
-        "title": "Melyiket nemet válasszam?",
-        "text": "Számunkra fontos, hogy a beszélgetés a lehető legkellemesebben és legélvezhetőbben teljen. Amennyiben nem megfelelő nemet választas, úgy a saját magad, de legfőképp a partnered élményét rontod."
-    },
-    {
         "title": "Kötelező a választás?",
-        "text": "A beszélgetés megkezdéséhez kötelező a nemet és a partnered nemét kiválasztani. Amennyiben nem választasz partner nemet, úgy alapértelmezetten mindkét nemű partnered lehet."
+        "text": "A keresés megkezdéséhez kötelező megadni a saját nemed, továbbá kiválaszthatod beszélgetőpartnered nemét. Amennyiben nem választod ki a partnered nemét, úgy alapértelmezettként mindkét nem keresési feltételed lesz."
+    },
+    {
+        "title": "Mi történik, ha nem a valódi nememet adom meg?",
+        "text": "Számunkra fontos, hogy a beszélgetés a lehető legélvezetesebb és legkellemesebb legyen számodra és a partnered számára egyaránt. Amennyiben így döntessz, úgy a saját, de legfőképp partnered élményét rontod."
+    },
+    {
+        "title": "Ki legyen a partnerem?",
+        "text": "A partnered nemének kiválasztásánál vedd figyelembe, hogy a különböző nemek, másfajta érdeklődési körökkel rendelkezhetnek."
     }
 ]

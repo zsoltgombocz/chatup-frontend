@@ -13,3 +13,7 @@ export enum SearchState {
 export enum PrePage {
     LOCATION = 'location', GENDER = 'gender', INTERESTS = 'interests'
 }
+
+export enum UserStatus {
+    ONLINE, IDLE, DISCONNECTED,
+}

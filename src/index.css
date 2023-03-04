@@ -165,3 +165,49 @@ path.county {
 .toast-icon {
   @apply mt-[2px] ml-[2px] h-[60px] w-[60px] flex justify-center items-center rounded-full;
 }
+
+.input-container {
+  @apply flex flex-grow flex-row px-3 py-2 bg-white dark:bg-gray-600 text-black dark:text-white rounded-full;
+}
+
+.chat-area {
+  @apply flex flex-grow flex-col overflow-auto h-[500px] px-5 pt-5;
+}
+
+.chat-footer {
+  @apply flex flex-col h-20;
+}
+.chat-input {
+  @apply inline-flex flex-grow outline-none mr-2 bg-transparent text-base relative;
+}
+
+.chat-input::placeholder {
+  @apply text text-base opacity-75;
+}
+
+.chat-more, chat-send {
+  @apply relative mx-2;
+}
+
+.chat-more::after {
+  @apply bg-black dark:bg-white;
+  content: " ";
+  height: 100%;
+  width: 1px;
+  position: absolute;
+  left: -0.5rem;
+  top: 0;
+}
+
+.chat-bubble {
+  @apply w-[70%] max-w-[400px] rounded-lg p-2 px-3 my-2;
+}
+
+.select-input {
+  @apply text !text-black text-base select-none outline-none rounded-lg p-2;
+}
+
+.select-input > select:hover {
+  @apply bg-red;
+}
+

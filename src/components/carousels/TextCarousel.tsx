@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 // import required modules
-import { Pagination, Autoplay } from "swiper";
+import { Pagination, Autoplay, Mousewheel } from "swiper";
 
 
 type Props = {
@@ -34,11 +34,13 @@ const TextCarousel = ({ data, className }: Props) => {
                     delay: 5000,
                     disableOnInteraction: false,
                 }}
-                modules={[Autoplay, Pagination]}
+                modules={[Autoplay, Pagination, Mousewheel]}
                 className="w-full flex flex-col h-fit"
                 onSlideChange={(swiper) => setActive(swiper?.activeIndex)}
+                grabCursor={true}
+                mousewheel={true}
             >
-                {data.map(page => <SwiperSlide key={page.title} className='p-1 cursor-pointer select-none'><TextPage title={page.title} text={page.text} /></SwiperSlide>)}
+                {data.map(page => <SwiperSlide key={page.title} className='p-1 select-none'><TextPage title={page.title} text={page.text} /></SwiperSlide>)}
                 <CarouselNavigator max={data.length} className={'mt-3'} activeIndex={active} />
             </Swiper>
         </div>

@@ -14,7 +14,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 // import required modules
-import { Pagination } from "swiper";
+import { Pagination, Mousewheel } from "swiper";
 
 type Props = {
     data: InterestInterface[],
@@ -87,9 +87,11 @@ const InterestCarousel = ({ data }: Props) => {
             <Swiper
                 threshold={25}
                 direction={"vertical"}
-                modules={[Pagination]}
+                modules={[Pagination, Mousewheel]}
                 className="h-fit max-w-md"
+                grabCursor={true}
                 autoHeight={true}
+                mousewheel={true}
                 onSlideChange={(swiper) => setActive(swiper?.activeIndex)}
             >
                 {itemsPaginated.map((pages, index) =>

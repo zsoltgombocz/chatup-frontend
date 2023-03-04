@@ -10,7 +10,7 @@ export const config: HeaderConfigInterface = {
     useNavigationRoutes: ['settings', 'devlog', 'pre'],
     onlyBackButtonRoutes: [],
     noBackground: ['pre'],
-    hideHeaderRoutes: ['search'],
+    hideHeaderRoutes: ['search', 'chat'],
     routeNames: {
         'devlogs': 'Verzióelőzmények',
         'settings': 'Beállítások',

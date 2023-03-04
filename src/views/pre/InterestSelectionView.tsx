@@ -5,18 +5,21 @@ import Footer from '@layout/Footer'
 import { useInterestPreferences } from '@store/interestPreferences';
 import { useUserData } from '@store/userData';
 import { PrePage } from '@utils/enums';
+import { InterestInterface } from '@utils/interfaces/interestInterface';
 import { motion as m } from 'framer-motion';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const InterestSelectionView = () => {
     const markPageAsVisited = useUserData(state => state.markPageAsVisited);
     const interests = useInterestPreferences(state => state.interests);
     const navigate = useNavigate();
+    const [shuffledData, setShuffledData] = useState<InterestInterface[]>([]);
 
     useEffect(() => {
-        const markable = markPageAsVisited(PrePage.INTERESTS);
-        if (!markable) navigate('/', { replace: true });
+        //const markable = markPageAsVisited(PrePage.INTERESTS);
+        //if (!markable) navigate('/', { replace: true });
+        setShuffledData(config.interests.sort(() => 0.5 - Math.random()));
     }, []);
     return (
         <>
@@ -26,7 +29,7 @@ const InterestSelectionView = () => {
                         <p className={'font-light text-sm text text-center'}>A kiválasztott témák segitenek a partnerednek abban, hogy milyen témák érdekelnek téged.</p>
                     </div>
                     <div className={'flex flex-grow justify-center'}>
-                        <InterestCarousel data={config.interests.sort(() => 0.5 - Math.random())} />
+                        <InterestCarousel data={shuffledData} />
                     </div>
                 </div>
             </m.div>

@@ -28,13 +28,15 @@ type InterestProps = {
     display: string,
     defaultSelected?: boolean,
     onClick?: undefined | Function,
-    disabled?: boolean
+    disabled?: boolean,
+    triggerRender?: Function | undefined,
 }
 
 const InterestCarousel = ({ data }: Props) => {
     const [itemsPaginated, setItemsPaginated] = useState<any[]>([]);
     const [itemsPerPage, setItemsPerPage] = useState(6);
     const [active, setActive] = useState(0);
+    const [triggerRender, setTriggerRender] = useState(false);
 
     const interests = useInterestPreferences(state => state.interests);
     const userAchievements = useUserData(state => state.achievements);
@@ -56,7 +58,7 @@ const InterestCarousel = ({ data }: Props) => {
 
         const alteredData = alterBasedOnAchievement(data);
         paginateData(alteredData);
-    }, [data, itemsPerPage]);
+    }, [data, itemsPerPage, triggerRender]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -100,6 +102,7 @@ const InterestCarousel = ({ data }: Props) => {
                             <Interest key={interest.id} id={interest.id}
                                 src={interest.src} display={interest.display}
                                 defaultSelected={interests.includes(interest.id)}
+                                triggerRender={setTriggerRender}
                                 disabled={interests.length >= 3 && !interests.includes(interest.id)}
                             />
                         )}
@@ -111,7 +114,7 @@ const InterestCarousel = ({ data }: Props) => {
     );
 }
 
-const Interest = ({ id, src, display, defaultSelected = false, disabled = false }: InterestProps) => {
+const Interest = ({ id, src, display, defaultSelected = false, disabled = false, triggerRender }: InterestProps) => {
     const [selected, setSelected] = useState(defaultSelected);
     const userColor = useUserSettings(state => state.color);
     const updateInterests = useInterestPreferences(state => state.updateInterests);
@@ -130,6 +133,12 @@ const Interest = ({ id, src, display, defaultSelected = false, disabled = false 
 
         toggleInterest();
     }
+
+    useEffect(() => {
+        console.log(interestData)
+        console.log(selected)
+    }, [interestData, selected])
+
 
     const toggleInterest = (forceState: boolean | undefined = undefined) => {
         setSelected(forceState !== undefined ? forceState : !selected);
@@ -167,6 +176,8 @@ const Interest = ({ id, src, display, defaultSelected = false, disabled = false 
 
             toggleInterest(false);
             transformInterestInto(duaLipaInterest);
+
+            triggerRender?.();
         }
     }, [funInterestClicked]);
 

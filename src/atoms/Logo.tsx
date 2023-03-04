@@ -1,24 +1,28 @@
 import { useUserSettings } from '@store/userSettings';
 
-type size = 'small' | 'medium' | 'big';
+type size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 type Props = {
     customColor?: string | undefined
     size?: size,
     className?: string
 }
 
-function Logo({ customColor = undefined, size = 'small', className }: Props) {
+function Logo({ customColor = undefined, size = 'sm', className }: Props) {
     const userColor = useUserSettings(state => state.color);
     const textColor = customColor !== undefined ? `text-[${customColor}]` : `text-primary-${userColor}`;
     const initialLetterSize = {
-        'small': 'text-2xl',
-        'medium': 'text-5xl',
-        'big': 'text-8xl',
+        'xs': 'text-3xl',
+        'sm': 'text-4xl',
+        'md': 'text-5xl',
+        'lg': 'text-7xl',
+        'xl': 'text-8xl',
     }
     const letterSize = {
-        'small': 'text-base',
-        'medium': 'text-4xl',
-        'big': 'text-6xl',
+        'xs': 'text-xl',
+        'sm': 'text-2xl',
+        'md': 'text-3xl',
+        'lg': 'text-5xl',
+        'xl': 'text-7xl',
     }
 
     return (

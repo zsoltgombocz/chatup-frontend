@@ -5,6 +5,7 @@ export const getEmbedObject = (date: Date, type: string, platform: string, brows
                 "title": "Új bejelentés",
                 "color": 3452092,
                 "timestamp": date.toISOString(),
+                "url": "https://dev.chatup.hu/",
                 "fields": [
                     {
                         "name": "Jelentés típusa",
@@ -26,9 +27,9 @@ export const getEmbedObject = (date: Date, type: string, platform: string, brows
                         "value": `> ${description}`,
                         "inline": false
                     }
-                ]
+                ],
+                "description": date.toLocaleString()
             }
-        ],
-        "description": date.toLocaleString()
+        ]
     }
 }

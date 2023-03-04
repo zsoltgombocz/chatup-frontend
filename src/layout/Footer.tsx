@@ -21,7 +21,7 @@ const Footer = ({ showLogo = true, showVersion = true, children = undefined }: P
                 {showLogo && (
                     <div className={'text-black dark:text-white flex flex-row justify-center items-center gap-1 font-medium'}>
                         Powered by
-                        <Logo />
+                        <Logo size={'xs'} />
                     </div>
                 )}
                 {showVersion && (

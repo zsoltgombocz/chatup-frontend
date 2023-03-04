@@ -2,6 +2,7 @@ import Button from '@components/Button'
 import InterestCarousel from '@components/carousels/InterestCarousel'
 import { config } from '@config/interestConfig'
 import Footer from '@layout/Footer'
+import { useInterestPreferences } from '@store/interestPreferences';
 import { useUserData } from '@store/userData';
 import { PrePage } from '@utils/enums';
 import { motion as m } from 'framer-motion';
@@ -10,12 +11,13 @@ import { useNavigate } from 'react-router-dom';
 
 const InterestSelectionView = () => {
     const markPageAsVisited = useUserData(state => state.markPageAsVisited);
+    const interests = useInterestPreferences(state => state.interests);
     const navigate = useNavigate();
 
     useEffect(() => {
         const markable = markPageAsVisited(PrePage.INTERESTS);
         if (!markable) navigate('/', { replace: true });
-    }, [])
+    }, []);
     return (
         <>
             <m.div className={'view !pt-1'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
@@ -29,7 +31,7 @@ const InterestSelectionView = () => {
                 </div>
             </m.div>
             <Footer showVersion={false}>
-                <Button linkTo={'/search'} size={'primary'} style={'filled'} text={'keresés'} className={'mb-3'} />
+                <Button disabled={interests.length < 3} linkTo={'/search'} size={'primary'} style={'filled'} text={'keresés'} className={'mb-3'} />
             </Footer>
         </>
     )

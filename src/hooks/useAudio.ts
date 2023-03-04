@@ -22,6 +22,7 @@ export const useAudio = (urls?: string[]): useAudioInterface => {
     }
 
     const play = (id: string) => {
+        console.log(audio[id]);
         if (sounds) audio[id]?.play();
     }
 

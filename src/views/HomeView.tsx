@@ -21,7 +21,7 @@ const HomeView = () => {
                 animate={!isLoading && { y: -100 }}
                 exit={{ y: 0 }}
             >
-                <Logo size={'big'} />
+                <Logo size={'xl'} />
                 <AnimatePresence>
                     {isLoading ? (<Version showEnv={true} />) : (
                         <m.div className={'text-2xl dark:text-white text-gray-600 dark:font-pridi text-center'}

@@ -9,14 +9,14 @@ type StatusCircleProps = {
 }
 
 const STATUS_COLORS = [
-    '#24FF00',
-    '#B08E37',
-    '#B03737'
+    'green',
+    'orange',
+    'red'
 ]
 
 const StatusCircle = ({ color }: StatusCircleProps) => {
-    const bgColor = 'bg-[' + color + ']';
-    return (<div className={`w-[9px] h-[9px] ${bgColor} rounded`}></div>);
+    const bgColor = 'bg-' + color;
+    return (<div className={`w-[9px] h-[9px] rounded ${bgColor}`}></div>);
 }
 
 const Status = ({ status }: Props) => {

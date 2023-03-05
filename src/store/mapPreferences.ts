@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { County } from '@utils/interfaces/map';
+import { County } from '@utils/enums';
 interface MapPreferencesInterface {
     mapCheckbox: 0 | 1, // 0 - countrywide, 1 - only selected counties
     counties: County[],

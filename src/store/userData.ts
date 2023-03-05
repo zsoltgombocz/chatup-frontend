@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { CountyInterface } from '@utils/interfaces/map';
-import { PrePage, SearchState } from '@utils/enums';
+import { PrePage, SearchState, Location } from '@utils/enums';
+import { UserLocation } from '@utils/types';
 
 interface prePageInterface {
     [id: string]: boolean
@@ -8,12 +8,12 @@ interface prePageInterface {
 
 interface userData {
     token: string | undefined,
-    location: CountyInterface | null | undefined,
+    location: UserLocation,
     search: SearchState | undefined,
     achievements: string[],
     prePageSteps: prePageInterface,
     setToken: (token: string) => void
-    setUserLocation: (location: CountyInterface | null) => void,
+    setUserLocation: (location: UserLocation) => void,
     setSearch: (search: SearchState | undefined) => void,
     setAchievements: (id: string) => void,
     markPageAsVisited: (id: PrePage) => boolean,
@@ -43,13 +43,16 @@ const initialPrePageSteps: prePageInterface = {
 
 export const useUserData = create<userData>((set, get) => ({
     token: getTokenFromCookie(),
-    location: undefined,
+    location: Location.NOT_DEFINED,
     search: undefined,
     achievements: getAchievements(),
     prePageSteps: initialPrePageSteps,
 
-    setUserLocation: (location: CountyInterface | null) => {
+    setUserLocation: (location: UserLocation) => {
+        console.log('setstate', location);
         set(state => ({ ...state, location }))
+        console.log('afterset', get().location);
+
     },
     setToken: (token: string) => {
         sessionStorage.setItem('token', token);

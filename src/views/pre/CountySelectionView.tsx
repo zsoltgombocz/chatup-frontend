@@ -30,6 +30,7 @@ const CountySelectionView = () => {
     }
 
     const { permission, location } = useGeoLocation();
+    console.log(location);
 
     useEffect(() => {
         const markable = markPageAsVisited(PrePage.LOCATION);
@@ -51,7 +52,7 @@ const CountySelectionView = () => {
                     radioGap={0}
                 />
                 <Map />
-                <GeoLocation permission={permission} county={location} />
+                <GeoLocation permission={permission} location={location} />
                 <TextCarousel data={countyCarouselData} className={'!px-10 mt-10'} />
             </m.div>
             <Footer showVersion={false}>

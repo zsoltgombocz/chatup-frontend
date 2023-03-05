@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { counties } from "@config/mapConfig";
 import { useUserData } from "@store/userData";
-import { GeoLocationPermission } from "@utils/enums";
-import { CountyInterface } from "@utils/interfaces/map";
+import { GeoLocationPermission, Location } from "@utils/enums";
 import { isSimilar } from "@utils/string";
+import { UserLocation } from "@utils/types";
 interface GeoLocationInterface {
     lat: number,
     lon: number,
@@ -11,7 +11,7 @@ interface GeoLocationInterface {
 }
 interface useGeoLocationInterface {
     permission: GeoLocationPermission | undefined,
-    location: null | CountyInterface | undefined,
+    location: UserLocation,
 }
 
 const API_URL = import.meta.env.VITE_GEOAPI_URL;
@@ -27,15 +27,16 @@ export const useGeoLocation = (): useGeoLocationInterface => {
             .then(response => response.json())
             .then(async result => {
                 const county: string | null = result.features[0].properties.county || await getCountyBasedoOnFormattedText(result.features[0].properties.formatted);
-                let userCounty: CountyInterface | null;
-                if (county === null) userCounty = null;
-                else userCounty = counties.filter(c => isSimilar(c.name, county))[0];
+                let userCounty: UserLocation;
+                if (county === null) userCounty = Location.UNKNOWN;
+                else userCounty = counties.filter(c => isSimilar(c.name, county))[0].id;
 
-                setUserLocation(userCounty);
+                console.log('geoloc', userCounty);
+                setUserLocation(userCounty ?? Location.UNKNOWN);
             })
             .catch(err => {
                 console.error(err);
-                setUserLocation(null)
+                setUserLocation(Location.UNKNOWN)
             });
     }, []);
 
@@ -62,7 +63,7 @@ export const useGeoLocation = (): useGeoLocationInterface => {
             },
             (err) => {
                 setPermission(GeoLocationPermission.DENIED);
-                setUserLocation(null);
+                setUserLocation(Location.UNKNOWN);
             }
         );
     }
@@ -76,12 +77,14 @@ export const useGeoLocation = (): useGeoLocationInterface => {
     }, []);
 
     useEffect(() => {
+        console.log(userLocation);
         if ((permission === GeoLocationPermission.PROMPT || permission === GeoLocationPermission.GRANTED)
-            && (userLocation === undefined || userLocation === null)) {
+            && (userLocation === Location.NOT_DEFINED || userLocation === Location.UNKNOWN)) {
+            console.log('bejon')
             getLocation();
         }
 
-        if (permission === GeoLocationPermission.DENIED) setUserLocation(null);
+        if (permission === GeoLocationPermission.DENIED) setUserLocation(Location.UNKNOWN);
     }, [permission]);
 
     return { permission, location: userLocation };

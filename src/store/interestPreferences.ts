@@ -7,7 +7,7 @@ interface InterestPreferencesInterface {
 const getStoredInterests = (): string[] | [] => {
     const storedValue: null | string = sessionStorage.getItem('chatup_interests');
 
-    if (storedValue === null) return [];
+    if (storedValue === null || !storedValue) return [];
 
     return JSON.parse(storedValue);
 }

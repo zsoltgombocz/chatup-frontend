@@ -22,7 +22,7 @@ interface userData {
 
 const getTokenFromCookie = (): string | undefined => {
     const savedToken: string | null = sessionStorage.getItem('token')
-    return savedToken === null ? undefined : savedToken;
+    return savedToken === null || !savedToken ? undefined : savedToken;
 }
 
 const getAchievements = (): string[] => {

@@ -10,7 +10,7 @@ interface GenderPreferencesInterface {
 const getSavedGender = (which: 'own' | 'partner') => {
     const savedData = sessionStorage.getItem(`chatup_${which}_gender`);
     const fallbackReturnGender = which === 'own' ? Gender.MALE : Gender.ALL;
-    return savedData === null ? fallbackReturnGender : (parseInt(savedData) || fallbackReturnGender);
+    return savedData === null || !savedData ? fallbackReturnGender : (parseInt(savedData) || fallbackReturnGender);
 }
 
 export const useGenderPreferebces = create<GenderPreferencesInterface>((set, get) => ({

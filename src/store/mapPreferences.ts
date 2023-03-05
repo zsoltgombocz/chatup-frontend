@@ -10,7 +10,7 @@ interface MapPreferencesInterface {
 const getStoredSelectedCounties = (): County[] | [] => {
     const storedValue: null | string = sessionStorage.getItem('chatup_map_counties');
 
-    if (storedValue === null) return [];
+    if (storedValue === null || !storedValue) return [];
 
     return JSON.parse(storedValue);
 }
@@ -18,7 +18,7 @@ const getStoredSelectedCounties = (): County[] | [] => {
 const getStoredCheckboxValue = (): (0 | 1) => {
     const storedValue: null | string = sessionStorage.getItem('chatup_map_checkbox');
 
-    if (storedValue === null) return 0;
+    if (storedValue === null && !storedValue) return 0;
 
     const value = parseInt(storedValue);
 

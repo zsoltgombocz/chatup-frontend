@@ -134,12 +134,6 @@ const Interest = ({ id, src, display, defaultSelected = false, disabled = false,
         toggleInterest();
     }
 
-    useEffect(() => {
-        console.log(interestData)
-        console.log(selected)
-    }, [interestData, selected])
-
-
     const toggleInterest = (forceState: boolean | undefined = undefined) => {
         setSelected(forceState !== undefined ? forceState : !selected);
         updateInterests(interestData.id, forceState !== undefined ? forceState : !selected);

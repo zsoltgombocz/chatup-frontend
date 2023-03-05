@@ -25,7 +25,7 @@ function Switch({ options, onChange = undefined, className, initialSelectedIndex
     }
 
     return (
-        <div className={'border border-1  border-gray-600 flex flex-row rounded-full w-fit p-1 relative ' + className}>
+        <div className={'border border-1 border-gray-600 flex flex-row rounded-full w-fit p-1 relative ' + className}>
             <m.div
                 animate={{ left: `calc(6rem * ${selectedIndex})` }}
                 className={'z-0 w-24 border-1 border border-gray-600 absolute h-[calc(100%_-_0.25rem)] rounded-full -top-[0.125rem] bg-white m-1'}></m.div>

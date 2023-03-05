@@ -25,8 +25,8 @@ const Customize = () => {
             <Switch options={switchOptions} onChange={handleThemeChange} className={'mb-3 self-center'} initialSelectedIndex={theme} />
             <h5 className={'text text-xl mt-5 mb-3'}>Téma színének választása</h5>
             <ColorSwitcher colors={colorOptions} />
-            <div className={'flex align-middle justify-between'}>
-                <h5 className={'text text-xl mt-5 mb-3'}>Hangok</h5>
+            <div className={'flex items-center justify-between mt-5 mb-3'}>
+                <h5 className={'text text-xl'}>Hangok</h5>
                 <ToggleSwitch onStateChanged={(state) => setSoundState(state)} checked={sounds} />
             </div>
         </m.div>

@@ -20,7 +20,7 @@ function ToggleSwitch({ onStateChanged, checked = false }: Props) {
         onStateChanged?.(target.checked);
     }
     return (
-        <div className={'flex flex-wrap'}>
+        <div className={'flex flex-wrap h-fit'}>
             <input
                 type="checkbox"
                 className="hidden"

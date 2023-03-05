@@ -159,7 +159,7 @@ path.county {
 }
 
 .toast-base {
-  @apply cursor-pointer z-50 bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl mx-auto relative;
+  @apply cursor-pointer z-50 bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl mx-auto relative items-center h-fit flex flex-row;
 }
 
 .toast-icon {

@@ -19,9 +19,9 @@ const Toast = () => {
     const [open, setOpen] = useState(false);
     useEffect(() => {
         let timeout: any;
-        if (visible) {
-            setTimeout(() => setOpen(true), 250);
-            timeout = setTimeout(() => hide(), (hideAfter ?? 5000) + 250);
+        setTimeout(() => setOpen(true), 250);
+        if (visible && hideAfter !== undefined) {
+            timeout = setTimeout(() => closeAndHide(), (hideAfter ?? 5000) + 250);
         }
 
         return () => {
@@ -40,7 +40,7 @@ const Toast = () => {
     return (
         <AnimatePresence>
             {visible &&
-                <div className='absolute top-5 mx-auto w-screen'>
+                <div className='absolute top-5 mx-auto w-screen p-3'>
                     <m.div
                         whileTap={{ scale: 0.95 }}
                         onTouchEnd={closeAndHide}
@@ -48,30 +48,30 @@ const Toast = () => {
                         initial={{ y: -200 }}
                         animate={visible ? { y: 0 } : { y: -200 }}
                         exit={{ y: -200, transitionEnd: { display: 'none' } }}
-                        style={{ borderRadius: 100 }}
+                        style={{ borderRadius: 100, borderWidth: 1 }}
                         layout
-                        className={`h-16 toast-base flex flex-row ${open ? 'w-fit' : 'w-16'}`}
+                        className={`toast-base ${open ? 'w-fit' : 'w-16 w-max-[100%]'} border border-color-${userColor}`}
                     >
                         <m.div layout className={`toast-icon`}>
-                            {icons['info']}
+                            {icons[icon || 'info']}
                         </m.div>
                         {open && <>
-                            <m.div layout className={'px-2 flex flex-col justify-center'} initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.25 } }} exit={{ opacity: 0 }}>
+                            <m.div layout className={'p-2 pr-5 flex flex-col justify-center w-[100%]'} initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.25 } }} exit={{ opacity: 0 }}>
                                 <h5 className={'text font-semibold'}>{title}</h5>
                                 <p className={'text text-sm'}>{text}</p>
                             </m.div>
-                            <m.div
+                            {hideAfter && <m.div
                                 initial={{ scaleX: 1 }}
                                 animate={{
                                     scaleX: 0, transition: {
                                         type: "tween",
-                                        duration: (hideAfter ?? 5000) / 1000,
-                                        delay: 0.1,
+                                        duration: (hideAfter) / 1000,
+                                        delay: 0.2,
                                         ease: "linear",
                                     },
                                 }}
-                                className={`bg-${userColor} w-[calc(100%-2.5rem)] h-1 absolute bottom-0 left-5 rounded-xl`}>
-                            </m.div>
+                                className={`bg-${userColor} w-[calc(100%-2.5rem)] h-[0.2rem] absolute bottom-0 left-5 rounded-xl`}>
+                            </m.div>}
                         </>}
 
                     </m.div></div>}

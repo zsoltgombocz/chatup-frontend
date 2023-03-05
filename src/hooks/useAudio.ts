@@ -29,7 +29,9 @@ export const useAudio = (urls?: string[]): useAudioInterface => {
     useEffect(() => {
         if (audioSources.length > Object.entries(audio).length) {
             audioSources
-                .forEach(src => addAudioElement(src.split('.')[0], new Audio('/src/media/sounds/' + src)));
+                .forEach(src => {
+                    addAudioElement(src.split('.')[0], new Audio('/sounds/' + src))
+                });
         }
     }, [audioSources]);
 

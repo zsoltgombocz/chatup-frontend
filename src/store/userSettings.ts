@@ -1,3 +1,4 @@
+import { applyThemeColorToBody } from '@utils/theme';
 import { create } from 'zustand';
 
 interface UserSettingsInterface {
@@ -20,6 +21,7 @@ const getTheme = (): number => {
 
 const getColor = (): string => {
     const color: string | null = localStorage.getItem('chatup_color');
+    applyThemeColorToBody(color || 'blue');
 
     if (color === null) return 'blue';
     else return color;
@@ -54,6 +56,7 @@ export const useUserSettings = create<UserSettingsInterface>((set, get) => ({
     },
     setColor: (color: string) => {
         localStorage.setItem('chatup_color', color);
+        applyThemeColorToBody(color);
         set(state => ({ ...state, color }))
     },
     setPrivacy: (index: number, b: boolean) => {

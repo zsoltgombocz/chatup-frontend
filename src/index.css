@@ -2,24 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* width */
 ::-webkit-scrollbar {
-  width: 10px;
-}
+  width: 5px;
+} 
 
-/* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background-color: transparent;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  @apply rounded-lg;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+
+.view::-webkit-scrollbar-thumb {
+  background-color: red;
+}
+.chat-area::-webkit-scrollbar-thumb {
+  background-color: red;
 }
 
 * {
@@ -69,7 +69,7 @@ path.county {
 }
 
 .view {
-  @apply flex-grow h-fit flex overflow-hidden flex-col px-10 py-10 w-screen md:w-[600px] self-center;
+  @apply flex-grow h-fit flex overflow-hidden flex-col px-10 py-10 w-screen max-w-[600px] self-center;
 }
 .scrollable-view {
   @apply view !overflow-y-auto;
@@ -201,8 +201,8 @@ path.county {
   @apply inline-flex flex-grow outline-none mr-2 bg-transparent text-base relative resize-none;
 }
 
-.chat-input::placeholder {
-  @apply text text-base opacity-75;
+.chat-input {
+  @apply resize-none;
 }
 
 .chat-more, chat-send {
@@ -220,7 +220,7 @@ path.county {
 }
 
 .chat-bubble {
-  @apply w-[70%] max-w-[400px] rounded-lg p-2 px-3 my-2;
+  @apply w-[70%] max-w-[500px] rounded-[15px] py-3 px-4 my-10;
 }
 
 .select-input {

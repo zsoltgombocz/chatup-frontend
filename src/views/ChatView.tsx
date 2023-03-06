@@ -5,7 +5,7 @@ import Status from '@atoms/Status';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import { useUserSettings } from '@store/userSettings';
 import { UserStatus } from '@utils/enums';
-import { motion as m } from 'framer-motion';
+import { AnimatePresence, motion as m } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 type ChatBubbleProps = {
@@ -18,14 +18,29 @@ enum BubbleType {
     OWN, PARTNER
 }
 
+
 const ChatView = () => {
     useEffect(() => {
         console.log('id alapjan ujra csatlakozni socketre??')
     }, []);
 
+    const [text, setText] = useState("");
+    const [typing, setTyping] = useState(false);
+
+    useEffect(() => {
+        if (text.length <= 0 && typing) setTyping(false);
+        if (text.length <= 0) return;
+
+        setTyping(true);
+        const debounce = setTimeout(() => {
+            setTyping(false);
+        }, 2000)
+
+        return () => clearTimeout(debounce)
+    }, [text])
+
     const userColor = useUserSettings(state => state.color);
 
-    const [text, setText] = useState('');
 
     return (
         <>
@@ -34,7 +49,7 @@ const ChatView = () => {
                     <Logo size={'sm'} />
                     <div className={'flex flex-row justify-center items-center gap-1'}>
                         <Status status={UserStatus.ONLINE} />
-                        <Bars3Icon className={'h-8 w-10 cursor-pointer text-black dark:text-white'} />
+                        <Bars3Icon className={'h-8 w-10 cursor-pointer text-gray-600 dark:text-white'} />
                     </div>
                 </div>
 
@@ -48,19 +63,41 @@ const ChatView = () => {
                     <ChatBubble text={'Megmutatod? :D'} color={'white'} type={BubbleType.PARTNER} />
                     <ChatBubble text={'CSAK TESZT MIATT EKKORA A BUBOREKOK KOZOTTI MARGO JOOO??'} color={userColor} type={BubbleType.OWN} />
                 </div>
-                <div className={'relative chat-footer pb-6'}>
-                    <p className={'text-xs text-center py-1'}>A partnered éppel gépel . . .</p>
-                    <div className={'input-container'}>
-                        <textarea rows={1} className={'chat-input'} onChange={(e) => setText(e.target.value)} />
-                        <button className={'chat-more'}>
-                            <MapIcon size={25} className={'cursor-pointer fill-white'} />
-                        </button>
-                        <button className={'chat-send'}>
-                            {text.length > 0 && <SendIcon size={25} className={`cursor-pointer fill-${userColor}`} />}
-                        </button>
-                    </div>
-                </div>
+                <AnimatePresence>
+                    <m.div layout className={'relative chat-footer pb-6'}>
+                        <p
+                            className={'text-xs text-center h-5 relative z-10'}
+                        >
+                            <AnimatePresence>
+                                {typing && (
+                                    <m.div
+                                        className={'absolute top-0 w-full'}
+                                        initial={{ opacity: 0, y: 25 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 25 }}
+                                    >Partnered éppen gépel...</m.div>
+                                )}
+                            </AnimatePresence>
+                        </p>
 
+                        <m.div layout className={'input-container z-20'}>
+                            <m.textarea layout placeholder={'Üzenet küldése...'} rows={1} className={'chat-input'} onChange={(e) => setText(e.target.value)} />
+                            <m.button layout={'position'} className={'chat-more'}>
+                                <MapIcon size={25} className={'cursor-pointer dark:fill-white fill-gray-600'} />
+                            </m.button>
+
+                            {text.length > 0 && (
+                                <m.button
+                                    className={'chat-send'}
+                                    initial={{ opacity: 0, y: -50 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, position: 'absolute' }}>
+                                    <SendIcon size={25} className={`cursor-pointer fill-${userColor}`} />
+                                </m.button>
+                            )}
+                        </m.div>
+                    </m.div>
+                </AnimatePresence>
             </m.div>
         </>
     )

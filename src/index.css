@@ -1,3 +1,4 @@
+@import '../src/css/colors.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,12 +15,12 @@
   @apply rounded-lg;
 }
 
-
-.view::-webkit-scrollbar-thumb {
-  background-color: red;
+.blue *::-webkit-scrollbar-thumb {
+  background-color: #34ACBC;
 }
-.chat-area::-webkit-scrollbar-thumb {
-  background-color: red;
+
+.red *::-webkit-scrollbar-thumb {
+  background-color:#A91B12;
 }
 
 * {
@@ -74,93 +75,7 @@ path.county {
 .scrollable-view {
   @apply view !overflow-y-auto;
 }
-.color-circle {
-  @apply w-10 h-10 rounded-full cursor-pointer border-2 border-transparent;
-}
-.color-circle.red {
-  @apply bg-pr-red-light hover:border-pr-red dark:bg-pr-red dark:hover:border-pr-red-light;
-}
-.color-circle.red.border {
-  @apply border-pr-red dark:border-pr-red-light;
-}
-.color-circle.green {
-  @apply bg-pr-green-light hover:border-pr-green dark:bg-pr-green dark:hover:border-pr-green-light;
-}
-.color-circle.green.border {
-  @apply border-pr-green dark:border-pr-green-light;
-}
-.color-circle.blue {
-  @apply bg-pr-blue-light hover:border-pr-blue dark:bg-pr-blue dark:hover:border-pr-blue-light;
-}
-.color-circle.blue.border {
-  @apply border-pr-blue dark:border-pr-blue-light;
-}
-/* ! FOR PRIMARY BUTTONS (CUSTOM COLORS) */
-.bg-red-hover-light {
-  @apply bg-pr-red hover:bg-pr-red-light;
-}.bg-blue-hover-light {
-  @apply bg-pr-blue hover:bg-pr-blue-light;
-}
-.bg-green-hover-light {
-  @apply bg-pr-green hover:bg-pr-green-light;
-}
-.text-primary-red {
-  @apply text-pr-red;
-}
 
-.text-primary-green {
-  @apply text-pr-green;
-}
-
-.text-primary-blue {
-  @apply text-pr-blue;
-}
-
-.text-primary-red {
-  @apply text-pr-red;
-}
-/* !----------------------------------------------- */
-
-/* ! ONLY BGs */
-.bg-red {
-  @apply bg-pr-red;
-}
-.bg-blue {
-  @apply bg-pr-blue;
-}
-.bg-green {
-  @apply bg-pr-green;
-}
-.bg-darker-red {
-  @apply bg-pr-red-dark;
-}
-.bg-darker-blue {
-  @apply bg-pr-blue-dark;
-}
-.bg-darker-green {
-  @apply bg-pr-green-dark;
-}
-
-.fill-red {
-  @apply fill-pr-red;
-}
-.fill-blue {
-  @apply fill-pr-blue;
-}
-.fill-green {
-  @apply fill-pr-green;
-}
-
-.border-color-blue {
-  @apply border-pr-blue;
-}
-.border-color-red {
-  @apply border-pr-red;
-}
-.border-color-green {
-  @apply border-pr-green;
-}
-/* !----------------------------------------------- */
 .switch-base {
   @apply w-14 h-7 border inline-block relative rounded-full;
 }

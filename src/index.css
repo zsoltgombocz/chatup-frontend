@@ -1,8 +1,9 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 @import '../src/css/colors.css';
 @import '../src/css/toast.css';
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 ::-webkit-scrollbar {
   width: 5px;

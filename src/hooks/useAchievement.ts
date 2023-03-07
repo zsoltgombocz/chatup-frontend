@@ -1,5 +1,6 @@
 import { achievementInterface, config } from '@config/achievementConfig';
 import { useUserData } from '@store/userData';
+import { ToastVariant } from '@utils/enums';
 import { useAudio } from './useAudio';
 import { useNotify } from './useNotify';
 interface useAchievementInterface {
@@ -27,7 +28,12 @@ const useAchievement = (): useAchievementInterface => {
         const achievement = isAchievementExists(id);
         if (!achievement || isAchievementCompleted(id)) return;
 
-        notify(`'${achievement.title}' eredmény feloldva!`, 'Feloldott eredményeidet megtekintheted a beállítások oldalon.', 7000);
+        notify(
+            `'${achievement.title}' eredmény feloldva!`,
+            'Feloldott eredményeidet megtekintheted a beállítások oldalon.',
+            ToastVariant.DEFAULT,
+            7000
+        );
         setAchievements(achievement.id);
 
         if (achievement.sound) play(achievement.sound.split('.')[0]);

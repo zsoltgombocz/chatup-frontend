@@ -76,7 +76,7 @@ export const config: SettingsConfigInterface = {
             text: 'Sötét'
         }
     ],
-    colors: ['red', 'blue', 'green'],
+    colors: ['red', 'blue'],
     privacySwitches: [
         {
             text: 'Linkek küldése',

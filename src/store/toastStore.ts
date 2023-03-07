@@ -1,3 +1,4 @@
+import { ToastVariant } from '@utils/enums';
 import { create } from 'zustand';
 
 interface toastStoreInterface {
@@ -6,18 +7,20 @@ interface toastStoreInterface {
     title: string,
     hideAfter?: number | undefined,
     icon?: string | undefined,
-    show: (text: string, title: string, hideAfter?: number) => void,
+    type?: ToastVariant,
+    show: (text: string, title: string, type?: ToastVariant, hideAfter?: number) => void,
     hide: () => void,
 }
 
 export const useToastStore = create<toastStoreInterface>((set, get) => ({
-    visible: false,
-    text: '',
-    title: '',
+    visible: true,
+    text: 'texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttext',
+    title: 'title',
     icon: undefined,
     hideAfter: undefined,
-    show: (title: string, text: string, hideAfter?: number, icon?: string | undefined) => {
-        set(state => ({ ...state, visible: true, text, title, hideAfter, icon }));
+    type: ToastVariant.FAILED,
+    show: (title: string, text: string, type?: ToastVariant, hideAfter?: number, icon?: string | undefined) => {
+        set(state => ({ ...state, visible: true, text, title, hideAfter, icon, type }));
     },
     hide: () => {
         set(state => ({ ...state, visible: false }));

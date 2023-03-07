@@ -44,3 +44,7 @@ export enum PrePage {
 export enum UserStatus {
     ONLINE, IDLE, DISCONNECTED,
 }
+
+export enum ToastVariant {
+    DEFAULT = 'default', SUCCESS = 'success', FAILED = 'failed'
+}

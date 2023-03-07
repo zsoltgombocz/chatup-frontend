@@ -1,19 +1,28 @@
-import { InformationCircleIcon, TrophyIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon, InformationCircleIcon, TrophyIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion as m } from 'framer-motion';
 import { ReactElement, useEffect, useState } from 'react';
 import { useToastStore } from '@store/toastStore';
 import { useUserSettings } from '@store/userSettings';
+import classNames from 'classnames';
+import { ToastVariant } from '@utils/enums';
 
 
 
 const Toast = () => {
-    const { hide, visible, title, text, hideAfter, icon } = useToastStore();
+    const { hide, visible, title, text, hideAfter, icon, type } = useToastStore();
     const userColor = useUserSettings(state => state.color);
-    const iconClasses = `w-10 h-10 text-primary-${userColor}`;
+    const iconClasses = classNames(
+        'w-10 h-10',
+        { [`text-${userColor}`]: type === ToastVariant.DEFAULT },
+        { 'text-toast-red': type === ToastVariant.FAILED },
+        { 'text-toast-green': type === ToastVariant.SUCCESS },
+    );
 
     const icons: { [id: string]: ReactElement } = {
         'trophy': <TrophyIcon className={iconClasses} />,
-        'info': <InformationCircleIcon className={iconClasses} />
+        'info': <InformationCircleIcon className={iconClasses} />,
+        'success': <CheckCircleIcon className={iconClasses} />,
+        'failed': <CheckCircleIcon className={iconClasses} />,
     }
 
     const [open, setOpen] = useState(false);
@@ -37,6 +46,14 @@ const Toast = () => {
             }, 500);
         }, 250);
     }
+
+    const borderColor = classNames(
+        { [`border-color-${userColor}`]: type === ToastVariant.DEFAULT },
+        { [`border-color-toast-red`]: type === ToastVariant.FAILED },
+        { [`border-color-toast-green`]: type === ToastVariant.SUCCESS },
+    );
+
+    const iconType = icon ? icon : (type === ToastVariant.DEFAULT ? 'info' : type)
     return (
         <AnimatePresence>
             {visible &&
@@ -50,10 +67,10 @@ const Toast = () => {
                         exit={{ y: -200, transitionEnd: { display: 'none' } }}
                         style={{ borderRadius: 100, borderWidth: 1 }}
                         layout
-                        className={`toast-base ${open ? 'w-fit' : 'w-16 w-max-[100%]'} border border-color-${userColor}`}
+                        className={`toast-base ${open ? 'w-fit' : 'w-16 w-max-[100%]'} border ${borderColor}`}
                     >
                         <m.div layout className={`toast-icon`}>
-                            {icons[icon || 'info']}
+                            {icons[iconType]}
                         </m.div>
                         {open && <>
                             <m.div layout className={'p-2 pr-5 flex flex-col justify-center w-[100%]'} initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.25 } }} exit={{ opacity: 0 }}>

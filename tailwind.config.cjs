@@ -34,7 +34,9 @@ module.exports = {
       'bg-dark-outer': '#3B3B3B',
       'status-red': '#B03737',
       'status-orange': '#B08E37',
-      'status-green': '#24FF00'
+      'status-green': '#24FF00',
+      'toast-green': '#24FF00',
+      'toast-red': '#B03737',
     },
     extend: {
       fontFamily: {

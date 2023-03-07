@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { MapStructure } from '@config/mapConfig';
 import { motion as m } from 'framer-motion';
-import { County as CountyEnum, CountyInterface } from '@utils/interfaces/map';
+import { CountyInterface } from '@utils/interfaces/map';
 import { useMapPreferences } from '@store/mapPreferences';
 import { useUserSettings } from '@store/userSettings';
+import { County as CountyEnum } from '@utils/enums';
 
 type Props = {
   className?: string,

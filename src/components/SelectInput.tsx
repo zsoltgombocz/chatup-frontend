@@ -13,16 +13,13 @@ type Props = {
 }
 
 const SelectInput = ({ options, name, className, selectedIndex, onChange }: Props) => {
-    const [selected, SetSelected] = useState(selectedIndex);
-    const userColor = useUserSettings(state => state.color);
 
     const handleChange = (e: ChangeEvent<HTMLSelectElement>): void => {
-        SetSelected(e.target.selectedIndex);
         onChange?.();
     }
     return (
         <div className={className}>
-            <select name={name} id={name} value={options[selected || 0]} onChange={handleChange} className={'select-input'}>
+            <select name={name} id={name} defaultValue={options[0]} onChange={handleChange} className={'select-input'}>
                 {
                     options.map((option, index) => (
                         <option key={option} value={option}>{option}</option>

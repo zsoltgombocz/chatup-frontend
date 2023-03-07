@@ -2,7 +2,7 @@ import { useToastStore } from '@store/toastStore';
 import { ToastVariant } from '@utils/enums';
 
 interface useNotifyInterface {
-    notify: (text: string, title: string, type?: ToastVariant, hideAfter?: number) => void,
+    notify: (title: string, text: string, type?: ToastVariant, hideAfter?: number) => void,
     hide: () => void,
 }
 

@@ -1,4 +1,4 @@
-import { CheckCircleIcon, InformationCircleIcon, TrophyIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon, ExclamationCircleIcon, InformationCircleIcon, TrophyIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion as m } from 'framer-motion';
 import { ReactElement, useEffect, useState } from 'react';
 import { useToastStore } from '@store/toastStore';
@@ -22,7 +22,7 @@ const Toast = () => {
         'trophy': <TrophyIcon className={iconClasses} />,
         'info': <InformationCircleIcon className={iconClasses} />,
         'success': <CheckCircleIcon className={iconClasses} />,
-        'failed': <CheckCircleIcon className={iconClasses} />,
+        'failed': <ExclamationCircleIcon className={iconClasses} />,
     }
 
     const [open, setOpen] = useState(false);
@@ -53,11 +53,17 @@ const Toast = () => {
         { [`border-color-toast-green`]: type === ToastVariant.SUCCESS },
     );
 
+    const timerBg = classNames(
+        { [`bg-${userColor}`]: type === ToastVariant.DEFAULT },
+        { 'bg-toast-red': type === ToastVariant.FAILED },
+        { 'bg-toast-green': type === ToastVariant.SUCCESS },
+    );
+
     const iconType = icon ? icon : (type === ToastVariant.DEFAULT ? 'info' : type)
     return (
         <AnimatePresence>
             {visible &&
-                <div className='absolute top-5 mx-auto w-screen p-3'>
+                <div className='absolute top-5 mx-auto w-fit p-3 self-center'>
                     <m.div
                         whileTap={{ scale: 0.95 }}
                         onTouchEnd={closeAndHide}
@@ -67,7 +73,7 @@ const Toast = () => {
                         exit={{ y: -200, transitionEnd: { display: 'none' } }}
                         style={{ borderRadius: 100, borderWidth: 1 }}
                         layout
-                        className={`toast-base ${open ? 'w-fit' : 'w-16 w-max-[100%]'} border ${borderColor}`}
+                        className={`toast-base ${open ? 'w-fit min-w-[300px]' : 'w-16 w-max-[100%]'} border ${borderColor}`}
                     >
                         <m.div layout className={`toast-icon`}>
                             {icons[iconType]}
@@ -87,7 +93,7 @@ const Toast = () => {
                                         ease: "linear",
                                     },
                                 }}
-                                className={`bg-${userColor} w-[calc(100%-2.5rem)] h-[0.2rem] absolute bottom-0 left-5 rounded-xl`}>
+                                className={`${timerBg} w-[calc(100%-2.5rem)] h-[0.2rem] absolute bottom-0 left-5 rounded-xl`}>
                             </m.div>}
                         </>}
 

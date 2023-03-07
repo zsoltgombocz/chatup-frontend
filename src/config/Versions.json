@@ -97,5 +97,16 @@
             "Helymeghatározás: Elutasított állapot megjelenítés javítva"
         ],
         "date": "2023.03.02"
+    },
+    {
+        "version": "0.0.72",
+        "changes": [
+            "Keresés oldal 1. iterációs UI hozzáadva",
+            "Chat nézet hozzáadva (funkció mentes)",
+            "Hibajelentés funkció élesítve beállításokban",
+            "Chat nézet 2. interációs UI felület - WIP",
+            "Téma színű görgő sáv"
+        ],
+        "date": "2023.03.07"
     }
 ]

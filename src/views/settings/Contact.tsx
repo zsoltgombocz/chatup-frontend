@@ -1,11 +1,15 @@
 import { FormEvent } from 'react'
 import { motion as m } from 'framer-motion';
 import Button from '@components/Button';
+import { useNotify } from '@hooks/useNotify';
 
 import { getEmbedObject } from '@utils/discord'
 import SelectInput from '@components/SelectInput';
+import { ToastVariant } from '@utils/enums';
 const Contact = () => {
     const DISCORD_WEBHOOK_URL = import.meta.env.VITE_DISCORD_WH;
+    const { notify } = useNotify();
+
     const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const target = e.target as HTMLFormElement;
@@ -28,7 +32,22 @@ const Contact = () => {
                 browser,
                 desc
             )),
-        });
+        })
+            .then(async result => {
+                if (result.status !== 200 && result.status !== 204) {
+                    const data = await result.json();
+                    notify('Váratlan hiba történt!', data.message, ToastVariant.FAILED, 5000);
+                } else {
+                    notify('Köszönjük bejelentésed!', "Bejelentésed beérkezett rendszerünkbe.", ToastVariant.SUCCESS, 5000);
+                    target.reset();
+                    target.type.selectedIndex = 0;
+                    target.platform.selectedIndex = 0;
+                    target.browser.selectedIndex = 0;
+                }
+            })
+            .catch((err) => {
+                notify('Váratlan hiba történt!', 'Hiba történt a küldés során. Kérlek próbáld újra késöbb!', ToastVariant.FAILED, 5000);
+            });
     }
     return (
         <m.div className={'scrollable-view'} initial={{ x: 500 }} animate={{ x: 0 }} exit={{ x: 500 }}>

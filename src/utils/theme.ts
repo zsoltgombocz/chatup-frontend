@@ -7,12 +7,10 @@ export const setTheme = (index: number) => {
 }
 
 export const applyThemeColorToBody = (color: string) => {
-    const body: null | HTMLBodyElement = document.querySelector('#root');
+    const body: null | HTMLBodyElement = document.querySelector('body');
     if (body === null) return;
 
-    body.className = "";
     body.classList.add(color);
-    body.dataset.color = color;
     body.style.overflow = 'hidden';
     body.style.overflow = 'auto';
 }

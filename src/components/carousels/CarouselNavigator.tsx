@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useUserSettings } from '../../store/userSettings';
 import { motion as m } from 'framer-motion';
+import classNames from 'classnames';
 
 export enum NavigatorVariant {
     HORIZONTAL, VERTICAL
@@ -23,9 +24,22 @@ const CarouselNavigator = ({ max, className, activeIndex, variant = NavigatorVar
         setDots(dotArray);
     }, [activeIndex, max]);
 
+    const dotContainerClasses = classNames(
+        'flex gap-2 justify-center',
+        { ['flex-row w-full']: variant === NavigatorVariant.HORIZONTAL },
+        { ['flex-col h-full']: variant === NavigatorVariant.VERTICAL },
+        className
+    );
+
+    const dotClasses = classNames(
+        'rounded-full h-2 w-2 relative',
+    );
+
+    const getDotStyle = (dot: boolean) => dot ? (`${variant === 0 ? 'w-4' : 'h-4'} bg-${userColor}`) : (`${variant === 0 ? 'w-2' : 'h-2'} bg-white`)
+
     return (
-        <m.div className={`flex ${variant === 0 ? 'flex-row w-full' : 'flex-col h-full'} gap-2 justify-center ` + className}>
-            {dots.map((dot, i) => <m.div key={i} className={`${variant === 0 ? 'h-2' : 'w-2'} bg-white rounded-full ${dot ? (`${variant === 0 ? 'w-4' : 'h-4'} bg-${userColor}`) : (variant === 0 ? 'w-2' : 'h-2')}`} layout />)}
+        <m.div layout layoutRoot className={dotContainerClasses}>
+            {dots.map((dot, i) => <m.div key={i} className={`${dotClasses} ${getDotStyle(dot)}`} layout />)}
         </m.div>
     )
 }

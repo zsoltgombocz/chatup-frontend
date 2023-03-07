@@ -9,7 +9,7 @@ type Props = {
 
 function Logo({ customColor = undefined, size = 'sm', className }: Props) {
     const userColor = useUserSettings(state => state.color);
-    const textColor = customColor !== undefined ? `text-[${customColor}]` : `text-primary-${userColor}`;
+    const textColor = customColor !== undefined ? `text-[${customColor}]` : `text-${userColor}`;
     const initialLetterSize = {
         'xs': 'text-3xl',
         'sm': 'text-4xl',

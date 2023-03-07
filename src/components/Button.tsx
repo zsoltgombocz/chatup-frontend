@@ -55,7 +55,7 @@ const Button = ({
     const filledStyle = classnames(
         fillColor,
         hoverColor,
-        { [`bg-${userColor}-hover-light text-white`]: !disabled },
+        { [`bg-${userColor} bg-${userColor}-light-hovered text-white`]: !disabled },
         { [`bg-darker-${userColor} text-gray-200`]: disabled },
         'shadow-lg',
         'disabled:cursor-not-allowed'

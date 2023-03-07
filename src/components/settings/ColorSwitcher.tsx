@@ -50,7 +50,7 @@ const ColorCircle = ({ color, selected = false, onClick = undefined }: ColorCirc
     return (<div className={'flex justify-center items-center relative'}>
         <AnimatePresence>
             {selected && <m.span className={'absolute z-10 top-[0.125rem]'} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
-                <CheckCircleIcon className={'w-9 h-9 text-gray-100 dark:text-white'} />
+                <CheckCircleIcon className={'w-9 h-9 text-gray-100 fill-transparent text-white'} />
             </m.span>
             }
         </AnimatePresence>

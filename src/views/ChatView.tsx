@@ -6,7 +6,7 @@ import { Bars3Icon } from '@heroicons/react/24/outline';
 import { useUserSettings } from '@store/userSettings';
 import { UserStatus } from '@utils/enums';
 import { AnimatePresence, motion as m } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, KeyboardEvent, useRef, SyntheticEvent } from 'react';
 
 type ChatBubbleProps = {
     text: string,
@@ -18,13 +18,17 @@ enum BubbleType {
     OWN, PARTNER
 }
 
+type InputContainerProps = {
+    state: [text: string, setText: Function]
+}
+
 
 const ChatView = () => {
     useEffect(() => {
         console.log('id alapjan ujra csatlakozni socketre??')
     }, []);
 
-    const [text, setText] = useState("");
+    const [text, setText] = useState<string>("");
     const [typing, setTyping] = useState(false);
 
     useEffect(() => {
@@ -80,22 +84,7 @@ const ChatView = () => {
                             </AnimatePresence>
                         </p>
 
-                        <m.div layout className={'input-container z-20'}>
-                            <m.textarea layout placeholder={'Üzenet küldése...'} rows={1} className={'chat-input'} onChange={(e) => setText(e.target.value)} />
-                            <m.button layout={'position'} className={'chat-more'}>
-                                <MapIcon size={25} className={'cursor-pointer dark:fill-white fill-gray-600'} />
-                            </m.button>
-
-                            {text.length > 0 && (
-                                <m.button
-                                    className={'chat-send'}
-                                    initial={{ opacity: 0, y: -50 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, position: 'absolute' }}>
-                                    <SendIcon size={25} className={`cursor-pointer fill-${userColor}`} />
-                                </m.button>
-                            )}
-                        </m.div>
+                        <InputContainer state={[text, setText]} />
                     </m.div>
                 </AnimatePresence>
             </m.div>
@@ -109,6 +98,36 @@ const ChatBubble = ({ text, color, type }: ChatBubbleProps) => {
     return (<div className={`chat-bubble ${bgColor} ${type === BubbleType.OWN ? 'self-end text-white !rounded-br-none text-right' : 'self-start !rounded-bl-none'}`}>
         {text}
     </div>)
+}
+
+const InputContainer = ({ state }: InputContainerProps) => {
+    const [text, setText] = state;
+    const [rows, setRows] = useState(1);
+
+    const userColor = useUserSettings(state => state.color);
+
+    return (<m.div layout className={'input-container z-20'}>
+        <m.textarea
+            layout
+            placeholder={'Üzenet küldése...'}
+            className={'chat-input'}
+            value={text}
+            rows={rows}
+        />
+        <m.button layout={'position'} className={'chat-more'}>
+            <MapIcon size={25} className={'cursor-pointer dark:fill-white fill-gray-600'} />
+        </m.button>
+
+        {text.length > 0 && (
+            <m.button
+                className={'chat-send'}
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, position: 'absolute' }}>
+                <SendIcon size={25} className={`cursor-pointer fill-${userColor}`} />
+            </m.button>
+        )}
+    </m.div>)
 }
 
 export default ChatView

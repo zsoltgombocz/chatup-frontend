@@ -112,7 +112,7 @@ path.county {
 }
 
 .chat-footer {
-  @apply flex flex-col h-fit text;
+  @apply flex flex-col h-fit text px-3 md:px-0;
 }
 .chat-input {
   @apply inline-flex flex-grow outline-none mr-2 bg-transparent text-base relative resize-none;

@@ -18,7 +18,7 @@ const InterestSelectionView = () => {
 
     useEffect(() => {
         const markable = markPageAsVisited(PrePage.INTERESTS);
-        if (!markable) navigate('/', { replace: true });
+        //if (!markable) navigate('/', { replace: true });
         setShuffledData(config.interests.sort(() => 0.5 - Math.random()));
     }, []);
     return (

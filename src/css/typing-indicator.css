@@ -1,0 +1,41 @@
+.typing-indicator-container {
+    display: flex;
+    flex: none;
+    align-items: flex-end;
+    margin: 4 0;
+}
+
+.typing-indicator-bubble {
+    width: 4px;
+    height: 4px;
+    margin-right: 4px;
+    background-color: #57585a;
+    border-radius: 50%;
+    animation-name: bounce;
+    animation-duration: 1.3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.typing-indicator-bubble:first-of-type {
+    margin: 0px 4px;
+}
+
+.typing-indicator-bubble:nth-of-type(2) {
+    animation-delay: 0.15s;
+}
+
+.typing-indicator-bubble:nth-of-type(3) {
+    animation-delay: 0.3s;
+}
+  
+@keyframes bounce {
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-4px);
+    }
+}

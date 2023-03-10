@@ -6,45 +6,86 @@ import { Bars3Icon } from '@heroicons/react/24/outline';
 import { useUserSettings } from '@store/userSettings';
 import { UserStatus } from '@utils/enums';
 import { AnimatePresence, motion as m } from 'framer-motion';
-import { useEffect, useState, KeyboardEvent, useRef, SyntheticEvent } from 'react';
+import { useEffect, useState, useRef, useLayoutEffect } from 'react';
+import TextArea from '@components/TextArea';
+import TypingIndicator from '@atoms/TypingIndicator';
+import PlanetMenu from '@components/PlanetMenu';
 
 type ChatBubbleProps = {
-    text: string,
+    text: any,
     color: string,
     type: BubbleType,
+    className?: string,
 }
 
 enum BubbleType {
-    OWN, PARTNER
+    OWN, PARTNER //0, 1
 }
 
 type InputContainerProps = {
-    state: [text: string, setText: Function]
+    setChat: Function,
+    typingState: [typing: boolean, setTyping: Function]
 }
 
+const chat = [
+    {
+        message: 'Szia!',
+        reaction: '',
+        from: 1
+    },
+    {
+        message: 'Szia!',
+        reaction: '',
+        from: 0
+    },
+    {
+        message: 'Hogy vagy?',
+        reaction: '',
+        from: 1
+    },
+    {
+        message: 'Mi jót csinálsz?',
+        reaction: '',
+        from: 1
+    },
+    {
+        message: 'Jól vagyok köszönöm! \n Éppen zenét hallgatok és próbálok valami hosszút irni, hogy megnézzem milyen. :)',
+        reaction: '',
+        from: 0
+    },
+    {
+        message: 'Szia!',
+        reaction: '',
+        from: 1
+    },
+    {
+        message: 'Megmutatod? :D',
+        reaction: '',
+        from: 1
+    },
+];
 
 const ChatView = () => {
+    const chatAreaRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         console.log('id alapjan ujra csatlakozni socketre??')
     }, []);
 
-    const [text, setText] = useState<string>("");
     const [typing, setTyping] = useState(false);
-
-    useEffect(() => {
-        if (text.length <= 0 && typing) setTyping(false);
-        if (text.length <= 0) return;
-
-        setTyping(true);
-        const debounce = setTimeout(() => {
-            setTyping(false);
-        }, 2000)
-
-        return () => clearTimeout(debounce)
-    }, [text])
+    const [chatData, setChatData] = useState(chat);
 
     const userColor = useUserSettings(state => state.color);
 
+    useLayoutEffect(() => {
+        const chatArea = chatAreaRef.current;
+        if (!chatArea) return;
+
+        chatArea.scrollTo({
+            top: chatArea.scrollHeight,
+            left: 0,
+            behavior: 'smooth'
+        });
+    });
 
     return (
         <>
@@ -53,38 +94,23 @@ const ChatView = () => {
                     <Logo size={'sm'} />
                     <div className={'flex flex-row justify-center items-center gap-1'}>
                         <Status status={UserStatus.ONLINE} />
-                        <Bars3Icon className={'h-8 w-10 cursor-pointer text-gray-600 dark:text-white'} />
+                        <PlanetMenu className={'block'} />
                     </div>
                 </div>
 
-                <div className={'chat-area'}>
-                    <ChatBubble text={'Szia!'} color={'white'} type={BubbleType.PARTNER} />
-                    <ChatBubble text={'Szia!'} color={userColor} type={BubbleType.OWN} />
-                    <ChatBubble text={'Hogy vagy?'} color={'white'} type={BubbleType.PARTNER} />
-                    <ChatBubble text={'Mi jót csinálsz?'} color={'white'} type={BubbleType.PARTNER} />
-                    <ChatBubble text={'Jól vagyok köszönöm! \n Éppen zenét hallgatok és próbálok valami hosszút irni, hogy megnézzem milyen. :)'} color={userColor} type={BubbleType.OWN} />
-                    <ChatBubble text={'Na szuper, de hamár van egy jópofa GIF küldő akkor melyik a kedvenc GIF-ed?'} color={'white'} type={BubbleType.PARTNER} />
-                    <ChatBubble text={'Megmutatod? :D'} color={'white'} type={BubbleType.PARTNER} />
-                    <ChatBubble text={'CSAK TESZT MIATT EKKORA A BUBOREKOK KOZOTTI MARGO JOOO??'} color={userColor} type={BubbleType.OWN} />
-                </div>
+                <m.div className={'chat-area scroll-smooth'} ref={chatAreaRef} layout>
+                    {chatData.map(message =>
+                        <ChatBubble text={message.message} color={message.from ? 'white' : userColor} type={message.from} />
+                    )}
+                    {typing &&
+                        <>
+                            <ChatBubble className={'!w-fit !mb-1'} text={<TypingIndicator />} color={'white'} type={BubbleType.PARTNER} />
+                            <p className={'mb-5 text text-xs !text-gray-300'}>A partnered gépel...</p>
+                        </>}
+                </m.div>
                 <AnimatePresence>
                     <m.div layout className={'relative chat-footer pb-6'}>
-                        <p
-                            className={'text-xs text-center h-5 relative z-10'}
-                        >
-                            <AnimatePresence>
-                                {typing && (
-                                    <m.div
-                                        className={'absolute top-0 w-full'}
-                                        initial={{ opacity: 0, y: 25 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: 25 }}
-                                    >Partnered éppen gépel...</m.div>
-                                )}
-                            </AnimatePresence>
-                        </p>
-
-                        <InputContainer state={[text, setText]} />
+                        <InputContainer setChat={setChatData} typingState={[typing, setTyping]} />
                     </m.div>
                 </AnimatePresence>
             </m.div>
@@ -92,41 +118,75 @@ const ChatView = () => {
     )
 }
 
-const ChatBubble = ({ text, color, type }: ChatBubbleProps) => {
+const ChatBubble = ({ text, color, type, className }: ChatBubbleProps) => {
     const bgColor = 'bg-' + color;
 
-    return (<div className={`chat-bubble ${bgColor} ${type === BubbleType.OWN ? 'self-end text-white !rounded-br-none text-right' : 'self-start !rounded-bl-none'}`}>
+    return (<m.div layout className={`${className} chat-bubble ${bgColor} ${type === BubbleType.OWN ? 'self-end text-white !rounded-br-none text-right' : 'self-start !rounded-bl-none'}`}>
         {text}
-    </div>)
+    </m.div>)
 }
 
-const InputContainer = ({ state }: InputContainerProps) => {
-    const [text, setText] = state;
-    const [rows, setRows] = useState(1);
+const InputContainer = ({ setChat, typingState }: InputContainerProps) => {
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const [typing, setTyping] = typingState;
+    const [textLength, setTextLength] = useState(0);
+    //! TODO: GET PARTNER INPUT STATE AND REPLACE IT WITH TYPING, CAN BE MOVED UP TO PARENT
+    useEffect(() => {
+        const textarea = textareaRef.current;
+        if (textarea === null) return;
+        let debounceTimeout: NodeJS.Timeout;
+
+        const handleTextareaChange = () => {
+            const textareaValue = textarea.value;
+            if (textareaValue.length <= 0 && typing) setTyping(false);
+            if (textareaValue.length <= 0) return;
+
+            setTyping(true);
+            debounceTimeout = setTimeout(() => {
+                setTyping(false);
+            }, 2000);
+
+            setTextLength(textareaValue.length);
+        };
+
+        textarea.addEventListener('input', handleTextareaChange);
+        textarea.addEventListener('keyup', (e) => setTextLength((e.target as HTMLTextAreaElement).value.length));
+        return () => {
+            textarea.removeEventListener('input', handleTextareaChange);
+            clearTimeout(debounceTimeout);
+        };
+    }, [textareaRef]);
+
+    const handleOnSend = (event: any, text?: string | undefined) => {
+        const textarea = textareaRef.current;
+        if (!textarea) return;
+        const content = text || textarea.value;
+        if (!content) return;
+
+        setChat((prev: any) => [...prev, { message: content, reaction: '', from: 0 }]);
+        textarea.value = "";
+        setTyping(false);
+        setTextLength(0);
+    }
 
     const userColor = useUserSettings(state => state.color);
 
-    return (<m.div layout className={'input-container z-20'}>
-        <m.textarea
-            layout
-            placeholder={'Üzenet küldése...'}
-            className={'chat-input'}
-            value={text}
-            rows={rows}
-        />
+    return (<m.div layoutRoot className={'input-container z-20'}>
+        <TextArea placeholder='teszt' textareaRef={textareaRef} onSend={handleOnSend} />
         <m.button layout={'position'} className={'chat-more'}>
             <MapIcon size={25} className={'cursor-pointer dark:fill-white fill-gray-600'} />
         </m.button>
 
-        {text.length > 0 && (
+        {textLength > 0 ? (
             <m.button
+                onClick={handleOnSend}
                 className={'chat-send'}
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, position: 'absolute' }}>
                 <SendIcon size={25} className={`cursor-pointer fill-${userColor}`} />
             </m.button>
-        )}
+        ) : <></>}
     </m.div>)
 }
 

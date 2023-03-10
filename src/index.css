@@ -3,6 +3,7 @@
 @import 'tailwindcss/utilities';
 @import '../src/css/colors.css';
 @import '../src/css/toast.css';
+@import '../src/css/typing-indicator.css';
 
 
 ::-webkit-scrollbar {
@@ -104,7 +105,7 @@ path.county {
 }
 
 .input-container {
-  @apply flex flex-grow flex-row px-5 py-3 bg-white dark:bg-gray-600 text-gray-600 dark:text-white rounded-full;
+  @apply flex flex-grow flex-row px-5 py-3 bg-white dark:bg-gray-600 text-gray-600 dark:text-white rounded-xl;
 }
 
 .chat-area {
@@ -137,7 +138,7 @@ path.county {
 }
 
 .chat-bubble {
-  @apply w-[70%] max-w-[500px] rounded-[15px] py-3 px-4 my-10;
+  @apply w-[70%] max-w-[500px] min-h-[48px] rounded-[15px] py-3 px-4 my-10 flex items-center;
 }
 
 .select-input {

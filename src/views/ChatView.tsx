@@ -2,14 +2,15 @@ import Logo from '@atoms/Logo';
 import SendIcon from '@atoms/SendIcon';
 import MapIcon from '@atoms/MapIcon';
 import Status from '@atoms/Status';
-import { Bars3Icon } from '@heroicons/react/24/outline';
 import { useUserSettings } from '@store/userSettings';
 import { UserStatus } from '@utils/enums';
 import { AnimatePresence, motion as m } from 'framer-motion';
 import { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import TextArea from '@components/TextArea';
 import TypingIndicator from '@atoms/TypingIndicator';
-import PlanetMenu from '@components/PlanetMenu';
+import InlineMenu from '@components/InlineMenu';
+import { menuElementInterface } from '@utils/interfaces/menuElementInterface';
+import { ArrowLeftOnRectangleIcon, Bars2Icon, Bars3Icon, Cog6ToothIcon, ExclamationCircleIcon, EyeIcon, EyeSlashIcon, FunnelIcon } from '@heroicons/react/24/outline';
 
 type ChatBubbleProps = {
     text: any,
@@ -65,16 +66,45 @@ const chat = [
     },
 ];
 
+const iconClass = 'w-8 h-8 text cursor-pointer';
+
+const menuElements: menuElementInterface[] = [
+    {
+        icon: <EyeIcon className={iconClass} />,
+        openIcon: <EyeSlashIcon className={iconClass} />,
+        name: 'Partnered',
+        onClick: undefined,
+        order: 1,
+    },
+    {
+        icon: <ExclamationCircleIcon className={`${iconClass} text-toast-red`} />,
+        name: 'Jelentés',
+        onClick: undefined,
+        order: 3,
+    },
+    {
+        icon: <Cog6ToothIcon className={iconClass} />,
+        name: 'Beállítások',
+        onClick: undefined,
+        order: 2,
+    },
+    {
+        icon: <ArrowLeftOnRectangleIcon className={iconClass} />,
+        name: 'Kilépés',
+        onClick: undefined,
+        order: 4,
+    }
+];
+const MotionStatus = m(Status);
 const ChatView = () => {
     const chatAreaRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-        console.log('id alapjan ujra csatlakozni socketre??')
-    }, []);
 
     const [typing, setTyping] = useState(false);
     const [chatData, setChatData] = useState(chat);
 
     const userColor = useUserSettings(state => state.color);
+
+    const [test, setTest] = useState(false);
 
     useLayoutEffect(() => {
         const chatArea = chatAreaRef.current;
@@ -92,10 +122,11 @@ const ChatView = () => {
             <m.div className={'view !py-0 !px-0 flex flex-col !max-w-[800px]'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
                 <div className={'flex-shrink flex flex-row justify-between p-5'}>
                     <Logo size={'sm'} />
-                    <div className={'flex flex-row justify-center items-center gap-1'}>
-                        <Status status={UserStatus.ONLINE} />
-                        <PlanetMenu className={'block'} />
-                    </div>
+                    <m.div layoutRoot className={'flex flex-row justify-end items-center gap-1 relative flex-grow w-full'}>
+                        <MotionStatus layout status={UserStatus.ONLINE} />
+
+                        <InlineMenu menuElements={menuElements} />
+                    </m.div>
                 </div>
 
                 <m.div className={'chat-area scroll-smooth'} ref={chatAreaRef} layout>
@@ -104,7 +135,7 @@ const ChatView = () => {
                     )}
                     {typing &&
                         <>
-                            <ChatBubble className={'!w-fit !mb-1'} text={<TypingIndicator />} color={'white'} type={BubbleType.PARTNER} />
+                            <ChatBubble className={'!w-fit !mb-1 !min-h-[48px]'} text={<TypingIndicator />} color={'white'} type={BubbleType.PARTNER} />
                             <p className={'mb-5 text text-xs !text-gray-300'}>A partnered gépel...</p>
                         </>}
                 </m.div>
@@ -121,9 +152,15 @@ const ChatView = () => {
 const ChatBubble = ({ text, color, type, className }: ChatBubbleProps) => {
     const bgColor = 'bg-' + color;
 
-    return (<m.div layout className={`${className} chat-bubble ${bgColor} ${type === BubbleType.OWN ? 'self-end text-white !rounded-br-none text-right' : 'self-start !rounded-bl-none'}`}>
-        {text}
-    </m.div>)
+    return (
+        <m.div
+            layout
+            className={`chat-bubble ${bgColor} ${type === BubbleType.OWN ?
+                'self-end text-white !rounded-br-none text-right' : 'self-start !rounded-bl-none'} 
+        ${className}`}>
+            {text}
+        </m.div>
+    )
 }
 
 const InputContainer = ({ setChat, typingState }: InputContainerProps) => {

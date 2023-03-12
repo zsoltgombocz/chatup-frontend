@@ -138,7 +138,7 @@ path.county {
 }
 
 .chat-bubble {
-  @apply w-[70%] max-w-[500px] min-h-[48px] rounded-[15px] py-3 px-4 my-10 flex items-center;
+  @apply w-[70%] max-w-[500px] h-min rounded-[15px] py-3 px-4 my-10 flex items-center;
 }
 
 .select-input {

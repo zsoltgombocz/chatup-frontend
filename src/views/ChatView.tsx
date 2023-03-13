@@ -10,13 +10,30 @@ import TextArea from '@components/TextArea';
 import TypingIndicator from '@atoms/TypingIndicator';
 import InlineMenu from '@components/InlineMenu';
 import { menuElementInterface } from '@utils/interfaces/menuElementInterface';
-import { ArrowLeftOnRectangleIcon, Bars2Icon, Bars3Icon, Cog6ToothIcon, ExclamationCircleIcon, EyeIcon, EyeSlashIcon, FunnelIcon } from '@heroicons/react/24/outline';
+import { AdjustmentsHorizontalIcon, ArrowRightOnRectangleIcon, EyeIcon, EyeSlashIcon, ShieldExclamationIcon } from '@heroicons/react/24/outline';
+import ChatOverlay from './chat/ChatOverlay';
+import classNames from 'classnames';
+
+import Lottie from 'react-lottie-player'
+
+import { useLongPress } from 'use-long-press';
+
+import { EMOJIS, getEmojiJSON } from '@config/json/emojis/emojis';
+
+type ReactionProps = {
+    json: any
+}
 
 type ChatBubbleProps = {
     text: any,
-    color: string,
     type: BubbleType,
     className?: string,
+    reactionString?: string
+}
+
+type ChatBubbleReactionProps = {
+    selected: undefined | string,
+    isOpen: boolean,
 }
 
 enum BubbleType {
@@ -31,37 +48,37 @@ type InputContainerProps = {
 const chat = [
     {
         message: 'Szia!',
-        reaction: '',
+        reaction: undefined,
         from: 1
     },
     {
         message: 'Szia!',
-        reaction: '',
+        reaction: undefined,
         from: 0
     },
     {
         message: 'Hogy vagy?',
-        reaction: '',
+        reaction: undefined,
         from: 1
     },
     {
         message: 'Mi jót csinálsz?',
-        reaction: '',
+        reaction: undefined,
         from: 1
     },
     {
         message: 'Jól vagyok köszönöm! \n Éppen zenét hallgatok és próbálok valami hosszút irni, hogy megnézzem milyen. :)',
-        reaction: '',
+        reaction: undefined,
         from: 0
     },
     {
         message: 'Szia!',
-        reaction: '',
+        reaction: undefined,
         from: 1
     },
     {
         message: 'Megmutatod? :D',
-        reaction: '',
+        reaction: undefined,
         from: 1
     },
 ];
@@ -77,25 +94,24 @@ const menuElements: menuElementInterface[] = [
         order: 1,
     },
     {
-        icon: <ExclamationCircleIcon className={`${iconClass} text-toast-red`} />,
+        icon: <ShieldExclamationIcon className={`${iconClass} text-toast-red`} />,
         name: 'Jelentés',
         onClick: undefined,
         order: 3,
     },
     {
-        icon: <Cog6ToothIcon className={iconClass} />,
+        icon: <AdjustmentsHorizontalIcon className={iconClass} />,
         name: 'Beállítások',
         onClick: undefined,
         order: 2,
     },
     {
-        icon: <ArrowLeftOnRectangleIcon className={iconClass} />,
+        icon: <ArrowRightOnRectangleIcon className={iconClass} />,
         name: 'Kilépés',
         onClick: undefined,
         order: 4,
     }
 ];
-const MotionStatus = m(Status);
 const ChatView = () => {
     const chatAreaRef = useRef<HTMLDivElement>(null);
 
@@ -103,8 +119,6 @@ const ChatView = () => {
     const [chatData, setChatData] = useState(chat);
 
     const userColor = useUserSettings(state => state.color);
-
-    const [test, setTest] = useState(false);
 
     useLayoutEffect(() => {
         const chatArea = chatAreaRef.current;
@@ -118,49 +132,99 @@ const ChatView = () => {
     });
 
     return (
-        <>
-            <m.div className={'view !py-0 !px-0 flex flex-col !max-w-[800px]'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
-                <div className={'flex-shrink flex flex-row justify-between p-5'}>
+        <div className={'bg-chat w-full h-full'}>
+            <m.div className={'view !py-0 !px-0 !max-w-[800px] mx-auto !h-screen'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
+                <div className={'flex-shrink flex flex-row justify-between p-5 h-[90px]'}>
                     <Logo size={'sm'} />
-                    <m.div layoutRoot className={'flex flex-row justify-end items-center gap-1 relative flex-grow w-full'}>
-                        <MotionStatus layout status={UserStatus.ONLINE} />
+                    <m.div layout className={'flex flex-row justify-end items-center gap-1 relative flex-grow w-full'}>
+                        <Status status={UserStatus.ONLINE} />
 
                         <InlineMenu menuElements={menuElements} />
                     </m.div>
                 </div>
 
-                <m.div className={'chat-area scroll-smooth'} ref={chatAreaRef} layout>
-                    {chatData.map(message =>
-                        <ChatBubble text={message.message} color={message.from ? 'white' : userColor} type={message.from} />
-                    )}
-                    {typing &&
-                        <>
-                            <ChatBubble className={'!w-fit !mb-1 !min-h-[48px]'} text={<TypingIndicator />} color={'white'} type={BubbleType.PARTNER} />
-                            <p className={'mb-5 text text-xs !text-gray-300'}>A partnered gépel...</p>
-                        </>}
-                </m.div>
-                <AnimatePresence>
-                    <m.div layout className={'relative chat-footer pb-6'}>
-                        <InputContainer setChat={setChatData} typingState={[typing, setTyping]} />
+                <div className={'flex-grow h-fit flex overflow-hidden flex-col relative'}>
+                    <m.div className={'chat-area scroll-smooth'} ref={chatAreaRef} layout>
+                        {chatData.map(message =>
+                            <ChatBubble text={message.message} type={message.from} reactionString={message.reaction} />
+                        )}
+                        {typing &&
+                            <>
+                                <ChatBubble className={'!w-fit !mb-1 !min-h-[48px]'} text={<TypingIndicator />} type={BubbleType.PARTNER} />
+                                <p className={'mb-5 text text-xs !text-gray-300'}>A partnered gépel...</p>
+                            </>}
                     </m.div>
-                </AnimatePresence>
+                    <AnimatePresence>
+                        <m.div layout className={'relative chat-footer pb-6'}>
+                            <InputContainer setChat={setChatData} typingState={[typing, setTyping]} />
+                        </m.div>
+                    </AnimatePresence>
+                </div>
             </m.div>
-        </>
+        </div>
     )
 }
 
-const ChatBubble = ({ text, color, type, className }: ChatBubbleProps) => {
-    const bgColor = 'bg-' + color;
+const ChatBubble = ({ text, type, className, reactionString }: ChatBubbleProps) => {
+    const [reaction, setReaction] = useState<string | undefined>(reactionString);
+
+    const userColor = useUserSettings(state => state.color);
+    const bgColor = classNames({
+        'bg-[#DBDBDB]': type === BubbleType.PARTNER,
+        [`bg-${userColor}`]: type === BubbleType.OWN,
+    });
+
+    const bind = useLongPress(() => {
+        const rand = Math.floor(Math.random() * (4 - 1) + 1);
+        const emoji = Object.values(EMOJIS)[rand];
+        setReaction(reaction === undefined ? emoji.id : undefined);
+    });
 
     return (
-        <m.div
-            layout
-            className={`chat-bubble ${bgColor} ${type === BubbleType.OWN ?
-                'self-end text-white !rounded-br-none text-right' : 'self-start !rounded-bl-none'} 
-        ${className}`}>
-            {text}
+        <m.div className={`chat-bubble-wrapper ${bgColor} ${type === BubbleType.OWN ?
+            'self-end text-white !rounded-br-none text-right bg-' : 'self-start !rounded-bl-none'} 
+${className}`} {...bind()}>
+            <m.div layout> {text} </m.div>
+            <ChatBubbleReaction selected={reactionString} isOpen={true} />
+        </m.div >
+    )
+}
+
+const ChatBubbleReaction = ({ selected, isOpen }: ChatBubbleReactionProps) => {
+    const [reaction, setReaction] = useState<string | undefined>(selected);
+
+    return (
+        <m.div className={'chat-bubble-reaction-wrapper'}>
+            <AnimatePresence>
+                {isOpen && (
+                    <m.div className={'chat-bubble-reaction-list'}>
+                        asd
+                    </m.div>
+                )}
+
+                {reaction && (
+                    <m.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        className={'chat-reaction-wrapper'}
+                    >
+                        <Lottie
+                            loop
+                            animationData={getEmojiJSON(reaction)}
+                            play
+                            style={{ width: 25, height: 25 }}
+                            className={'chat-reaction'}
+                        />
+                    </m.div>
+                )}
+            </AnimatePresence>
         </m.div>
     )
+}
+
+const Reaction = ({ }: ReactionProps) => {
+
 }
 
 const InputContainer = ({ setChat, typingState }: InputContainerProps) => {
@@ -179,6 +243,7 @@ const InputContainer = ({ setChat, typingState }: InputContainerProps) => {
             if (textareaValue.length <= 0) return;
 
             setTyping(true);
+            clearTimeout(debounceTimeout);
             debounceTimeout = setTimeout(() => {
                 setTyping(false);
             }, 2000);
@@ -221,7 +286,7 @@ const InputContainer = ({ setChat, typingState }: InputContainerProps) => {
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, position: 'absolute' }}>
-                <SendIcon size={25} className={`cursor-pointer fill-${userColor}`} />
+                <SendIcon size={25} className={`cursor - pointer fill - ${userColor} `} />
             </m.button>
         ) : <></>}
     </m.div>)

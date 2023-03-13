@@ -16,6 +16,9 @@ module.exports = {
       borderRadius: {
         'xl': '25px',
       },
+      backdropBlur: {
+        xs: '2px',
+      },
       colors: {
         'primary': {
           blue: {

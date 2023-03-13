@@ -108,5 +108,12 @@
             "Téma színű görgő sáv"
         ],
         "date": "2023.03.07"
+    },
+    {
+        "version": "0.0.73",
+        "changes": [
+            "Chat nézet 2. interációs UI felület kész"
+        ],
+        "date": "2023.03.13"
     }
 ]

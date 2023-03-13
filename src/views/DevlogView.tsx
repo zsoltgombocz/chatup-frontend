@@ -1,4 +1,4 @@
-import versions from '@config/Versions.json';
+import versions from '@config/json/Versions.json';
 import { motion as m } from 'framer-motion';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 

@@ -1,7 +1,7 @@
 import { motion as m } from 'framer-motion';
 import Footer from '@layout/Footer';
 import TextCarousel from '@components/carousels/TextCarousel';
-import genderCarouselData from '@config/carousels/gender.json';
+import genderCarouselData from '@config/json/GenderCarousel.json';
 import Button from '@components/Button';
 import Switch from '@components/Switch';
 import { config } from '@config/genderConfig';

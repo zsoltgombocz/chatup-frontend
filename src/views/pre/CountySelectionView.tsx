@@ -2,7 +2,7 @@ import { SyntheticEvent, useEffect } from 'react'
 import { motion as m } from 'framer-motion';
 import Footer from '@layout/Footer';
 import TextCarousel from '@components/carousels/TextCarousel';
-import countyCarouselData from '@config/carousels/county.json';
+import countyCarouselData from '@config/json/CountyCarousel.json';
 import Map from '@components/Map';
 import RadioGroup from '@components/RadioGroup';
 import Button from '@components/Button';

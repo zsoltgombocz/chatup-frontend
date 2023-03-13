@@ -1,4 +1,4 @@
-import versions from '@config/Versions.json';
+import versions from '@config/json/Versions.json';
 
 type Props = {
     showEnv?: boolean,

@@ -75,6 +75,10 @@ path.county {
 .view {
   @apply flex-grow h-fit flex overflow-hidden flex-col px-10 py-10 w-screen max-w-[600px] self-center;
 }
+
+.bg-chat {
+  @apply bg-bg-light-outer dark:bg-bg-dark-inner;
+}
 .scrollable-view {
   @apply view !overflow-y-auto;
 }
@@ -105,7 +109,11 @@ path.county {
 }
 
 .input-container {
-  @apply flex flex-grow flex-row px-5 py-3 bg-white dark:bg-gray-600 text-gray-600 dark:text-white rounded-xl;
+  @apply flex flex-grow flex-row px-5 py-3 bg-bg-light-inner dark:bg-bg-dark-outer text-gray-600 dark:text-white rounded-xl;
+}
+
+.input-container > textarea::placeholder {
+  @apply text-gray-300;
 }
 
 .chat-area {
@@ -137,8 +145,22 @@ path.county {
   top: 0;
 }
 
-.chat-bubble {
-  @apply w-[70%] max-w-[500px] h-min rounded-[15px] py-3 px-4 my-10 flex items-center;
+.chat-bubble-wrapper {
+  @apply w-[70%] max-w-[500px] h-min rounded-[15px] py-3 px-4 my-3 flex items-center relative;
+}
+.chat-reaction-wrapper {
+  @apply absolute bg-bg-light-outer dark:bg-bg-dark-inner rounded-full -bottom-4 left-5
+}
+.chat-reaction {
+  @apply relative;
+}
+
+.chat-bubble-reaction-wrapper {
+  @apply bg-red-500 absolute bottom-0 left-0;
+}
+
+.chat-bubble-reaction-list {
+  @apply bg-bg-light-inner dark:bg-bg-dark-outer;
 }
 
 .select-input {

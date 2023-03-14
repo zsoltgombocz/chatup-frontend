@@ -5,7 +5,7 @@ import Status from '@atoms/Status';
 import { useUserSettings } from '@store/userSettings';
 import { UserStatus } from '@utils/enums';
 import { AnimatePresence, motion as m } from 'framer-motion';
-import { useEffect, useState, useRef, useLayoutEffect } from 'react';
+import { useEffect, useState, useRef, useLayoutEffect, ReactNode, ReactFragment } from 'react';
 import TextArea from '@components/TextArea';
 import TypingIndicator from '@atoms/TypingIndicator';
 import InlineMenu from '@components/InlineMenu';
@@ -14,15 +14,9 @@ import { AdjustmentsHorizontalIcon, ArrowRightOnRectangleIcon, EyeIcon, EyeSlash
 import ChatOverlay from './chat/ChatOverlay';
 import classNames from 'classnames';
 
-import Lottie from 'react-lottie-player'
-
 import { useLongPress } from 'use-long-press';
-
-import { EMOJIS, getEmojiJSON } from '@config/json/emojis/emojis';
-
-type ReactionProps = {
-    json: any
-}
+import { EMOJIS } from '@config/emojis';
+import { EmojiInterface } from '@utils/interfaces/emojiInterface';
 
 type ChatBubbleProps = {
     text: any,
@@ -34,6 +28,12 @@ type ChatBubbleProps = {
 type ChatBubbleReactionProps = {
     selected: undefined | string,
     isOpen: boolean,
+}
+
+type ReactionProps = {
+    gif?: JSX.Element,
+    id?: string,
+    alwaysPlay?: boolean
 }
 
 enum BubbleType {
@@ -186,36 +186,26 @@ const ChatBubble = ({ text, type, className, reactionString }: ChatBubbleProps) 
 ${className}`} {...bind()}>
             <m.div layout> {text} </m.div>
             <ChatBubbleReaction selected={reactionString} isOpen={true} />
-        </m.div >
+        </m.div>
     )
 }
 
 const ChatBubbleReaction = ({ selected, isOpen }: ChatBubbleReactionProps) => {
     const [reaction, setReaction] = useState<string | undefined>(selected);
 
+    useEffect(() => {
+        setReaction('cool');
+    }, [])
+
+
     return (
         <m.div className={'chat-bubble-reaction-wrapper'}>
             <AnimatePresence>
+                {reaction && <Reaction id={reaction} alwaysPlay={true} />}
+
                 {isOpen && (
                     <m.div className={'chat-bubble-reaction-list'}>
-                        asd
-                    </m.div>
-                )}
-
-                {reaction && (
-                    <m.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                        className={'chat-reaction-wrapper'}
-                    >
-                        <Lottie
-                            loop
-                            animationData={getEmojiJSON(reaction)}
-                            play
-                            style={{ width: 25, height: 25 }}
-                            className={'chat-reaction'}
-                        />
+                        {EMOJIS.map(emoji => <Reaction id={emoji.id} />)}
                     </m.div>
                 )}
             </AnimatePresence>
@@ -223,8 +213,22 @@ const ChatBubbleReaction = ({ selected, isOpen }: ChatBubbleReactionProps) => {
     )
 }
 
-const Reaction = ({ }: ReactionProps) => {
+const Reaction = ({ gif, id, alwaysPlay = false }: ReactionProps): JSX.Element => {
+    const [hover, setHover] = useState(false);
+    if (gif === undefined && id === undefined) return <></>;
+    const emojiById: EmojiInterface | undefined = EMOJIS.find(e => e.id === id);
 
+    const emoji: JSX.Element = id ? emojiById?.gif || <></> : gif || <></>;
+
+    return alwaysPlay ?
+        emoji
+        :
+        <m.div
+            className={'cursor-pointer grayscale hover:grayscale-0'}
+            whileHover={{ scale: 1.5 }}
+            onHoverStart={() => setHover(true)}
+            onHoverEnd={() => setHover(false)}
+        >{hover ? emojiById?.gif : emojiById?.img}</m.div>;
 }
 
 const InputContainer = ({ setChat, typingState }: InputContainerProps) => {

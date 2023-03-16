@@ -1,5 +1,6 @@
 export interface EmojiInterface {
     id: string,
-    gif: JSX.Element,
-    img: JSX.Element
+    gif: string,
+    img: string,
+    size?: number
 }

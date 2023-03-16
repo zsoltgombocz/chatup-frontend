@@ -115,5 +115,13 @@
             "Chat nézet 2. interációs UI felület kész"
         ],
         "date": "2023.03.13"
+    },
+    {
+        "version": "0.0.74",
+        "changes": [
+            "Üzenet reakciók hozzáadva",
+            "Felső menü WIP"
+        ],
+        "date": "2023.03.16"
     }
 ]

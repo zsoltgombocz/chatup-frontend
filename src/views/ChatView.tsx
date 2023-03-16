@@ -4,8 +4,8 @@ import MapIcon from '@atoms/MapIcon';
 import Status from '@atoms/Status';
 import { useUserSettings } from '@store/userSettings';
 import { UserStatus } from '@utils/enums';
-import { AnimatePresence, motion as m } from 'framer-motion';
-import { useEffect, useState, useRef, useLayoutEffect, ReactNode, ReactFragment } from 'react';
+import { AnimatePresence, motion as m, MotionProps } from 'framer-motion';
+import { useEffect, useState, useRef, useLayoutEffect, forwardRef, Ref } from 'react';
 import TextArea from '@components/TextArea';
 import TypingIndicator from '@atoms/TypingIndicator';
 import InlineMenu from '@components/InlineMenu';
@@ -23,17 +23,22 @@ type ChatBubbleProps = {
     type: BubbleType,
     className?: string,
     reactionString?: string
+    messageId: number,
+    setReaction?: Function | undefined
 }
 
 type ChatBubbleReactionProps = {
     selected: undefined | string,
     isOpen: boolean,
+    onReactionSelected?: Function | undefined,
+    onSelectedReactionClicked?: Function | undefined,
+    reverse: boolean,
 }
 
 type ReactionProps = {
-    gif?: JSX.Element,
     id?: string,
-    alwaysPlay?: boolean
+    alwaysPlay?: boolean,
+    onClick?: Function | undefined
 }
 
 enum BubbleType {
@@ -45,41 +50,55 @@ type InputContainerProps = {
     typingState: [typing: boolean, setTyping: Function]
 }
 
-const chat = [
+interface msg {
+    message: string,
+    reaction: undefined | string,
+    from: number,
+    id: number,
+}
+
+let chat: msg[] = [
     {
         message: 'Szia!',
         reaction: undefined,
-        from: 1
+        from: 1,
+        id: 0,
     },
     {
         message: 'Szia!',
         reaction: undefined,
-        from: 0
+        from: 0,
+        id: 1,
     },
     {
         message: 'Hogy vagy?',
         reaction: undefined,
-        from: 1
+        from: 1,
+        id: 2,
     },
     {
         message: 'Mi jót csinálsz?',
         reaction: undefined,
-        from: 1
+        from: 1,
+        id: 3,
     },
     {
         message: 'Jól vagyok köszönöm! \n Éppen zenét hallgatok és próbálok valami hosszút irni, hogy megnézzem milyen. :)',
         reaction: undefined,
-        from: 0
+        from: 0,
+        id: 4,
     },
     {
         message: 'Szia!',
         reaction: undefined,
-        from: 1
+        from: 1,
+        id: 5,
     },
     {
         message: 'Megmutatod? :D',
-        reaction: undefined,
-        from: 1
+        reaction: 'cool',
+        from: 1,
+        id: 6,
     },
 ];
 
@@ -131,6 +150,20 @@ const ChatView = () => {
         });
     });
 
+    const setReactionOnChatMessage = (messageId: number, reaction: string | undefined) => {
+        const newChatData: msg[] = chatData.filter(msg => msg.id !== messageId);
+        const updatedMsg: msg | undefined = chatData.find(msg => msg.id === messageId);
+        if (updatedMsg === undefined) return;
+
+        setChatData([...newChatData, { ...updatedMsg, reaction: reaction }].sort((a: msg, b: msg) => a.id - b.id));
+
+    }
+
+    useEffect(() => {
+        console.log(chatData);
+    }, [chatData])
+
+
     return (
         <div className={'bg-chat w-full h-full'}>
             <m.div className={'view !py-0 !px-0 !max-w-[800px] mx-auto !h-screen'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
@@ -145,12 +178,12 @@ const ChatView = () => {
 
                 <div className={'flex-grow h-fit flex overflow-hidden flex-col relative'}>
                     <m.div className={'chat-area scroll-smooth'} ref={chatAreaRef} layout>
-                        {chatData.map(message =>
-                            <ChatBubble text={message.message} type={message.from} reactionString={message.reaction} />
+                        {chatData.map((message: msg) =>
+                            <ChatBubble setReaction={setReactionOnChatMessage} messageId={message.id} key={message.id} text={message.message} type={message.from} reactionString={message.reaction} />
                         )}
                         {typing &&
                             <>
-                                <ChatBubble className={'!w-fit !mb-1 !min-h-[48px]'} text={<TypingIndicator />} type={BubbleType.PARTNER} />
+                                <ChatBubble key={-1} messageId={-1} className={'!w-fit !mb-1 !min-h-[48px]'} text={<TypingIndicator />} type={BubbleType.PARTNER} />
                                 <p className={'mb-5 text text-xs !text-gray-300'}>A partnered gépel...</p>
                             </>}
                     </m.div>
@@ -165,8 +198,9 @@ const ChatView = () => {
     )
 }
 
-const ChatBubble = ({ text, type, className, reactionString }: ChatBubbleProps) => {
-    const [reaction, setReaction] = useState<string | undefined>(reactionString);
+const ChatBubble = ({ text, type, className, reactionString, messageId, setReaction = undefined }: ChatBubbleProps) => {
+    const [reactionMenu, setReactionMenu] = useState<boolean>(false);
+    const bubbleRef = useRef<HTMLDivElement>(null);
 
     const userColor = useUserSettings(state => state.color);
     const bgColor = classNames({
@@ -175,61 +209,146 @@ const ChatBubble = ({ text, type, className, reactionString }: ChatBubbleProps) 
     });
 
     const bind = useLongPress(() => {
-        const rand = Math.floor(Math.random() * (4 - 1) + 1);
-        const emoji = Object.values(EMOJIS)[rand];
-        setReaction(reaction === undefined ? emoji.id : undefined);
+        if (type === BubbleType.OWN) return;
+
+        setReactionMenu(true);
     });
+
+    useEffect(() => {
+        const listenClickOut = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            if (target === bubbleRef.current || target.parentElement === bubbleRef.current) return;
+            setReactionMenu(false);
+        }
+        if (reactionMenu === true) {
+            document.addEventListener('click', listenClickOut);
+        } else {
+            document.removeEventListener('click', listenClickOut);
+        }
+    }, [reactionMenu]);
 
     return (
         <m.div className={`chat-bubble-wrapper ${bgColor} ${type === BubbleType.OWN ?
-            'self-end text-white !rounded-br-none text-right bg-' : 'self-start !rounded-bl-none'} 
-${className}`} {...bind()}>
+            'justify-end self-end text-white !rounded-br-none text-right bg-' : 'justify-start !rounded-bl-none'} 
+${className}`} {...bind()} ref={bubbleRef}>
             <m.div layout> {text} </m.div>
-            <ChatBubbleReaction selected={reactionString} isOpen={true} />
+            <ChatBubbleReaction
+                selected={reactionString}
+                isOpen={reactionMenu}
+                onReactionSelected={(id: string) => setReaction?.(messageId, id)}
+                onSelectedReactionClicked={() => setReaction?.(messageId, undefined)}
+                reverse={type === BubbleType.OWN}
+            />
         </m.div>
     )
 }
 
-const ChatBubbleReaction = ({ selected, isOpen }: ChatBubbleReactionProps) => {
-    const [reaction, setReaction] = useState<string | undefined>(selected);
+const container = {
+    hidden: {
+        opacity: 0,
+        scale: 0,
+        transition: {
+            staggerChildren: 0.1,
+            when: "afterChildren"
+        },
+        transitionEnd: {
+            display: 'none',
+        }
+    },
+    show: {
+        opacity: 1,
+        scale: 1,
+        display: 'flex',
+        transition: {
+            staggerChildren: 0.1,
+        }
+    }
+};
+
+const listItem = {
+    hidden: { scale: 0 },
+    show: { scale: 1 }
+};
+
+const ChatBubbleReaction = ({
+    selected,
+    isOpen,
+    onReactionSelected = undefined,
+    onSelectedReactionClicked = undefined,
+    reverse,
+}: ChatBubbleReactionProps) => {
+    const [selectedEmoji, setSelectedEmoji] = useState<string | undefined>(selected);
 
     useEffect(() => {
-        setReaction('cool');
-    }, [])
-
+        setSelectedEmoji(selected);
+    }, [selected])
 
     return (
-        <m.div className={'chat-bubble-reaction-wrapper'}>
+        <m.div className={`chat-bubble-reaction-wrapper ${reverse && 'reverse'}`}>
             <AnimatePresence>
-                {reaction && <Reaction id={reaction} alwaysPlay={true} />}
-
-                {isOpen && (
-                    <m.div className={'chat-bubble-reaction-list'}>
-                        {EMOJIS.map(emoji => <Reaction id={emoji.id} />)}
-                    </m.div>
-                )}
+                {selectedEmoji && <MotionReaction
+                    id={selectedEmoji}
+                    alwaysPlay={true}
+                    onClick={() => onSelectedReactionClicked?.()}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                />}
+            </AnimatePresence>
+            <AnimatePresence>
+                <m.div
+                    className={'chat-bubble-reaction-list'}
+                    initial="hidden"
+                    animate={isOpen ? 'show' : 'hidden'}
+                    variants={container}
+                >
+                    {EMOJIS.map(emoji => <MotionReaction
+                        key={emoji.id}
+                        id={emoji.id}
+                        variants={listItem}
+                        onClick={() => onReactionSelected?.(emoji.id)}
+                    />)}
+                </m.div>
             </AnimatePresence>
         </m.div>
     )
 }
 
-const Reaction = ({ gif, id, alwaysPlay = false }: ReactionProps): JSX.Element => {
+const Reaction = forwardRef(({ id, alwaysPlay = false, onClick = undefined }: ReactionProps, ref: Ref<any>): JSX.Element => {
     const [hover, setHover] = useState(false);
-    if (gif === undefined && id === undefined) return <></>;
     const emojiById: EmojiInterface | undefined = EMOJIS.find(e => e.id === id);
 
-    const emoji: JSX.Element = id ? emojiById?.gif || <></> : gif || <></>;
-
+    if (id === undefined || emojiById === undefined) return <></>;
+    const sizeClass = classNames({
+        [`w-${emojiById.size}`]: emojiById.size !== undefined,
+        [`h-${emojiById.size}`]: emojiById.size !== undefined,
+        'w-7 h-7': emojiById.size === undefined
+    })
     return alwaysPlay ?
-        emoji
+        <m.img ref={ref} className={`emoji active ${sizeClass}`} src={emojiById.gif} onClick={() => onClick?.()} />
         :
         <m.div
-            className={'cursor-pointer grayscale hover:grayscale-0'}
+            className={`cursor-pointer grayscale hover:grayscale-0 emoji-container`}
             whileHover={{ scale: 1.5 }}
             onHoverStart={() => setHover(true)}
             onHoverEnd={() => setHover(false)}
-        >{hover ? emojiById?.gif : emojiById?.img}</m.div>;
-}
+            onClick={() => onClick?.()}
+            ref={ref}
+        >
+            <img
+                style={{ opacity: hover ? 1 : 0 }}
+                className={`emoji ${sizeClass}`}
+                src={emojiById.gif}
+            />
+            <img
+                style={{ opacity: hover ? 0 : 1 }}
+                className={`emoji ${sizeClass}`}
+                src={emojiById.img}
+            />
+        </m.div>;
+});
+
+const MotionReaction = m(Reaction);
 
 const InputContainer = ({ setChat, typingState }: InputContainerProps) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -268,8 +387,7 @@ const InputContainer = ({ setChat, typingState }: InputContainerProps) => {
         if (!textarea) return;
         const content = text || textarea.value;
         if (!content) return;
-
-        setChat((prev: any) => [...prev, { message: content, reaction: '', from: 0 }]);
+        setChat((prev: msg[]) => [...prev, { message: content, reaction: '', from: 0, id: prev.length + 1 }]);
         textarea.value = "";
         setTyping(false);
         setTextLength(0);
@@ -290,7 +408,7 @@ const InputContainer = ({ setChat, typingState }: InputContainerProps) => {
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, position: 'absolute' }}>
-                <SendIcon size={25} className={`cursor - pointer fill - ${userColor} `} />
+                <SendIcon size={25} className={`cursor-pointer fill-${userColor} `} />
             </m.button>
         ) : <></>}
     </m.div>)

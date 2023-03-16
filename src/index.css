@@ -150,11 +150,15 @@ path.county {
 }
 
 .chat-bubble-reaction-wrapper {
-  @apply absolute bg-red-500 -bottom-4 left-5 flex flex-row;
+  @apply absolute -bottom-[18px] left-5 flex flex-row align-middle items-center w-full h-8;
+}
+
+.chat-bubble-reaction-wrapper.reverse {
+  @apply -left-5 flex-row-reverse;
 }
 
 .chat-bubble-reaction-list {
-  @apply bg-bg-light-inner dark:bg-bg-dark-outer;
+  @apply bg-bg-light-inner dark:bg-bg-dark-outer ml-8 flex flex-row content-center justify-center rounded-xl;
 }
 
 .select-input {
@@ -166,5 +170,13 @@ path.county {
 }
 
 .emoji {
-  @apply inline-block w-7 h-7;
+  @apply inline-block absolute select-none;
+}
+
+.emoji.active {
+  @apply bg-bg-light-outer dark:bg-bg-dark-inner rounded-full;
+}
+
+.emoji-container {
+  @apply relative flex items-center w-8 h-8;
 }

@@ -21,7 +21,7 @@ const GeoLocation = ({ permission, location }: GeoLocation) => {
     const loadingComponent = (<GeoLocationWrapper><LoadingIcon size={5} /></GeoLocationWrapper>);
     if (location === Location.UNKNOWN) return wildCard;
     if (location === Location.NOT_DEFINED) return loadingComponent;
-    console.log(location);
+
     const countyName = counties.find(county => county.id === location)?.name || 'Hiányzó';
 
     switch (permission) {

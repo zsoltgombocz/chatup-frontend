@@ -16,6 +16,9 @@ const container = {
             staggerChildren: 0.2,
             when: "afterChildren"
         },
+        transitionEnd: {
+            display: 'none'
+        }
     },
     show: {
         opacity: 1,

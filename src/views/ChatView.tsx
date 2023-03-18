@@ -3,7 +3,7 @@ import SendIcon from '@atoms/SendIcon';
 import MapIcon from '@atoms/MapIcon';
 import Status from '@atoms/Status';
 import { useUserSettings } from '@store/userSettings';
-import { UserStatus } from '@utils/enums';
+import { Gender, UserStatus } from '@utils/enums';
 import { AnimatePresence, motion as m, MotionProps } from 'framer-motion';
 import { useEffect, useState, useRef, useLayoutEffect, forwardRef, Ref } from 'react';
 import TextArea from '@components/TextArea';
@@ -17,6 +17,12 @@ import classNames from 'classnames';
 import { useLongPress } from 'use-long-press';
 import { EMOJIS } from '@config/emojis';
 import { EmojiInterface } from '@utils/interfaces/emojiInterface';
+import { counties } from '@config/mapConfig';
+import { config as interestConfig } from '@config/interestConfig';
+import { InterestInterface } from '@utils/interfaces/interestInterface';
+import { Interest } from '@components/carousels/InterestCarousel';
+import ImageCircle from '@atoms/ImageCircle';
+import VerticalDivider from '@atoms/VerticalDivider';
 
 type ChatBubbleProps = {
     text: any,
@@ -48,6 +54,10 @@ enum BubbleType {
 type InputContainerProps = {
     setChat: Function,
     typingState: [typing: boolean, setTyping: Function]
+}
+
+type ChatExtensionProps = {
+    showPartnerInfo: boolean
 }
 
 interface msg {
@@ -102,42 +112,46 @@ let chat: msg[] = [
     },
 ];
 
-const iconClass = 'w-8 h-8 text cursor-pointer';
-
-const menuElements: menuElementInterface[] = [
-    {
-        icon: <EyeIcon className={iconClass} />,
-        openIcon: <EyeSlashIcon className={iconClass} />,
-        name: 'Partnered',
-        onClick: undefined,
-        order: 1,
-    },
-    {
-        icon: <ShieldExclamationIcon className={`${iconClass} text-toast-red`} />,
-        name: 'Jelentés',
-        onClick: undefined,
-        order: 3,
-    },
-    {
-        icon: <AdjustmentsHorizontalIcon className={iconClass} />,
-        name: 'Beállítások',
-        onClick: undefined,
-        order: 2,
-    },
-    {
-        icon: <ArrowRightOnRectangleIcon className={iconClass} />,
-        name: 'Kilépés',
-        onClick: undefined,
-        order: 4,
-    }
-];
 const ChatView = () => {
     const chatAreaRef = useRef<HTMLDivElement>(null);
 
     const [typing, setTyping] = useState(false);
     const [chatData, setChatData] = useState(chat);
+    const [partnerInfo, setPartnerInfo] = useState<boolean>(false);
 
-    const userColor = useUserSettings(state => state.color);
+    const iconClass = 'w-8 h-8 text cursor-pointer';
+    const menuElements: menuElementInterface[] = [
+        {
+            icon: <EyeIcon className={iconClass} />,
+            openIcon: <EyeSlashIcon className={iconClass} />,
+            name: 'Partnered',
+            onClick: () => setPartnerInfo(prev => !prev),
+            order: 1,
+        },
+        {
+            icon: <ShieldExclamationIcon className={`${iconClass} text-toast-red`} />,
+            name: 'Jelentés',
+            onClick: undefined,
+            order: 3,
+        },
+        {
+            icon: <AdjustmentsHorizontalIcon className={iconClass} />,
+            name: 'Beállítások',
+            onClick: undefined,
+            order: 2,
+        },
+        {
+            icon: <ArrowRightOnRectangleIcon className={iconClass} />,
+            name: 'Kilépés',
+            onClick: undefined,
+            order: 4,
+        }
+    ];
+
+    useEffect(() => {
+        console.log(partnerInfo);
+    }, [partnerInfo])
+
 
     useLayoutEffect(() => {
         const chatArea = chatAreaRef.current;
@@ -156,27 +170,23 @@ const ChatView = () => {
         if (updatedMsg === undefined) return;
 
         setChatData([...newChatData, { ...updatedMsg, reaction: reaction }].sort((a: msg, b: msg) => a.id - b.id));
-
     }
-
-    useEffect(() => {
-        console.log(chatData);
-    }, [chatData])
-
 
     return (
         <div className={'bg-chat w-full h-full'}>
-            <m.div className={'view !py-0 !px-0 !max-w-[800px] mx-auto !h-screen'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
+            <m.div style={{ height: 'inherit' }} className={'view !py-0 !px-0 !max-w-[800px] mx-auto'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
                 <div className={'flex-shrink flex flex-row justify-between p-5 h-[90px]'}>
                     <Logo size={'sm'} />
-                    <m.div layout className={'flex flex-row justify-end items-center gap-1 relative flex-grow w-full'}>
+
+                    <div className={'flex flex-row justify-end items-center gap-1 relative flex-grow w-full'}>
                         <Status status={UserStatus.ONLINE} />
 
                         <InlineMenu menuElements={menuElements} />
-                    </m.div>
+                    </div>
                 </div>
 
                 <div className={'flex-grow h-fit flex overflow-hidden flex-col relative'}>
+                    <ChatExtension showPartnerInfo={partnerInfo} />
                     <m.div className={'chat-area scroll-smooth'} ref={chatAreaRef} layout>
                         {chatData.map((message: msg) =>
                             <ChatBubble setReaction={setReactionOnChatMessage} messageId={message.id} key={message.id} text={message.message} type={message.from} reactionString={message.reaction} />
@@ -196,6 +206,34 @@ const ChatView = () => {
             </m.div>
         </div>
     )
+}
+const PartnerInfo = () => {
+    const GENDER = Gender.MALE;
+    const LOCATION: string = 'pest';
+    const countyName = counties.find(county => county.id === LOCATION)?.name || 'Hiányzó';
+
+    const INTERESTS = ['lmbtq', 'music', 'dua_lipa'].map(interestId => {
+        return interestConfig.interests.find(int => int.id === interestId);
+    }).filter(interest => interest !== undefined);
+
+    return (<div className={'text p-2 flex flex-row justify-center items-center gap-7'}>
+        <div className={'mr-5'}>{GENDER === Gender.MALE ? 'Férfi' : 'Nő'}</div>
+        <VerticalDivider />
+        <div className={'flex flex-row gap-2 justify-center items-center'}>
+            {INTERESTS.map(interest =>
+                <ImageCircle src={interest!.src} hasBorder={true} />
+            )}
+        </div>
+        <VerticalDivider />
+        <div className={'ml-5'}>{countyName}</div>
+    </div>);
+}
+const ChatExtension = ({ showPartnerInfo }: ChatExtensionProps) => {
+    if (showPartnerInfo) return <PartnerInfo />;
+
+    return (<div className={'h-fit bg-red-500'}>
+        asd
+    </div>)
 }
 
 const ChatBubble = ({ text, type, className, reactionString, messageId, setReaction = undefined }: ChatBubbleProps) => {
@@ -228,10 +266,10 @@ const ChatBubble = ({ text, type, className, reactionString, messageId, setReact
     }, [reactionMenu]);
 
     return (
-        <m.div className={`chat-bubble-wrapper ${bgColor} ${type === BubbleType.OWN ?
+        <div className={`chat-bubble-wrapper ${bgColor} ${type === BubbleType.OWN ?
             'justify-end self-end text-white !rounded-br-none text-right bg-' : 'justify-start !rounded-bl-none'} 
 ${className}`} {...bind()} ref={bubbleRef}>
-            <m.div layout> {text} </m.div>
+            <div> {text} </div>
             <ChatBubbleReaction
                 selected={reactionString}
                 isOpen={reactionMenu}
@@ -239,7 +277,7 @@ ${className}`} {...bind()} ref={bubbleRef}>
                 onSelectedReactionClicked={() => setReaction?.(messageId, undefined)}
                 reverse={type === BubbleType.OWN}
             />
-        </m.div>
+        </div>
     )
 }
 

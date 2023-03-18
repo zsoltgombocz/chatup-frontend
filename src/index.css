@@ -180,3 +180,15 @@ path.county {
 .emoji-container {
   @apply relative flex items-center w-8 h-8;
 }
+
+.image-circle {
+  @apply w-16 h-16 lg:w-20 lg:h-20 object-center object-contain bg-white z-20;
+}
+
+.image-circle-border {
+  @apply absolute w-[105%] h-[105%] rounded-full z-10 -top-[2%] -left-[2%];
+}
+
+.vertical-divider {
+  @apply w-1 h-10 rounded-xl;
+}

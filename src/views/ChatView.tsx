@@ -19,8 +19,6 @@ import { EMOJIS } from '@config/emojis';
 import { EmojiInterface } from '@utils/interfaces/emojiInterface';
 import { counties } from '@config/mapConfig';
 import { config as interestConfig } from '@config/interestConfig';
-import { InterestInterface } from '@utils/interfaces/interestInterface';
-import { Interest } from '@components/carousels/InterestCarousel';
 import ImageCircle from '@atoms/ImageCircle';
 import VerticalDivider from '@atoms/VerticalDivider';
 

@@ -11,8 +11,10 @@ const Customize = () => {
     const colorOptions = config.colors;
     const updateTheme = useUserSettings(state => state.setTheme);
     const setSoundState = useUserSettings(state => state.setSounds);
+    const setShowAchievements = useUserSettings(state => state.setShowAchievements);
     const theme = useUserSettings(state => state.theme);
     const sounds = useUserSettings(state => state.sounds);
+    const showAchievements = useUserSettings(state => state.showAchievements);
 
     const handleThemeChange = (index: number) => {
         updateTheme(index);
@@ -28,6 +30,10 @@ const Customize = () => {
             <div className={'flex items-center justify-between mt-5 mb-3'}>
                 <h5 className={'text text-xl'}>Hangok</h5>
                 <ToggleSwitch onStateChanged={(state) => setSoundState(state)} checked={sounds} />
+            </div>
+            <div className={'flex items-center justify-between mt-5 mb-3'}>
+                <h5 className={'text text-xl w-2/3'}>Eredmények megjelnítése chat közben</h5>
+                <ToggleSwitch onStateChanged={(state) => setShowAchievements(state)} checked={showAchievements} />
             </div>
         </m.div>
     );

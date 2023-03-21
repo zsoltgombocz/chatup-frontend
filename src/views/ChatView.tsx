@@ -21,6 +21,12 @@ import { counties } from '@config/mapConfig';
 import { config as interestConfig } from '@config/interestConfig';
 import ImageCircle from '@atoms/ImageCircle';
 import VerticalDivider from '@atoms/VerticalDivider';
+import { config as achievementsConfig } from '@config/achievementConfig';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Mousewheel, Pagination, Scrollbar } from 'swiper';
+
+import countyCarouselData from '@config/json/CountyCarousel.json';
+import TextCarousel from '@components/carousels/TextCarousel';
 
 type ChatBubbleProps = {
     text: any,
@@ -55,7 +61,12 @@ type InputContainerProps = {
 }
 
 type ChatExtensionProps = {
+    showAchievements: boolean,
     showPartnerInfo: boolean
+}
+
+type CarouselWrapperProps = {
+    children: any
 }
 
 interface msg {
@@ -116,6 +127,9 @@ const ChatView = () => {
     const [typing, setTyping] = useState(false);
     const [chatData, setChatData] = useState(chat);
     const [partnerInfo, setPartnerInfo] = useState<boolean>(false);
+    const [lastMessageId, setLastMessageId] = useState<number>(chat[chat.length - 1].id);
+
+    const showAchvSetting = useUserSettings(state => state.showAchievements)
 
     const iconClass = 'w-8 h-8 text cursor-pointer';
     const menuElements: menuElementInterface[] = [
@@ -147,13 +161,13 @@ const ChatView = () => {
     ];
 
     useEffect(() => {
-        console.log(partnerInfo);
-    }, [partnerInfo])
+        setLastMessageId(chatData[chatData.length - 1].id);
+    }, [chatData])
 
 
     useLayoutEffect(() => {
         const chatArea = chatAreaRef.current;
-        if (!chatArea) return;
+        if (!chatArea || (!typing && lastMessageId === chatData[chatData.length - 1].id)) return;
 
         chatArea.scrollTo({
             top: chatArea.scrollHeight,
@@ -184,7 +198,7 @@ const ChatView = () => {
                 </div>
 
                 <div className={'flex-grow h-fit flex overflow-hidden flex-col relative'}>
-                    <ChatExtension showPartnerInfo={partnerInfo} />
+                    <ChatExtension showAchievements={showAchvSetting} showPartnerInfo={partnerInfo} />
                     <m.div className={'chat-area scroll-smooth'} ref={chatAreaRef} layout>
                         {chatData.map((message: msg) =>
                             <ChatBubble setReaction={setReactionOnChatMessage} messageId={message.id} key={message.id} text={message.message} type={message.from} reactionString={message.reaction} />
@@ -226,12 +240,48 @@ const PartnerInfo = () => {
         <div className={'ml-5'}>{countyName}</div>
     </div>);
 }
-const ChatExtension = ({ showPartnerInfo }: ChatExtensionProps) => {
+
+const CarouselWrapper = ({ children }: CarouselWrapperProps) => {
+    return (
+        <Swiper
+            slidesPerView={"auto"}
+            spaceBetween={30}
+            pagination={{
+                clickable: true,
+            }}
+            modules={[Pagination]}
+            className="mySwiper"
+        >
+            {children.map((child: any) => <SwiperSlide>{child}</SwiperSlide>)}
+        </Swiper>)
+}
+
+const AchievementsShowcase = () => {
+    return <div className={'flex flex-row'}>
+        <Swiper
+            autoplay={{
+                disableOnInteraction: false,
+            }}
+            modules={[Pagination, Mousewheel]}
+            className="w-full flex flex-col h-fit"
+            grabCursor={true}
+            mousewheel={true}
+        >
+            {achievementsConfig.achievements.map(ach => (
+                <SwiperSlide
+                    key={ach.id}
+                    className='p-1 select-none'>
+                    {ach.id}
+                </SwiperSlide>
+            ))}
+        </Swiper>
+    </div>;
+}
+
+const ChatExtension = ({ showAchievements, showPartnerInfo }: ChatExtensionProps) => {
     if (showPartnerInfo) return <PartnerInfo />;
 
-    return (<div className={'h-fit bg-red-500'}>
-        asd
-    </div>)
+    return showAchievements ? <AchievementsShowcase /> : <></>;
 }
 
 const ChatBubble = ({ text, type, className, reactionString, messageId, setReaction = undefined }: ChatBubbleProps) => {

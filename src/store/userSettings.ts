@@ -6,10 +6,12 @@ interface UserSettingsInterface {
     color: string,
     privacy: boolean[],
     sounds: boolean,
+    showAchievements: boolean,
     setTheme: (index: number) => void,
     setColor: (color: string) => void,
     setPrivacy: (index: number, b: boolean) => void,
     setSounds: (sound: boolean) => void,
+    setShowAchievements: (show: boolean) => void,
 }
 
 const getTheme = (): number => {
@@ -41,6 +43,13 @@ const getSounds = (): boolean => {
     else return parseInt(sounds) === 1;
 }
 
+const getShowAchievements = (): boolean => {
+    const showAchievements: string | null = localStorage.getItem('chatup_show_achievements');
+
+    if (showAchievements === null) return true;
+    else return parseInt(showAchievements) === 1;
+}
+
 export const useUserSettings = create<UserSettingsInterface>((set, get) => ({
     theme: getTheme(),
     color: getColor(),
@@ -50,6 +59,7 @@ export const useUserSettings = create<UserSettingsInterface>((set, get) => ({
         counties: [],
         allSelected: true
     },
+    showAchievements: getShowAchievements(),
     setTheme: (index: number) => {
         localStorage.setItem('chatup_theme', '' + index);
         set(state => ({ ...state, theme: index }))
@@ -69,5 +79,10 @@ export const useUserSettings = create<UserSettingsInterface>((set, get) => ({
         const numberValue = sound ? 1 : 0;
         localStorage.setItem('chatup_sounds', '' + numberValue);
         set(state => ({ ...state, sounds: sound }));
+    },
+    setShowAchievements: (show: boolean) => {
+        const numberValue = show ? 1 : 0;
+        localStorage.setItem('chatup_show_achievements', '' + numberValue);
+        set(state => ({ ...state, showAchievements: show }));
     },
 }));

@@ -2,7 +2,7 @@ export interface achievementInterface {
     id: string,
     title: string,
     description: string,
-    sound?: string
+    image?: string
 }
 
 interface achievementConfigInterface {
@@ -12,15 +12,49 @@ interface achievementConfigInterface {
 export const config: achievementConfigInterface = {
     achievements: [
         {
-            id: 'dua_lipa',
-            title: 'Dua Lipa itt?',
-            description: 'Gratulálunk! Megtaláltad az első elérhető eredményt. Élvezd ki a különleges témádat mert nem sokan dicsekedhetnek el vele.',
-            sound: 'dua_lipa.mp3'
+            id: 'night_owl',
+            title: 'Éjjeli bagoly!',
+            description: 'Légy egy beszélgetésben 0:00-kor!',
         },
         {
-            id: 'enthusiastic_chatter',
-            title: 'Lelkes csevegő!',
-            description: 'Ne hagyd abba! Hamarosan lemerülsz de te mégis a társaságot választod, gratulálunk!',
+            id: 'one_hour',
+            title: 'Elszálló idő!',
+            description: 'Beszélgess legalább egy órán át egy partnerrel.',
+        },
+        {
+            id: 'gif_master',
+            title: 'GIF mágus!',
+            description: 'Küldj legalább 10 GIF-et egy beszélgetésen belül.',
+        },
+        {
+            id: 'gif_master',
+            title: 'GIF mágus!',
+            description: 'Küldj legalább 10 GIF-et egy beszélgetésen belül.',
+        },
+        {
+            id: 'emote_user',
+            title: 'Emocionális!',
+            description: 'Reagálj legalább 10 üzenetre egy beszélgetésen belül.',
+        },
+        {
+            id: 'research_try',
+            title: 'Majd a következő!',
+            description: 'Keress legalább 5 alkalommal új partnert!',
+        },
+        {
+            id: 'feedback_user',
+            title: 'Supportive!',
+            description: 'Küldj egy értékelést!',
+        },
+        {
+            id: 'topic_user',
+            title: 'Téma bedobva!',
+            description: 'Küldj legalább egy témát egy beszélgetésen belül!',
+        },
+        {
+            id: 'easter_egg',
+            title: 'Aranytojás!',
+            description: 'Gyűjtsd össze a fellelhető összes Easter Egg-et!',
         }
     ]
 }

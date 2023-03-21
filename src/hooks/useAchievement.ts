@@ -36,7 +36,7 @@ const useAchievement = (): useAchievementInterface => {
         );
         setAchievements(achievement.id);
 
-        if (achievement.sound) play(achievement.sound.split('.')[0]);
+        //if (achievement) play(achievement.sound.split('.')[0]);
 
         callback?.();
     }

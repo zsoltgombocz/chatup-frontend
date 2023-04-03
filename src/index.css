@@ -182,7 +182,7 @@ path.county {
 }
 
 .image-circle {
-  @apply w-16 h-16 lg:w-20 lg:h-20 object-center object-contain bg-white z-20;
+  @apply object-center object-contain bg-white z-20;
 }
 
 .image-circle-border {
@@ -191,4 +191,26 @@ path.county {
 
 .vertical-divider {
   @apply w-1 h-10 rounded-xl;
+}
+.blur-side{ position: relative; z-index: 1;}
+
+.blur-side::before{
+  content: ' ';
+  position: absolute;
+  top: 0;
+  width: 15px;
+  height: 100%;
+  left: 0;  
+  z-index: 2;
+  @apply dark:bg-bg-dark-inner/10 backdrop-blur-[1px];
+}
+.blur-side::after{
+  content: ' ';
+  position: absolute;
+  top: 0;
+  width: 15px;
+  height: 100%;
+  right: 0;  
+  z-index: 2;
+  @apply dark:bg-bg-dark-inner/10 backdrop-blur-[1px];
 }

@@ -22,10 +22,13 @@ import { config as interestConfig } from '@config/interestConfig';
 import ImageCircle from '@atoms/ImageCircle';
 import VerticalDivider from '@atoms/VerticalDivider';
 import { config as achievementsConfig } from '@config/achievementConfig';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Mousewheel, Pagination, Scrollbar } from 'swiper';
+import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
+import { Mousewheel, Pagination, Scrollbar, FreeMode } from 'swiper';
 
 import countyCarouselData from '@config/json/CountyCarousel.json';
+
+import interests from '@media/interests';
+
 import TextCarousel from '@components/carousels/TextCarousel';
 
 type ChatBubbleProps = {
@@ -242,40 +245,50 @@ const PartnerInfo = () => {
 }
 
 const CarouselWrapper = ({ children }: CarouselWrapperProps) => {
+    const swiperRef = useRef<SwiperRef | null>(null);
+    useEffect(() => {
+        const swiper = swiperRef?.current?.swiper;
+
+        if (swiper) {
+            const wrapperEl = swiper.wrapperEl;
+            wrapperEl.classList.add('flex', 'flex-row', 'h-fit');
+        }
+    }, []);
     return (
         <Swiper
-            slidesPerView={"auto"}
-            spaceBetween={30}
-            pagination={{
-                clickable: true,
-            }}
-            modules={[Pagination]}
-            className="mySwiper"
+            slidesPerView={'auto'}
+            ref={swiperRef}
+            modules={[FreeMode]}
+            freeMode={true}
+            watchSlidesProgress
+            className={'flex flex-col bg-red-500 h-fit max-w-[400px] mx-auto'}
         >
-            {children.map((child: any) => <SwiperSlide>{child}</SwiperSlide>)}
+            {children}
         </Swiper>)
 }
 
 const AchievementsShowcase = () => {
-    return <div className={'flex flex-row'}>
-        <Swiper
-            autoplay={{
-                disableOnInteraction: false,
-            }}
-            modules={[Pagination, Mousewheel]}
-            className="w-full flex flex-col h-fit"
-            grabCursor={true}
-            mousewheel={true}
-        >
-            {achievementsConfig.achievements.map(ach => (
-                <SwiperSlide
-                    key={ach.id}
-                    className='p-1 select-none'>
-                    {ach.id}
-                </SwiperSlide>
-            ))}
-        </Swiper>
-    </div>;
+    return (
+        <div className={'w-full h-fit bg-blue-500'}>
+            <CarouselWrapper>
+                {
+                    achievementsConfig.achievements.map((ach, index) => (
+                        <SwiperSlide className={`
+                            flex !w-fit flex-shrink 
+                            h-max pr-8 justify-center 
+                            items-center 
+                            ${index === 0 ? 'pr-5' : ''}
+                            ${index === achievementsConfig.achievements.length - 1 ? 'pr-5' : ''}
+                        `}>
+
+                            <ImageCircle src={interests.animals} hasBorder={true} size={'small'} />
+
+                        </SwiperSlide>
+                    ))
+                }
+            </CarouselWrapper>
+        </div>
+    )
 }
 
 const ChatExtension = ({ showAchievements, showPartnerInfo }: ChatExtensionProps) => {

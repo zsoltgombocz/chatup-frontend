@@ -23,7 +23,7 @@ const ImageCircle = ({ src, size = undefined, hasBorder = false, disabled = fals
     );
 
     return (
-        <div className={`inline-flex w-max h-max rounded-full justify-center items-center`}>
+        <div className={`inline-flex rounded-full justify-center items-center ${circleSize} flex-grow flex-shrink-0`}>
             <img className={`image-circle rounded-full ${border} ${circleSize}`} src={src} />
         </div>
     )

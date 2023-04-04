@@ -31,6 +31,8 @@ import interests from '@media/interests';
 
 import TextCarousel from '@components/carousels/TextCarousel';
 
+import { useDraggable } from "react-use-draggable-scroll";
+
 type ChatBubbleProps = {
     text: any,
     type: BubbleType,
@@ -68,10 +70,14 @@ type ChatExtensionProps = {
     showPartnerInfo: boolean
 }
 
-type CarouselWrapperProps = {
-    children: any
+interface AchievementInterface {
+    image: string | undefined,
+    title: string,
+    className?: string,
+    isOpen: boolean,
+    onClick: Function | undefined,
+    id: string,
 }
-
 interface msg {
     message: string,
     reaction: undefined | string,
@@ -244,50 +250,78 @@ const PartnerInfo = () => {
     </div>);
 }
 
-const CarouselWrapper = ({ children }: CarouselWrapperProps) => {
-    const swiperRef = useRef<SwiperRef | null>(null);
-    useEffect(() => {
-        const swiper = swiperRef?.current?.swiper;
-
-        if (swiper) {
-            const wrapperEl = swiper.wrapperEl;
-            wrapperEl.classList.add('flex', 'flex-row', 'h-fit');
-        }
-    }, []);
-    return (
-        <Swiper
-            slidesPerView={'auto'}
-            ref={swiperRef}
-            modules={[FreeMode]}
-            freeMode={true}
-            watchSlidesProgress
-            className={'flex flex-col bg-red-500 h-fit max-w-[400px] mx-auto'}
-        >
-            {children}
-        </Swiper>)
-}
-
 const AchievementsShowcase = () => {
+    const [achievements, setAchievements] = useState(
+        achievementsConfig.achievements.map(achievement => {
+            return { ...achievement, isOpen: false };
+        })
+    );
+    const ref = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
+    const { events } = useDraggable(ref);
+
+    const blurLeft = 'bg-gradient-to-r from-red-500 dark:from-bg-dark-inner from-25%'
+    const blurRight = 'bg-gradient-to-l from-red-500 dark:from-bg-dark-inner from-25%'
+
+    const onAchievementClick = (id: string) => {
+        const achs = achievements.map(achievement => {
+            if (achievement.id === id) {
+                return { ...achievement, isOpen: !achievement.isOpen };
+            }
+            return achievement;
+        });
+        setAchievements(achs);
+        console.log(achs);
+    }
+
     return (
-        <div className={'w-full h-fit bg-blue-500'}>
-            <CarouselWrapper>
+        <div
+            className={`
+                max-w-[400px] h-fit select-none mx-auto justify-center items-center relative
+            `}
+        >
+            <div className={`blur-left ${blurLeft}`}></div>
+            <div className={`blur-right ${blurRight}`}></div>
+            <m.div
+                className={'h-20 flex overflow-x-clip scrollbar-hide overflow-y-hidden'}
+                {...events}
+                ref={ref}
+                layoutRoot
+            >
                 {
-                    achievementsConfig.achievements.map((ach, index) => (
-                        <SwiperSlide className={`
-                            flex !w-fit flex-shrink 
-                            h-max pr-8 justify-center 
-                            items-center 
-                            ${index === 0 ? 'pr-5' : ''}
-                            ${index === achievementsConfig.achievements.length - 1 ? 'pr-5' : ''}
-                        `}>
-
-                            <ImageCircle src={interests.animals} hasBorder={true} size={'small'} />
-
-                        </SwiperSlide>
+                    achievements.map((ach, index) => (
+                        <Achievement key={index} id={ach.id} image={ach.image} title={ach.title} className={`
+                        inline-flex justify-center items-center pr-6
+                        ${index === 0 ? 'pl-[20px]' : ''}
+                        ${index === achievements.length - 1 ? 'pr-4' : ''}
+                    `} isOpen={ach.isOpen} onClick={() => onAchievementClick(ach.id)} />
                     ))
                 }
-            </CarouselWrapper>
-        </div>
+            </m.div>
+        </div >
+    )
+}
+const AnimatedVerticalDivider = m(VerticalDivider);
+const Achievement = ({ image, title, className, isOpen, onClick }: AchievementInterface) => {
+
+    return (
+        <m.div layout={'position'} className={`chat-achievement ${className}`} onClick={() => onClick?.()}>
+
+            <ImageCircle src={image || interests.animals} hasBorder={true} size={'small'} />
+            {isOpen && (
+                <AnimatePresence>
+                    <AnimatedVerticalDivider
+                        className={'mx-3'}
+                        initial={{ scaleY: 0 }}
+                        animate={{ scaleY: 1 }}
+                        exit={{ scaleY: 0 }}
+                    />
+                    <m.div initial={{ x: -20 }} animate={{ x: 0 }} exit={{ x: -20 }} className={'w-fit min-w-[90px] max-w-[100px] text'}>
+                        {title}
+                    </m.div>
+                </AnimatePresence>
+            )}
+
+        </m.div>
     )
 }
 

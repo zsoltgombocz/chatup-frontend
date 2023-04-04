@@ -27,11 +27,6 @@ export const config: achievementConfigInterface = {
             description: 'Küldj legalább 10 GIF-et egy beszélgetésen belül.',
         },
         {
-            id: 'gif_master',
-            title: 'GIF mágus!',
-            description: 'Küldj legalább 10 GIF-et egy beszélgetésen belül.',
-        },
-        {
             id: 'emote_user',
             title: 'Emocionális!',
             description: 'Reagálj legalább 10 üzenetre egy beszélgetésen belül.',

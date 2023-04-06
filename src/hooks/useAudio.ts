@@ -13,11 +13,7 @@ export const useAudio = (urls?: string[]): useAudioInterface => {
     const sounds = useUserSettings(state => state.sounds);
 
     const initAudio = () => {
-        const achievementAudio = config.achievements
-            .map(ach => ach.sound)
-            .filter(sound => sound !== undefined) as string[];
-
-        const sourceUrls = [...urls ?? [], ...achievementAudio];
+        const sourceUrls = [...urls ?? []];
         updateAudioSources(sourceUrls, true);
     }
 

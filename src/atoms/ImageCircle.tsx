@@ -7,10 +7,11 @@ type Props = {
     size?: undefined | 'small' | 'medium' | 'large',
     hasBorder?: boolean
     disabled?: boolean,
+    nonSelected?: boolean,
     onClick?: Function | undefined
 }
 
-const ImageCircle = ({ src, size = undefined, hasBorder = false, disabled = false, onClick = undefined }: Props) => {
+const ImageCircle = ({ src, hasBorder = false, nonSelected = false }: Props) => {
     const userColor = useUserSettings(state => state.color);
 
     const border = classNames(
@@ -18,12 +19,11 @@ const ImageCircle = ({ src, size = undefined, hasBorder = false, disabled = fals
     );
 
     const circleSize = classNames(
-        { 'w-14 h-14 lg:w-16 lg:h-16': size === 'small' },
-        { 'w-16 h-16 lg:w-20 lg:h-20': size === undefined }
+        'w-16 h-16 lg:w-20 lg:h-20'
     );
 
     return (
-        <div className={`inline-flex rounded-full justify-center items-center ${circleSize} flex-grow flex-shrink-0`}>
+        <div className={`inline-flex rounded-full justify-center items-center ${circleSize} flex-grow flex-shrink-0 ${nonSelected ? 'saturate-100' : 'saturate-0'}`}>
             <img className={`image-circle rounded-full ${border} ${circleSize}`} src={src} />
         </div>
     )

@@ -5,7 +5,7 @@ import Status from '@atoms/Status';
 import { useUserSettings } from '@store/userSettings';
 import { Gender, UserStatus } from '@utils/enums';
 import { AnimatePresence, motion as m, MotionProps } from 'framer-motion';
-import { useEffect, useState, useRef, useLayoutEffect, forwardRef, Ref } from 'react';
+import { useEffect, useState, useRef, useLayoutEffect, forwardRef, Ref, RefObject, SyntheticEvent } from 'react';
 import TextArea from '@components/TextArea';
 import TypingIndicator from '@atoms/TypingIndicator';
 import InlineMenu from '@components/InlineMenu';
@@ -264,19 +264,15 @@ const AchievementsShowcase = () => {
 
     const onAchievementClick = (id: string) => {
         const achs = achievements.map(achievement => {
-            if (achievement.id === id) {
-                return { ...achievement, isOpen: !achievement.isOpen };
-            }
-            return achievement;
+            return { ...achievement, isOpen: achievement.id === id ? !achievement.isOpen : false };
         });
         setAchievements(achs);
-        console.log(achs);
     }
 
     return (
         <div
             className={`
-                max-w-[400px] h-fit select-none mx-auto justify-center items-center relative
+                max-w-[500px] h-fit select-none mx-auto justify-center items-center relative pb-2
             `}
         >
             <div className={`blur-left ${blurLeft}`}></div>
@@ -297,16 +293,43 @@ const AchievementsShowcase = () => {
                     ))
                 }
             </m.div>
+            <ShowcaseScrollBar div={ref} className={'mt-2'} />
         </div >
     )
 }
+
+const ShowcaseScrollBar = ({ div, className }: { div: RefObject<HTMLDivElement>, className: string | undefined }) => {
+    const [currentScroll, setCurrentScroll] = useState<number>(0);
+    const userColor = useUserSettings(state => state.color);
+
+    useEffect(() => {
+        if (div === null || div === undefined) return;
+
+        const handleDivScroll = (e: Event) => {
+            const target = e.target as HTMLDivElement;
+            const scrollMax = (target.scrollWidth - target.clientWidth);
+            const ratio = scrollMax / (75 - 16);
+            setCurrentScroll(target.scrollLeft / ratio);
+        }
+        div.current?.addEventListener('scroll', handleDivScroll);
+
+        return () => div.current?.removeEventListener('scroll', handleDivScroll);
+    }, [div])
+
+    return (
+        <m.div layoutRoot className={`mx-auto flex flex-row items-center w-[75px] h-2 bg-[#DBDBDB] rounded ${className}`}>
+            <m.div className={`w-4 bg-${userColor} h-2 rounded`} animate={{ x: currentScroll }}></m.div>
+        </m.div>
+    )
+}
+
 const AnimatedVerticalDivider = m(VerticalDivider);
 const Achievement = ({ image, title, className, isOpen, onClick }: AchievementInterface) => {
 
     return (
         <m.div layout={'position'} className={`chat-achievement ${className}`} onClick={() => onClick?.()}>
 
-            <ImageCircle src={image || interests.animals} hasBorder={true} size={'small'} />
+            <ImageCircle src={image || interests.animals} hasBorder={true} size={'small'} nonSelected={isOpen} />
             {isOpen && (
                 <AnimatePresence>
                     <AnimatedVerticalDivider
@@ -315,7 +338,7 @@ const Achievement = ({ image, title, className, isOpen, onClick }: AchievementIn
                         animate={{ scaleY: 1 }}
                         exit={{ scaleY: 0 }}
                     />
-                    <m.div initial={{ x: -20 }} animate={{ x: 0 }} exit={{ x: -20 }} className={'w-fit min-w-[90px] max-w-[100px] text'}>
+                    <m.div initial={{ x: -20 }} animate={{ x: 0 }} exit={{ x: -20 }} className={'text w-[85px]'}>
                         {title}
                     </m.div>
                 </AnimatePresence>

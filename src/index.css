@@ -211,3 +211,6 @@ path.county {
   left: calc(100% - 30px);  
   z-index: 999;
 }
+.scrollbar-hidden::-webkit-scrollbar{
+  display: none;
+}

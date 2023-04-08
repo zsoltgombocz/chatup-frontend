@@ -237,16 +237,22 @@ const PartnerInfo = () => {
         return interestConfig.interests.find(int => int.id === interestId);
     }).filter(interest => interest !== undefined);
 
-    return (<div className={'text p-2 flex flex-row justify-center items-center gap-7'}>
-        <div className={'mr-5'}>{GENDER === Gender.MALE ? 'Férfi' : 'Nő'}</div>
-        <VerticalDivider />
+    return (<div className={'text p-2 flex flex-col sm:flex-row justify-center items-center sm:gap-7'}>
+        <div className={'mr-5 hidden sm:block'}>{GENDER === Gender.MALE ? 'Férfi' : 'Nő'}</div>
+        <VerticalDivider className={'hidden sm:block'} />
         <div className={'flex flex-row gap-2 justify-center items-center'}>
             {INTERESTS.map(interest =>
-                <ImageCircle src={interest!.src} hasBorder={true} />
+                <ImageCircle src={interest!.src} hasBorder={true} noColor={true} />
             )}
         </div>
-        <VerticalDivider />
-        <div className={'ml-5'}>{countyName}</div>
+        <VerticalDivider className={'hidden sm:block'} />
+        <div className={'ml-5 hidden sm:block'}>{countyName}</div>
+        <div className={'sm:hidden flex flex-row justify-center items-center w-full mt-2'}>
+            <div className={'mr-5'}>{GENDER === Gender.MALE ? 'Férfi' : 'Nő'}</div>
+            <VerticalDivider className={'!h-6 !w-[3px]'} />
+            <div className={'ml-5'}>{countyName}</div>
+
+        </div>
     </div>);
 }
 
@@ -259,8 +265,8 @@ const AchievementsShowcase = () => {
     const ref = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
     const { events } = useDraggable(ref);
 
-    const blurLeft = 'bg-gradient-to-r from-red-500 dark:from-bg-dark-inner from-25%'
-    const blurRight = 'bg-gradient-to-l from-red-500 dark:from-bg-dark-inner from-25%'
+    const blurLeft = 'bg-gradient-to-r from-bg-light-outer dark:from-bg-dark-inner from-25%'
+    const blurRight = 'bg-gradient-to-l from-bg-light-outer dark:from-bg-dark-inner from-25%'
 
     const onAchievementClick = (id: string) => {
         const achs = achievements.map(achievement => {
@@ -272,13 +278,13 @@ const AchievementsShowcase = () => {
     return (
         <div
             className={`
-                max-w-[500px] h-fit select-none mx-auto justify-center items-center relative pb-2
+                w-full max-w-[500px] h-fit select-none mx-auto justify-center items-center relative pb-2
             `}
         >
             <div className={`blur-left ${blurLeft}`}></div>
             <div className={`blur-right ${blurRight}`}></div>
             <m.div
-                className={'h-20 flex overflow-x-clip scrollbar-hide overflow-y-hidden'}
+                className={'h-20 flex overflow-x-auto scrollbar-hide overflow-y-hidden scrollbar-hidden'}
                 {...events}
                 ref={ref}
                 layoutRoot
@@ -329,7 +335,7 @@ const Achievement = ({ image, title, className, isOpen, onClick }: AchievementIn
     return (
         <m.div layout={'position'} className={`chat-achievement ${className}`} onClick={() => onClick?.()}>
 
-            <ImageCircle src={image || interests.animals} hasBorder={true} size={'small'} nonSelected={isOpen} />
+            <ImageCircle src={image || interests.animals} hasBorder={true} size={'small'} noColor={isOpen} />
             {isOpen && (
                 <AnimatePresence>
                     <AnimatedVerticalDivider

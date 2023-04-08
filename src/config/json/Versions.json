@@ -123,5 +123,14 @@
             "Felső menü WIP"
         ],
         "date": "2023.03.16"
+    },
+    {
+        "version": "0.0.75",
+        "changes": [
+            "Chat nézet javítások",
+            "Chat nézet partner infó elkészítve",
+            "Megszerzett achievementek megjelenítve (FUNKCIÓ MENTES - CSAK SZEMLÉLTETÉS)"
+        ],
+        "date": "2023.04.08"
     }
 ]

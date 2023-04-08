@@ -46,7 +46,7 @@ const getSounds = (): boolean => {
 const getShowAchievements = (): boolean => {
     const showAchievements: string | null = localStorage.getItem('chatup_show_achievements');
 
-    if (showAchievements === null) return true;
+    if (showAchievements === null) return false;
     else return parseInt(showAchievements) === 1;
 }
 

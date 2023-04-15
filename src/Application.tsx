@@ -6,6 +6,8 @@ import AppLayout from '@layout/AppLayout';
 import LazyLoad from '@layout/LazyLoad';
 import { useUserSettings } from '@store/userSettings';
 import { setTheme } from '@utils/theme';
+import { socket } from './socket';
+import { useSocketStore } from '@store/socketStore';
 
 const HomeView = lazy(() => import('@views/HomeView'));
 const SettingsView = lazy(() => import('@views/SettingsView'));
@@ -29,13 +31,23 @@ const Application = () => {
 
     const { initAudio } = useAudio(['navigate.wav']);
 
+    const { setConnected, setConnectedUsers, setQueuePopulation, setRoom } = useSocketStore();
+
     useEffect(() => {
         setTheme(theme);
-        console.log('app mount')
         initAudio();
 
+        socket.on('connect', () => setConnected(true));
+        socket.on('disconnect', () => console.log('disconnect'));
+        socket.on('userNumberChanged', (num) => setConnectedUsers(num));
+        socket.on('queuePopulation', (num) => setQueuePopulation(num));
+        socket.on('userAuthDone', (token) => sessionStorage.setItem('chatup_socket_token', token));
+        socket.on('roomChanged', (id) => setRoom(id));
+
         return () => {
-            console.log('app unmount')
+            socket.off('connect');
+            socket.off('disconnect');
+            socket.off('userNumberChanged');
         }
     }, [])
 

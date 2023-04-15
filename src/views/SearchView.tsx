@@ -9,6 +9,11 @@ import DarkPatternedBackground from '@media/images/pattern_randomized_dark.png';
 import LightPatternedBackground from '@media/images/pattern_randomized_light.png';
 import { useUserSettings } from '@store/userSettings';
 import { useEffect } from 'react';
+import { socket } from '../socket';
+import { useSocketStore } from '@store/socketStore';
+import { useGenderPreferebces } from '@store/genderPreferences';
+import { useMapPreferences } from '@store/mapPreferences';
+import { useInterestPreferences } from '@store/interestPreferences';
 
 
 const SearchView = () => {
@@ -35,20 +40,41 @@ const ActiveSearch = () => {
     const BG = theme === 0 ? LightPatternedBackground : DarkPatternedBackground;
     const setSearch = useUserData(state => state.setSearch);
 
+    const { connectedUsers, queuePopulation, roomId } = useSocketStore();
+
+    const userLocation = useUserData(state => state.location);
+    const genderPref = useGenderPreferebces();
+    const mapPref = useMapPreferences();
+    const interests = useInterestPreferences(state => state.interests);
+
     useEffect(() => {
-        setTimeout(() => {
+        socket.auth = { token: sessionStorage.getItem('chatup_socket_token') };
+        socket.connect();
+
+        socket.emit('updateData', {
+            location: userLocation,
+            ownGender: genderPref.ownGender,
+            partnerGender: genderPref.partnerGender,
+            counties: mapPref.counties,
+            mapPref: mapPref.mapCheckbox,
+            interests: interests,
+        })
+
+        /*setTimeout(() => {
             setSearch(SearchState.RE_SEARCH);
             navigate('/chat')
-        }, 5000);
+        }, 5000);*/
     }, []);
 
     return (
         <>
             <img src={BG} className={'object-none h-full w-full absolute top-0 left-0 z-0'} />
             <m.div className={`view !pt-1 z-10`} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
-                <div className={'flex flex-col flex-grow'}>
-                    active search
-                </div>
+                <h1>Jelenleg ennyi ember van csatlakozva: {connectedUsers} </h1>
+                <h1>Jelenleg ennyi ember vár sorban: {queuePopulation} </h1>
+                <button type={'button'} onClick={() => socket.emit('startSearch')}>irany a queue</button>
+                <button type={'button'} onClick={() => socket.emit('cancelSearch')}>ki a queuebol</button>
+                <h1>Szoba id: {roomId} </h1>
             </m.div>
             <Footer showVersion={false}>
                 <Button size={'primary'} style={'filled'} text={'mégse'} className={'mb-3'} onClick={() => navigate(-1)} />

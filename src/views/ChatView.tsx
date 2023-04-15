@@ -22,14 +22,8 @@ import { config as interestConfig } from '@config/interestConfig';
 import ImageCircle from '@atoms/ImageCircle';
 import VerticalDivider from '@atoms/VerticalDivider';
 import { config as achievementsConfig } from '@config/achievementConfig';
-import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
-import { Mousewheel, Pagination, Scrollbar, FreeMode } from 'swiper';
-
-import countyCarouselData from '@config/json/CountyCarousel.json';
 
 import interests from '@media/interests';
-
-import TextCarousel from '@components/carousels/TextCarousel';
 
 import { useDraggable } from "react-use-draggable-scroll";
 

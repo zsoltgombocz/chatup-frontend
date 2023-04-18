@@ -9,7 +9,7 @@ import DarkPatternedBackground from '@media/images/pattern_randomized_dark.png';
 import LightPatternedBackground from '@media/images/pattern_randomized_light.png';
 import { useUserSettings } from '@store/userSettings';
 import { useEffect } from 'react';
-import { socket } from '../socket';
+import { connectToSocket, socket } from '../socket';
 import { useSocketStore } from '@store/socketStore';
 import { useGenderPreferebces } from '@store/genderPreferences';
 import { useMapPreferences } from '@store/mapPreferences';
@@ -40,7 +40,7 @@ const ActiveSearch = () => {
     const BG = theme === 0 ? LightPatternedBackground : DarkPatternedBackground;
     const setSearch = useUserData(state => state.setSearch);
 
-    const { connectedUsers, queuePopulation, roomId } = useSocketStore();
+    const { connectedUsers, queuePopulation, roomId, connected, partnerFound } = useSocketStore();
 
     const userLocation = useUserData(state => state.location);
     const genderPref = useGenderPreferebces();
@@ -48,8 +48,7 @@ const ActiveSearch = () => {
     const interests = useInterestPreferences(state => state.interests);
 
     useEffect(() => {
-        socket.auth = { token: sessionStorage.getItem('chatup_socket_token') };
-        socket.connect();
+        connectToSocket();
 
         socket.emit('updateData', {
             location: userLocation,
@@ -65,6 +64,14 @@ const ActiveSearch = () => {
             navigate('/chat')
         }, 5000);*/
     }, []);
+
+    useEffect(() => {
+        if (partnerFound === true || roomId !== null) {
+            setSearch(SearchState.RE_SEARCH);
+            navigate('/chat');
+        }
+    }, [partnerFound, roomId])
+
 
     return (
         <>
@@ -85,6 +92,7 @@ const ActiveSearch = () => {
 
 const ReSearch = () => {
     const { theme } = useUserSettings();
+    const { partnerFound, setPartnerFound } = useSocketStore();
     const BG = theme === 0 ? LightPatternedBackground : DarkPatternedBackground;
     const setSearch = useUserData(state => state.setSearch);
     const navigate = useNavigate();
@@ -93,6 +101,12 @@ const ReSearch = () => {
         setSearch(SearchState.ACTIVE);
         navigate('/search', { replace: true });
     }
+
+    useEffect(() => {
+        if (partnerFound === true) {
+            setPartnerFound(false);
+        }
+    }, []);
 
     return (
         <>

@@ -4,7 +4,7 @@ import MapIcon from '@atoms/MapIcon';
 import Status from '@atoms/Status';
 import { useUserSettings } from '@store/userSettings';
 import { Gender, UserStatus } from '@utils/enums';
-import { AnimatePresence, motion as m, MotionProps } from 'framer-motion';
+import { AnimatePresence, motion as m } from 'framer-motion';
 import { useEffect, useState, useRef, useLayoutEffect, forwardRef, Ref, RefObject, SyntheticEvent } from 'react';
 import TextArea from '@components/TextArea';
 import TypingIndicator from '@atoms/TypingIndicator';
@@ -26,6 +26,9 @@ import { config as achievementsConfig } from '@config/achievementConfig';
 import interests from '@media/interests';
 
 import { useDraggable } from "react-use-draggable-scroll";
+import { useSocketStore } from '@store/socketStore';
+import { useNavigate } from 'react-router-dom';
+import { connectToSocket } from '../socket';
 
 type ChatBubbleProps = {
     text: any,
@@ -134,6 +137,10 @@ const ChatView = () => {
 
     const showAchvSetting = useUserSettings(state => state.showAchievements)
 
+    const { roomId } = useSocketStore();
+
+    const navigate = useNavigate();
+
     const iconClass = 'w-8 h-8 text cursor-pointer';
     const menuElements: menuElementInterface[] = [
         {
@@ -164,8 +171,15 @@ const ChatView = () => {
     ];
 
     useEffect(() => {
-        setLastMessageId(chatData[chatData.length - 1].id);
-    }, [chatData])
+        connectToSocket();
+    }, []);
+
+    useEffect(() => {
+        console.log(roomId);
+        if (roomId === null) {
+            console.log('Partner inactive???');
+        }
+    }, [roomId])
 
 
     useLayoutEffect(() => {

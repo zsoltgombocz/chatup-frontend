@@ -31,23 +31,26 @@ const Application = () => {
 
     const { initAudio } = useAudio(['navigate.wav']);
 
-    const { setConnected, setConnectedUsers, setQueuePopulation, setRoom } = useSocketStore();
+    const { setConnected, setConnectedUsers, setQueuePopulation, setRoom, setPartnerFound } = useSocketStore();
 
     useEffect(() => {
         setTheme(theme);
         initAudio();
 
         socket.on('connect', () => setConnected(true));
-        socket.on('disconnect', () => console.log('disconnect'));
+        socket.on('disconnect', () => setConnected(false));
         socket.on('userNumberChanged', (num) => setConnectedUsers(num));
         socket.on('queuePopulation', (num) => setQueuePopulation(num));
         socket.on('userAuthDone', (token) => sessionStorage.setItem('chatup_socket_token', token));
-        socket.on('roomChanged', (id) => setRoom(id));
+        socket.on('userRoomIdChanged', (id) => setRoom(id));
+        socket.on('partnerFound', (b) => setPartnerFound(b));
 
         return () => {
             socket.off('connect');
             socket.off('disconnect');
             socket.off('userNumberChanged');
+            console.log('ELO');
+            socket.disconnect();
         }
     }, [])
 

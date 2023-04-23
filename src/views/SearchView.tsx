@@ -66,7 +66,7 @@ const ActiveSearch = () => {
     }, []);
 
     useEffect(() => {
-        if (partnerFound === true || roomId !== null) {
+        if (partnerFound === true && roomId?.current !== null) {
             setSearch(SearchState.RE_SEARCH);
             navigate('/chat');
         }
@@ -81,7 +81,7 @@ const ActiveSearch = () => {
                 <h1>Jelenleg ennyi ember vár sorban: {queuePopulation} </h1>
                 <button type={'button'} onClick={() => socket.emit('startSearch')}>irany a queue</button>
                 <button type={'button'} onClick={() => socket.emit('cancelSearch')}>ki a queuebol</button>
-                <h1>Szoba id: {roomId} </h1>
+                <h1>Szoba id: {roomId?.current} </h1>
             </m.div>
             <Footer showVersion={false}>
                 <Button size={'primary'} style={'filled'} text={'mégse'} className={'mb-3'} onClick={() => navigate(-1)} />
@@ -99,6 +99,7 @@ const ReSearch = () => {
 
     const onReSearchButtonClicked = () => {
         setSearch(SearchState.ACTIVE);
+        setPartnerFound(false);
         navigate('/search', { replace: true });
     }
 

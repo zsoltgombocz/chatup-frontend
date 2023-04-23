@@ -8,6 +8,7 @@ import { useUserSettings } from '@store/userSettings';
 import { setTheme } from '@utils/theme';
 import { socket } from './socket';
 import { useSocketStore } from '@store/socketStore';
+import { UserStatus } from '@utils/enums';
 
 const HomeView = lazy(() => import('@views/HomeView'));
 const SettingsView = lazy(() => import('@views/SettingsView'));
@@ -31,7 +32,7 @@ const Application = () => {
 
     const { initAudio } = useAudio(['navigate.wav']);
 
-    const { setConnected, setConnectedUsers, setQueuePopulation, setRoom, setPartnerFound } = useSocketStore();
+    const { setConnected, setConnectedUsers, setQueuePopulation, setRoom, setPartnerFound, setPartnerstatus } = useSocketStore();
 
     useEffect(() => {
         setTheme(theme);
@@ -44,6 +45,7 @@ const Application = () => {
         socket.on('userAuthDone', (token) => sessionStorage.setItem('chatup_socket_token', token));
         socket.on('userRoomIdChanged', (id) => setRoom(id));
         socket.on('partnerFound', (b) => setPartnerFound(b));
+        socket.on('partnerLeavedChat', () => setPartnerstatus(UserStatus.DISCONNECTED));
 
         return () => {
             socket.off('connect');

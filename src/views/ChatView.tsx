@@ -28,7 +28,7 @@ import interests from '@media/interests';
 import { useDraggable } from "react-use-draggable-scroll";
 import { useSocketStore } from '@store/socketStore';
 import { useNavigate } from 'react-router-dom';
-import { connectToSocket } from '../socket';
+import { connectToSocket, socket } from '../socket';
 
 type ChatBubbleProps = {
     text: any,
@@ -137,7 +137,7 @@ const ChatView = () => {
 
     const showAchvSetting = useUserSettings(state => state.showAchievements)
 
-    const { roomId } = useSocketStore();
+    const { roomId, partnerStatus } = useSocketStore();
 
     const navigate = useNavigate();
 
@@ -172,14 +172,22 @@ const ChatView = () => {
 
     useEffect(() => {
         connectToSocket();
+
+        return () => {
+            socket.emit('leavedChat');
+        }
     }, []);
 
     useEffect(() => {
         console.log(roomId);
         if (roomId === null) {
-            console.log('Partner inactive???');
+            console.log('nincs room csoves');
         }
-    }, [roomId])
+    }, [roomId]);
+
+    useEffect(() => {
+        console.log(partnerStatus);
+    }, [partnerStatus])
 
 
     useLayoutEffect(() => {

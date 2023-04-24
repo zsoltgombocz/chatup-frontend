@@ -5,6 +5,7 @@ import { useUserSettings } from '@store/userSettings';
 import { useAudio } from '@hooks/useAudio';
 import { config } from '@config/headerConfig';
 import { getURLSegment } from '@utils/url';
+import { socket } from '@/socket';
 
 type Props = {
     hideRouteText: boolean
@@ -33,8 +34,8 @@ const NavigationTitle = () => {
 
     useEffect(() => {
         const segment: string = getURLSegment(location.pathname, null) || '';
-
         setTitle(config.routeNames[segment] ?? 'headerConfig: No entry');
+        if (!socket.connected) setTitle('HIBA')
     }, [location]);
 
     return <>{title}</>;

@@ -6,9 +6,10 @@ import AppLayout from '@layout/AppLayout';
 import LazyLoad from '@layout/LazyLoad';
 import { useUserSettings } from '@store/userSettings';
 import { setTheme } from '@utils/theme';
-import { socket } from './socket';
+import { socket, checkServerStatus } from './socket';
 import { useSocketStore } from '@store/socketStore';
 import { UserStatus } from '@utils/enums';
+import NotFound from '@views/NotFound';
 
 const HomeView = lazy(() => import('@views/HomeView'));
 const SettingsView = lazy(() => import('@views/SettingsView'));
@@ -37,15 +38,20 @@ const Application = () => {
     useEffect(() => {
         setTheme(theme);
         initAudio();
+        if (socket.connected) {
+            socket.on('connect', () => setConnected(true));
+            socket.on('disconnect', () => setConnected(false));
+            socket.on('userNumberChanged', (num) => setConnectedUsers(num));
+            socket.on('queuePopulation', (num) => setQueuePopulation(num));
+            socket.on('userAuthDone', (token) => sessionStorage.setItem('chatup_socket_token', token));
+            socket.on('userRoomIdChanged', (id) => setRoom(id));
+            //socket.on('partnerFound', (b) => setPartnerFound(b));
+            socket.on('partnerLeavedChat', () => setPartnerstatus(UserStatus.DISCONNECTED));
+        } else {
+            console.log('no server');
+        }
 
-        socket.on('connect', () => setConnected(true));
-        socket.on('disconnect', () => setConnected(false));
-        socket.on('userNumberChanged', (num) => setConnectedUsers(num));
-        socket.on('queuePopulation', (num) => setQueuePopulation(num));
-        socket.on('userAuthDone', (token) => sessionStorage.setItem('chatup_socket_token', token));
-        socket.on('userRoomIdChanged', (id) => setRoom(id));
-        socket.on('partnerFound', (b) => setPartnerFound(b));
-        socket.on('partnerLeavedChat', () => setPartnerstatus(UserStatus.DISCONNECTED));
+
 
         return () => {
             socket.off('connect');
@@ -54,7 +60,7 @@ const Application = () => {
             console.log('ELO');
             socket.disconnect();
         }
-    }, [])
+    }, []);
 
     return (
         <Routes>
@@ -69,14 +75,19 @@ const Application = () => {
                     <Route path={'help'} element={<LazyLoad><Help /></LazyLoad>} />
                     <Route path={'contact'} element={<LazyLoad><Contact /></LazyLoad>} />
                 </Route>
-                <Route path={'pre'}>
-                    <Route index element={<LazyLoad><CountySelectionView /></LazyLoad>} />
-                    <Route path={'location'} element={<LazyLoad><CountySelectionView /></LazyLoad>} />
-                    <Route path={'gender'} element={<LazyLoad><GenderSelectionView /></LazyLoad>} />
-                    <Route path={'interest'} element={<LazyLoad><InterestSelectionView /></LazyLoad>} />
-                </Route>
-                <Route path={'search'} element={<LazyLoad><SearchView /></LazyLoad>} />
-                <Route path={'chat'} element={<LazyLoad><ChatView /></LazyLoad>} />
+                {socket.connected && (
+                    <>
+                        <Route path={'pre'}>
+                            <Route index element={<LazyLoad><CountySelectionView /></LazyLoad>} />
+                            <Route path={'location'} element={<LazyLoad><CountySelectionView /></LazyLoad>} />
+                            <Route path={'gender'} element={<LazyLoad><GenderSelectionView /></LazyLoad>} />
+                            <Route path={'interest'} element={<LazyLoad><InterestSelectionView /></LazyLoad>} />
+                        </Route>
+                        <Route path={'search'} element={<LazyLoad><SearchView /></LazyLoad>} />
+                        <Route path={'chat'} element={<LazyLoad><ChatView /></LazyLoad>} />
+                    </>
+                )}
+                <Route path={'*'} element={<NotFound />} />
             </Route>
         </Routes>
     );

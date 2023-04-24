@@ -4,6 +4,7 @@ import Version from '@atoms/Version';
 import { AnimatePresence, motion as m } from 'framer-motion';
 import Button from '@components/Button';
 import LinkButton from '@components/LinkButton';
+import { socket } from '@/socket';
 
 
 const HomeView = () => {
@@ -41,7 +42,7 @@ const HomeView = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -250 }}
                     >
-                        <Button size={'primary'} style={'filled'} text={'chat indítása'} linkTo={'pre'} />
+                        <Button size={'primary'} style={'filled'} text={'chat indítása'} linkTo={'pre'} disabled={!socket.connected} />
                     </m.div>
                     <m.div
                         initial={{ opacity: 0, y: -250 }}

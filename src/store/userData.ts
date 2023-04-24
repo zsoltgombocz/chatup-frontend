@@ -12,12 +12,14 @@ interface userData {
     search: SearchState | undefined,
     achievements: string[],
     prePageSteps: prePageInterface,
+    roomId: string | undefined,
     setToken: (token: string) => void
     setUserLocation: (location: UserLocation) => void,
     setSearch: (search: SearchState | undefined) => void,
     setAchievements: (id: string) => void,
     markPageAsVisited: (id: PrePage) => boolean,
     prePagesVisited: (arrayOfPages: string[]) => boolean,
+    setRoomId: (roomId: string | undefined) => void,
 }
 
 const getTokenFromCookie = (): string | undefined => {
@@ -35,6 +37,12 @@ const getAchievements = (): string[] => {
     }
 }
 
+const getSavedRoomId = (): string | undefined => {
+    const roomId: string | null = sessionStorage.getItem('chatup_room_id');
+    if (roomId === "" || roomId === null) return undefined;
+    else return roomId;
+}
+
 const initialPrePageSteps: prePageInterface = {
     [PrePage.LOCATION]: false,
     [PrePage.GENDER]: false,
@@ -47,6 +55,7 @@ export const useUserData = create<userData>((set, get) => ({
     search: undefined,
     achievements: getAchievements(),
     prePageSteps: initialPrePageSteps,
+    roomId: getSavedRoomId(),
 
     setUserLocation: (location: UserLocation) => {
         console.log('setstate', location);
@@ -97,5 +106,11 @@ export const useUserData = create<userData>((set, get) => ({
         }
 
         return isPreviousPagesVisited;
+    },
+
+    setRoomId: (roomId: string | undefined): void => {
+        sessionStorage.setItem('chatup_room_id', roomId || "");
+
+        set(state => ({ ...state, roomId: roomId }));
     }
 }));

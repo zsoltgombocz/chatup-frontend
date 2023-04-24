@@ -10,6 +10,7 @@ import { connectToSocket, socket } from './socket';
 import { useSocketStore } from '@store/socketStore';
 import { UserStatus } from '@utils/enums';
 import NotFound from '@views/NotFound';
+import { useUserData } from './store/userData';
 
 const HomeView = lazy(() => import('@views/HomeView'));
 const SettingsView = lazy(() => import('@views/SettingsView'));
@@ -33,6 +34,8 @@ const Application = () => {
 
     const { initAudio } = useAudio(['navigate.wav']);
 
+    const setRoomId = useUserData(state => state.setRoomId);
+
     const { connected, setConnected, setConnectedUsers, setQueuePopulation, setRoom, setPartnerstatus } = useSocketStore();
 
     useEffect(() => {
@@ -44,7 +47,7 @@ const Application = () => {
         socket.on('userNumberChanged', (num) => setConnectedUsers(num));
         socket.on('queuePopulation', (num) => setQueuePopulation(num));
         socket.on('userAuthDone', (token) => sessionStorage.setItem('chatup_socket_token', token));
-        socket.on('userRoomIdChanged', (id) => setRoom(id));
+        socket.on('userRoomIdChanged', (id) => setRoomId(id));
         //socket.on('partnerFound', (b) => setPartnerFound(b));
         socket.on('partnerLeavedChat', () => setPartnerstatus(UserStatus.DISCONNECTED));
 
@@ -52,7 +55,6 @@ const Application = () => {
             socket.off('connect');
             socket.off('disconnect');
             socket.off('userNumberChanged');
-            console.log('ELO');
             socket.disconnect();
         }
     }, []);

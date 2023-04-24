@@ -38,9 +38,9 @@ const ActiveSearch = () => {
     const navigate = useNavigate();
     const { theme } = useUserSettings();
     const BG = theme === 0 ? LightPatternedBackground : DarkPatternedBackground;
-    const setSearch = useUserData(state => state.setSearch);
+    const { roomId } = useUserData();
 
-    const { connectedUsers, queuePopulation, roomId, connected, partnerFound } = useSocketStore();
+    const { connectedUsers, queuePopulation, connected, partnerFound } = useSocketStore();
 
     const userLocation = useUserData(state => state.location);
     const genderPref = useGenderPreferebces();
@@ -63,13 +63,13 @@ const ActiveSearch = () => {
         }, 5000);*/
     }, []);
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (partnerFound === true && roomId?.current !== null) {
             setSearch(SearchState.RE_SEARCH);
             navigate('/chat');
         }
     }, [partnerFound, roomId])
-
+    */
 
     return (
         <>
@@ -79,7 +79,7 @@ const ActiveSearch = () => {
                 <h1>Jelenleg ennyi ember vár sorban: {queuePopulation} </h1>
                 <button type={'button'} onClick={() => socket.emit('startSearch')}>irany a queue</button>
                 <button type={'button'} onClick={() => socket.emit('cancelSearch')}>ki a queuebol</button>
-                <h1>Szoba id: {roomId?.current} </h1>
+                <h1>Szoba id: {roomId} </h1>
             </m.div>
             <Footer showVersion={false}>
                 <Button size={'primary'} style={'filled'} text={'mégse'} className={'mb-3'} onClick={() => navigate(-1)} />

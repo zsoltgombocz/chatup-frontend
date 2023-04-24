@@ -6,6 +6,7 @@ import Button from '@components/Button';
 import LinkButton from '@components/LinkButton';
 import { socket } from '@/socket';
 
+//TODO: Add text showing that the server is unreachable 
 
 const HomeView = () => {
     const [isLoading, setIsLoading] = useState(true);

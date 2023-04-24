@@ -6,7 +6,7 @@ import AppLayout from '@layout/AppLayout';
 import LazyLoad from '@layout/LazyLoad';
 import { useUserSettings } from '@store/userSettings';
 import { setTheme } from '@utils/theme';
-import { socket, checkServerStatus } from './socket';
+import { socket } from './socket';
 import { useSocketStore } from '@store/socketStore';
 import { UserStatus } from '@utils/enums';
 import NotFound from '@views/NotFound';

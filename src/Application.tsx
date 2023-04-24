@@ -6,7 +6,7 @@ import AppLayout from '@layout/AppLayout';
 import LazyLoad from '@layout/LazyLoad';
 import { useUserSettings } from '@store/userSettings';
 import { setTheme } from '@utils/theme';
-import { socket } from './socket';
+import { connectToSocket, socket } from './socket';
 import { useSocketStore } from '@store/socketStore';
 import { UserStatus } from '@utils/enums';
 import NotFound from '@views/NotFound';
@@ -33,25 +33,20 @@ const Application = () => {
 
     const { initAudio } = useAudio(['navigate.wav']);
 
-    const { setConnected, setConnectedUsers, setQueuePopulation, setRoom, setPartnerFound, setPartnerstatus } = useSocketStore();
+    const { connected, setConnected, setConnectedUsers, setQueuePopulation, setRoom, setPartnerstatus } = useSocketStore();
 
     useEffect(() => {
         setTheme(theme);
         initAudio();
-        if (socket.connected) {
-            socket.on('connect', () => setConnected(true));
-            socket.on('disconnect', () => setConnected(false));
-            socket.on('userNumberChanged', (num) => setConnectedUsers(num));
-            socket.on('queuePopulation', (num) => setQueuePopulation(num));
-            socket.on('userAuthDone', (token) => sessionStorage.setItem('chatup_socket_token', token));
-            socket.on('userRoomIdChanged', (id) => setRoom(id));
-            //socket.on('partnerFound', (b) => setPartnerFound(b));
-            socket.on('partnerLeavedChat', () => setPartnerstatus(UserStatus.DISCONNECTED));
-        } else {
-            console.log('no server');
-        }
-
-
+        connectToSocket();
+        socket.on('connect', () => setConnected(true));
+        socket.on('disconnect', () => setConnected(false));
+        socket.on('userNumberChanged', (num) => setConnectedUsers(num));
+        socket.on('queuePopulation', (num) => setQueuePopulation(num));
+        socket.on('userAuthDone', (token) => sessionStorage.setItem('chatup_socket_token', token));
+        socket.on('userRoomIdChanged', (id) => setRoom(id));
+        //socket.on('partnerFound', (b) => setPartnerFound(b));
+        socket.on('partnerLeavedChat', () => setPartnerstatus(UserStatus.DISCONNECTED));
 
         return () => {
             socket.off('connect');
@@ -75,7 +70,7 @@ const Application = () => {
                     <Route path={'help'} element={<LazyLoad><Help /></LazyLoad>} />
                     <Route path={'contact'} element={<LazyLoad><Contact /></LazyLoad>} />
                 </Route>
-                {socket.connected && (
+                {connected && (
                     <>
                         <Route path={'pre'}>
                             <Route index element={<LazyLoad><CountySelectionView /></LazyLoad>} />

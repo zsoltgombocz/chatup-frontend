@@ -48,8 +48,6 @@ const ActiveSearch = () => {
     const interests = useInterestPreferences(state => state.interests);
 
     useEffect(() => {
-        connectToSocket();
-
         socket.emit('updateData', {
             location: userLocation,
             ownGender: genderPref.ownGender,

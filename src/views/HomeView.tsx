@@ -5,11 +5,13 @@ import { AnimatePresence, motion as m } from 'framer-motion';
 import Button from '@components/Button';
 import LinkButton from '@components/LinkButton';
 import { socket } from '@/socket';
+import { useSocketStore } from '@/store/socketStore';
 
 //TODO: Add text showing that the server is unreachable 
 
 const HomeView = () => {
     const [isLoading, setIsLoading] = useState(true);
+    const socketState = useSocketStore(state => state.connected);
     useEffect(() => {
         //! WHEN NAVIGATING BACK CHECK THE READYNESS OF THE APP OR JUST DO LOADING AGAIN?
         setTimeout(() => setIsLoading(false), 1000);
@@ -43,7 +45,7 @@ const HomeView = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -250 }}
                     >
-                        <Button size={'primary'} style={'filled'} text={'chat indítása'} linkTo={'pre'} disabled={!socket.connected} />
+                        <Button size={'primary'} style={'filled'} text={'chat indítása'} linkTo={'pre'} disabled={!socketState} />
                     </m.div>
                     <m.div
                         initial={{ opacity: 0, y: -250 }}

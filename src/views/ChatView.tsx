@@ -3,7 +3,7 @@ import SendIcon from '@atoms/SendIcon';
 import MapIcon from '@atoms/MapIcon';
 import Status from '@atoms/Status';
 import { useUserSettings } from '@store/userSettings';
-import { Gender, UserStatus } from '@utils/enums';
+import { Gender, SearchState, UserStatus } from '@utils/enums';
 import { AnimatePresence, motion as m } from 'framer-motion';
 import { useEffect, useState, useRef, useLayoutEffect, forwardRef, Ref, RefObject, SyntheticEvent } from 'react';
 import TextArea from '@components/TextArea';
@@ -29,6 +29,7 @@ import { useDraggable } from "react-use-draggable-scroll";
 import { useSocketStore } from '@store/socketStore';
 import { useNavigate } from 'react-router-dom';
 import { connectToSocket, socket } from '../socket';
+import { useUserData } from '@/store/userData';
 
 type ChatBubbleProps = {
     text: any,
@@ -134,12 +135,21 @@ const ChatView = () => {
     const [chatData, setChatData] = useState(chat);
     const [partnerInfo, setPartnerInfo] = useState<boolean>(false);
     const [lastMessageId, setLastMessageId] = useState<number>(chat[chat.length - 1].id);
+    const [isChatValidated, setIsChatValidated] = useState<boolean | null>(null);
 
     const showAchvSetting = useUserSettings(state => state.showAchievements)
 
-    const { roomId, partnerStatus } = useSocketStore();
+    const { roomId, token, setSearch } = useUserData();
 
     const navigate = useNavigate();
+
+    const validateChat = () => {
+        console.log(roomId, token);
+
+        socket.emit('validateChat', { roomId, token }, (response: { status: boolean }) => {
+            setIsChatValidated(response.status);
+        })
+    }
 
     const iconClass = 'w-8 h-8 text cursor-pointer';
     const menuElements: menuElementInterface[] = [
@@ -171,23 +181,21 @@ const ChatView = () => {
     ];
 
     useEffect(() => {
-        connectToSocket();
-
         return () => {
             socket.emit('leavedChat');
         }
     }, []);
 
     useEffect(() => {
-        console.log(roomId);
-        if (roomId === null) {
-            console.log('nincs room csoves');
+        if (isChatValidated === null) {
+            validateChat();
         }
-    }, [roomId]);
 
-    useEffect(() => {
-        console.log(partnerStatus);
-    }, [partnerStatus])
+        if (roomId === null || roomId === undefined || isChatValidated === false) {
+            setSearch(SearchState.RE_SEARCH);
+            navigate('/search');
+        }
+    }, [roomId, isChatValidated]);
 
 
     useLayoutEffect(() => {

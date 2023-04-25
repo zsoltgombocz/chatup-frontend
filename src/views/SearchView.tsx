@@ -9,7 +9,7 @@ import DarkPatternedBackground from '@media/images/pattern_randomized_dark.png';
 import LightPatternedBackground from '@media/images/pattern_randomized_light.png';
 import { useUserSettings } from '@store/userSettings';
 import { useEffect } from 'react';
-import { connectToSocket, socket } from '../socket';
+import { socket } from '@/socket';
 import { useSocketStore } from '@store/socketStore';
 import { useGenderPreferebces } from '@store/genderPreferences';
 import { useMapPreferences } from '@store/mapPreferences';
@@ -38,9 +38,9 @@ const ActiveSearch = () => {
     const navigate = useNavigate();
     const { theme } = useUserSettings();
     const BG = theme === 0 ? LightPatternedBackground : DarkPatternedBackground;
-    const { roomId } = useUserData();
+    const { roomId, setSearch } = useUserData();
 
-    const { connectedUsers, queuePopulation, connected, partnerFound } = useSocketStore();
+    const { connectedUsers, queuePopulation } = useSocketStore();
 
     const userLocation = useUserData(state => state.location);
     const genderPref = useGenderPreferebces();
@@ -63,13 +63,12 @@ const ActiveSearch = () => {
         }, 5000);*/
     }, []);
 
-    /*useEffect(() => {
-        if (partnerFound === true && roomId?.current !== null) {
+    useEffect(() => {
+        if (roomId !== undefined || roomId === null) {
             setSearch(SearchState.RE_SEARCH);
             navigate('/chat');
         }
-    }, [partnerFound, roomId])
-    */
+    }, [roomId]);
 
     return (
         <>

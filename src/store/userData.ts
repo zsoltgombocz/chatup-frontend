@@ -23,7 +23,7 @@ interface userData {
 }
 
 const getTokenFromCookie = (): string | undefined => {
-    const savedToken: string | null = sessionStorage.getItem('token')
+    const savedToken: string | null = sessionStorage.getItem('chatup_socket_token');
     return savedToken === null || !savedToken ? undefined : savedToken;
 }
 

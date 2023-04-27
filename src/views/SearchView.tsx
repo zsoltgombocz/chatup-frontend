@@ -30,7 +30,7 @@ const SearchView = () => {
         case SearchState.RE_SEARCH:
             return <ReSearch />
         default:
-            return <ActiveSearch />
+            return <>nem kene ide jutni</>
     }
 }
 
@@ -38,7 +38,7 @@ const ActiveSearch = () => {
     const navigate = useNavigate();
     const { theme } = useUserSettings();
     const BG = theme === 0 ? LightPatternedBackground : DarkPatternedBackground;
-    const { roomId, setSearch } = useUserData();
+    const { roomId, setSearch, setRoomId } = useUserData();
 
     const { connectedUsers, queuePopulation } = useSocketStore();
 
@@ -48,6 +48,7 @@ const ActiveSearch = () => {
     const interests = useInterestPreferences(state => state.interests);
 
     useEffect(() => {
+        setRoomId(undefined);
         socket.emit('updateData', {
             location: userLocation,
             ownGender: genderPref.ownGender,
@@ -58,13 +59,14 @@ const ActiveSearch = () => {
         })
 
         /*setTimeout(() => {
-            setSearch(SearchState.RE_SEARCH);
+            setSearch(SearchStat.RE_SEARCH);
             navigate('/chat')
         }, 5000);*/
     }, []);
 
     useEffect(() => {
-        if (roomId !== undefined || roomId === null) {
+        console.log(roomId)
+        if (roomId !== undefined) {
             setSearch(SearchState.RE_SEARCH);
             navigate('/chat');
         }
@@ -89,22 +91,16 @@ const ActiveSearch = () => {
 
 const ReSearch = () => {
     const { theme } = useUserSettings();
-    const { partnerFound, setPartnerFound } = useSocketStore();
     const BG = theme === 0 ? LightPatternedBackground : DarkPatternedBackground;
     const setSearch = useUserData(state => state.setSearch);
+    const setRoomId = useUserData(state => state.setRoomId);
     const navigate = useNavigate();
 
     const onReSearchButtonClicked = () => {
         setSearch(SearchState.ACTIVE);
-        setPartnerFound(false);
+        setRoomId(undefined);
         navigate('/search', { replace: true });
     }
-
-    useEffect(() => {
-        if (partnerFound === true) {
-            setPartnerFound(false);
-        }
-    }, []);
 
     return (
         <>

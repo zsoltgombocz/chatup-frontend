@@ -46,8 +46,14 @@ const Application = () => {
         socket.on('disconnect', () => setConnected(false));
         socket.on('userNumberChanged', (num) => setConnectedUsers(num));
         socket.on('queuePopulation', (num) => setQueuePopulation(num));
-        socket.on('userAuthDone', (token) => sessionStorage.setItem('chatup_socket_token', token));
-        socket.on('userRoomIdChanged', (id) => setRoomId(id));
+        socket.on('userAuthDone', ({ token, roomId }) => {
+            sessionStorage.setItem('chatup_socket_token', token);
+            sessionStorage.setItem('chatup_room_id', roomId.last || '');
+        });
+        socket.on('userRoomIdChanged', (id) => {
+            console.log('user room changed', id)
+            setRoomId(id);
+        });
         //socket.on('partnerFound', (b) => setPartnerFound(b));
         socket.on('partnerLeavedChat', () => setPartnerstatus(UserStatus.DISCONNECTED));
 

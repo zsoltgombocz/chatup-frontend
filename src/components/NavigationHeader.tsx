@@ -5,7 +5,7 @@ import { useUserSettings } from '@store/userSettings';
 import { useAudio } from '@hooks/useAudio';
 import { config } from '@config/headerConfig';
 import { getURLSegment } from '@utils/url';
-import { socket } from '@/socket';
+import { useSocketStore } from '@/store/socketStore';
 
 type Props = {
     hideRouteText: boolean
@@ -31,11 +31,12 @@ const NavigationHeader = ({ hideRouteText = false }: Props) => {
 const NavigationTitle = () => {
     const location = useLocation();
     const [title, setTitle] = useState('');
+    const socketState = useSocketStore(state => state.connected);
 
     useEffect(() => {
         const segment: string = getURLSegment(location.pathname, null) || '';
         setTitle(config.routeNames[segment] ?? 'headerConfig: No entry');
-        if (!socket.connected) setTitle('HIBA')
+        if (!socketState) setTitle('HIBA')
     }, [location]);
 
     return <>{title}</>;

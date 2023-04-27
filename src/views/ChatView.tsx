@@ -146,6 +146,7 @@ const ChatView = () => {
     const validateChat = () => {
         console.log(roomId, token);
 
+
         socket.emit('validateChat', { roomId, token }, (response: { status: boolean }) => {
             setIsChatValidated(response.status);
         })
@@ -187,12 +188,12 @@ const ChatView = () => {
     }, []);
 
     useEffect(() => {
-        if (isChatValidated === null) {
+        if (isChatValidated === null && roomId) {
             validateChat();
         }
 
         if (roomId === null || roomId === undefined || isChatValidated === false) {
-            setSearch(SearchState.RE_SEARCH);
+            setSearch(SearchState.ACTIVE);
             navigate('/search');
         }
     }, [roomId, isChatValidated]);
@@ -217,7 +218,7 @@ const ChatView = () => {
         setChatData([...newChatData, { ...updatedMsg, reaction: reaction }].sort((a: msg, b: msg) => a.id - b.id));
     }
 
-    return (
+    return isChatValidated ? (
         <div className={'bg-chat w-full h-full'}>
             <m.div style={{ height: 'inherit' }} className={'view !py-0 !px-0 !max-w-[800px] mx-auto'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
                 <div className={'flex-shrink flex flex-row justify-between p-5 h-[90px]'}>
@@ -250,7 +251,7 @@ const ChatView = () => {
                 </div>
             </m.div>
         </div>
-    )
+    ) : <>akar loader</>
 }
 const PartnerInfo = () => {
     const GENDER = Gender.MALE;

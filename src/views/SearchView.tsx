@@ -19,6 +19,13 @@ import { useInterestPreferences } from '@store/interestPreferences';
 const SearchView = () => {
     const { prePageSteps, prePagesVisited, search } = useUserData();
     const allPrePageVisited = prePagesVisited(Object.keys(prePageSteps));
+    const { setRoomId } = useUserData();
+
+    useEffect(() => {
+        setRoomId(undefined);
+        socket.emit('roomLeaved');
+    }, []);
+
 
     if (search === undefined || !allPrePageVisited) {
         return <Navigate to={'/'} replace />
@@ -65,8 +72,7 @@ const ActiveSearch = () => {
     }, []);
 
     useEffect(() => {
-        console.log(roomId)
-        if (roomId !== undefined) {
+        if (roomId != null) {
             setSearch(SearchState.RE_SEARCH);
             navigate('/chat');
         }

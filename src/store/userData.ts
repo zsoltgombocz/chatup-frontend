@@ -58,13 +58,10 @@ export const useUserData = create<userData>((set, get) => ({
     roomId: getSavedRoomId(),
 
     setUserLocation: (location: UserLocation) => {
-        console.log('setstate', location);
         set(state => ({ ...state, location }))
-        console.log('afterset', get().location);
-
     },
     setToken: (token: string) => {
-        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('chatup_socket_token', token);
         set(state => ({ ...state, token }))
     },
     setSearch: (search: SearchState | undefined) => {

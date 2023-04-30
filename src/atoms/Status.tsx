@@ -3,7 +3,7 @@ import { motion as m, MotionProps } from 'framer-motion';
 import { Ref, forwardRef } from 'react';
 
 type Props = {
-    status: UserStatus,
+    status: UserStatus | undefined,
 }
 
 const STATUS_COLORS = [
@@ -13,7 +13,7 @@ const STATUS_COLORS = [
 ]
 
 const Status = forwardRef(({ status }: Props, ref: Ref<HTMLDivElement>) => {
-    return (<m.div className={`w-[9px] h-[9px] rounded ${STATUS_COLORS[status]}`} ref={ref} />);
+    return (<m.div className={`w-[9px] h-[9px] rounded ${STATUS_COLORS[status || UserStatus.ONLINE]}`} ref={ref} />);
 });
 
 export default Status;

@@ -142,6 +142,7 @@ path.county {
 }
 
 .chat-bubble-wrapper {
+  word-break: break-word;
   @apply w-[70%] max-w-[500px] h-min rounded-[15px] py-3 px-4 my-3 flex items-center relative;
 }
 

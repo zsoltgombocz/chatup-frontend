@@ -8,9 +8,10 @@ import { useUserSettings } from '@store/userSettings';
 import { setTheme } from '@utils/theme';
 import { connectToSocket, socket } from './socket';
 import { useSocketStore } from '@store/socketStore';
-import { UserStatus } from '@utils/enums';
+import { ToastVariant, UserStatus } from '@utils/enums';
 import NotFound from '@views/NotFound';
 import { useUserData } from './store/userData';
+import { useNotify } from './hooks/useNotify';
 
 const HomeView = lazy(() => import('@views/HomeView'));
 const SettingsView = lazy(() => import('@views/SettingsView'));
@@ -35,8 +36,11 @@ const Application = () => {
     const { initAudio } = useAudio(['navigate.wav']);
 
     const setRoomId = useUserData(state => state.setRoomId);
+    const setToken = useUserData(state => state.setToken);
 
-    const { connected, setConnected, setConnectedUsers, setQueuePopulation, setRoom, setPartnerstatus } = useSocketStore();
+    const { connected, setConnected, setConnectedUsers, setQueuePopulation, setRoom, setPartnerStatus } = useSocketStore();
+
+    const { notify } = useNotify();
 
     useEffect(() => {
         setTheme(theme);
@@ -49,13 +53,26 @@ const Application = () => {
         socket.on('userAuthDone', ({ token, roomId }) => {
             sessionStorage.setItem('chatup_socket_token', token);
             sessionStorage.setItem('chatup_room_id', roomId.last || '');
+            setToken(token);
+            setRoomId(roomId.last || undefined);
         });
         socket.on('userRoomIdChanged', (id) => {
             console.log('user room changed', id)
             setRoomId(id);
         });
-        //socket.on('partnerFound', (b) => setPartnerFound(b));
-        socket.on('partnerLeavedChat', () => setPartnerstatus(UserStatus.DISCONNECTED));
+        socket.on('partnerStatusChange', (status) => {
+            console.log('partner status changed to', status);
+
+            setPartnerStatus(status <= 1 ? UserStatus.DISCONNECTED : UserStatus.ONLINE)
+        });
+        socket.on('partnerLeavedChat', () => {
+            console.log('partner leaved');
+            setPartnerStatus(UserStatus.DISCONNECTED);
+        });
+        socket.on('roomDestroyed', () => {
+            console.log('room destroyed');
+            notify('Szoba megszűnt!', 'A szoba amiben tartózkodtál törlésre került mert partnered kilépett vagy túl régóta inaktív.', ToastVariant.DEFAULT, 5000);
+        });
 
         return () => {
             socket.off('connect');

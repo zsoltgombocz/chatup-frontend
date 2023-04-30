@@ -30,6 +30,8 @@ import { useSocketStore } from '@store/socketStore';
 import { useNavigate } from 'react-router-dom';
 import { connectToSocket, socket } from '../socket';
 import { useUserData } from '@/store/userData';
+import { UserLocation } from '@/utils/types';
+import { UserCounty } from '@/atoms/GeoLocation';
 
 type ChatBubbleProps = {
     text: any,
@@ -55,7 +57,7 @@ type ReactionProps = {
 }
 
 enum BubbleType {
-    OWN, PARTNER //0, 1
+    OWN, PARTNER, NEUTRAL //0, 1
 }
 
 type InputContainerProps = {
@@ -65,7 +67,8 @@ type InputContainerProps = {
 
 type ChatExtensionProps = {
     showAchievements: boolean,
-    showPartnerInfo: boolean
+    showPartnerInfo: boolean,
+    partnerData: any,
 }
 
 interface AchievementInterface {
@@ -126,7 +129,25 @@ let chat: msg[] = [
         from: 1,
         id: 6,
     },
+    {
+        message: 'Partnered kilépett.',
+        reaction: undefined,
+        from: 2,
+        id: 7,
+    },
 ];
+
+interface ValidateChatEventResponseInterface {
+    status: boolean,
+    partnerData: any,
+    partnerStatus: number,
+}
+
+interface PartnerInfoPropsInterface {
+    gender: Gender,
+    location: UserLocation,
+    interests: string[]
+}
 
 const ChatView = () => {
     const chatAreaRef = useRef<HTMLDivElement>(null);
@@ -139,16 +160,21 @@ const ChatView = () => {
 
     const showAchvSetting = useUserSettings(state => state.showAchievements)
 
-    const { roomId, token, setSearch } = useUserData();
+    const { roomId, token, setRoomId } = useUserData();
+
+    const { partnerStatus, partnerData, setPartnerStatus, setPartnerData } = useSocketStore();
 
     const navigate = useNavigate();
 
     const validateChat = () => {
         console.log(roomId, token);
 
-
-        socket.emit('validateChat', { roomId, token }, (response: { status: boolean }) => {
+        socket.emit('validateChat', { roomId, token }, (response: ValidateChatEventResponseInterface) => {
             setIsChatValidated(response.status);
+            setPartnerData(response.partnerData);
+            setPartnerStatus(response.partnerStatus <= 1 ? UserStatus.DISCONNECTED : UserStatus.ONLINE);
+
+            console.log(response)
         })
     }
 
@@ -183,17 +209,20 @@ const ChatView = () => {
 
     useEffect(() => {
         return () => {
-            socket.emit('leavedChat');
+            if (roomId != null && (isChatValidated === false || isChatValidated === null))
+                socket.emit('leavedChat');
         }
     }, []);
 
     useEffect(() => {
+        console.log(roomId, isChatValidated)
         if (isChatValidated === null && roomId) {
             validateChat();
         }
 
         if (roomId === null || roomId === undefined || isChatValidated === false) {
-            setSearch(SearchState.ACTIVE);
+            //setSearch(SearchState.ACTIVE);
+            setRoomId(undefined);
             navigate('/search');
         }
     }, [roomId, isChatValidated]);
@@ -225,14 +254,14 @@ const ChatView = () => {
                     <Logo size={'sm'} />
 
                     <div className={'flex flex-row justify-end items-center gap-1 relative flex-grow w-full'}>
-                        <Status status={UserStatus.ONLINE} />
+                        <Status status={partnerStatus} />
 
                         <InlineMenu menuElements={menuElements} />
                     </div>
                 </div>
 
                 <div className={'flex-grow h-fit flex overflow-hidden flex-col relative'}>
-                    <ChatExtension showAchievements={showAchvSetting} showPartnerInfo={partnerInfo} />
+                    <ChatExtension showAchievements={showAchvSetting} showPartnerInfo={partnerInfo} partnerData={partnerData} />
                     <m.div className={'chat-area scroll-smooth'} ref={chatAreaRef} layout>
                         {chatData.map((message: msg) =>
                             <ChatBubble setReaction={setReactionOnChatMessage} messageId={message.id} key={message.id} text={message.message} type={message.from} reactionString={message.reaction} />
@@ -253,32 +282,42 @@ const ChatView = () => {
         </div>
     ) : <>akar loader</>
 }
-const PartnerInfo = () => {
-    const GENDER = Gender.MALE;
-    const LOCATION: string = 'pest';
-    const countyName = counties.find(county => county.id === LOCATION)?.name || 'Hiányzó';
 
-    const INTERESTS = ['lmbtq', 'music', 'dua_lipa'].map(interestId => {
+const PartnerInfo = ({ gender, location, interests }: PartnerInfoPropsInterface) => {
+    const INTERESTS = interests.map(interestId => {
         return interestConfig.interests.find(int => int.id === interestId);
     }).filter(interest => interest !== undefined);
 
-    return (<div className={'text p-2 flex flex-col sm:flex-row justify-center items-center sm:gap-7'}>
-        <div className={'mr-5 hidden sm:block'}>{GENDER === Gender.MALE ? 'Férfi' : 'Nő'}</div>
-        <VerticalDivider className={'hidden sm:block'} />
-        <div className={'flex flex-row gap-2 justify-center items-center'}>
-            {INTERESTS.map(interest =>
-                <ImageCircle src={interest!.src} hasBorder={true} noColor={true} />
-            )}
-        </div>
-        <VerticalDivider className={'hidden sm:block'} />
-        <div className={'ml-5 hidden sm:block'}>{countyName}</div>
-        <div className={'sm:hidden flex flex-row justify-center items-center w-full mt-2'}>
-            <div className={'mr-5'}>{GENDER === Gender.MALE ? 'Férfi' : 'Nő'}</div>
-            <VerticalDivider className={'!h-6 !w-[3px]'} />
-            <div className={'ml-5'}>{countyName}</div>
+    return (
+        <div className={'text p-2 flex flex-col sm:flex-row items-center pb-3'}>
+            <div className={'hidden sm:block w-1/3 text-center'}>{gender === Gender.MALE ? 'Férfi' : 'Nő'}</div>
 
-        </div>
-    </div>);
+            <VerticalDivider className={'hidden sm:block'} />
+
+            <div className={'flex flex-row gap-2 justify-center items-center w-1/3 mx-5'}>
+                {INTERESTS.map(interest =>
+                    <ImageCircle src={interest!.src} hasBorder={true} noColor={true} />
+                )}
+            </div>
+
+            <VerticalDivider className={'hidden sm:block'} />
+
+            <div className={'hidden sm:block w-1/3 text-center'}>
+                <UserCounty location={location} />
+            </div>
+
+            {/* MOBILE */}
+            <div className={'sm:hidden flex w-full mt-2'}>
+
+                <div className={'w-1/2 text-center'}>{gender === Gender.MALE ? 'Férfi' : 'Nő'}</div>
+
+                <VerticalDivider className={'!h-6 !w-[3px] shrink'} />
+
+                <div className={'w-1/2 text-center'}>
+                    <UserCounty location={location} />
+                </div>
+            </div>
+        </div>);
 }
 
 const AchievementsShowcase = () => {
@@ -379,8 +418,8 @@ const Achievement = ({ image, title, className, isOpen, onClick }: AchievementIn
     )
 }
 
-const ChatExtension = ({ showAchievements, showPartnerInfo }: ChatExtensionProps) => {
-    if (showPartnerInfo) return <PartnerInfo />;
+const ChatExtension = ({ showAchievements, showPartnerInfo, partnerData }: ChatExtensionProps) => {
+    if (showPartnerInfo) return <PartnerInfo gender={partnerData.gender} location={partnerData.location} interests={partnerData.interests} />;
 
     return showAchievements ? <AchievementsShowcase /> : <></>;
 }
@@ -395,8 +434,14 @@ const ChatBubble = ({ text, type, className, reactionString, messageId, setReact
         [`bg-${userColor}`]: type === BubbleType.OWN,
     });
 
+    const bubbleClasses = classNames({
+        'justify-end self-end text-white !rounded-br-none text-right': type === BubbleType.OWN,
+        'justify-start !rounded-bl-none': type === BubbleType.PARTNER,
+        'justify-center !w-[100%] !max-w-none text-gray-300 text-sm': type === BubbleType.NEUTRAL,
+    });
+
     const bind = useLongPress(() => {
-        if (type === BubbleType.OWN) return;
+        if (type === BubbleType.OWN || type === BubbleType.NEUTRAL) return;
 
         setReactionMenu(true);
     });
@@ -415,9 +460,7 @@ const ChatBubble = ({ text, type, className, reactionString, messageId, setReact
     }, [reactionMenu]);
 
     return (
-        <div className={`chat-bubble-wrapper ${bgColor} ${type === BubbleType.OWN ?
-            'justify-end self-end text-white !rounded-br-none text-right bg-' : 'justify-start !rounded-bl-none'} 
-${className}`} {...bind()} ref={bubbleRef}>
+        <div className={`chat-bubble-wrapper ${bgColor} ${bubbleClasses} ${className}`} {...bind()} ref={bubbleRef}>
             <div> {text} </div>
             <ChatBubbleReaction
                 selected={reactionString}

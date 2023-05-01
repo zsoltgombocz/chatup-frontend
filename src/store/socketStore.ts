@@ -55,5 +55,8 @@ export const useSocketStore = create<SocketStoreInterface>((set, get) => ({
     },
     setPartnerData: (data: any) => {
         set(state => ({ ...state, partnerData: data }));
+    },
+    setMessages: (data: any) => {
+        set(state => ({ ...state, messages: data }));
     }
 }));

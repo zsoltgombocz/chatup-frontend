@@ -582,9 +582,9 @@ const MotionReaction = m(Reaction);
 
 const InputContainer = ({ setChat, typingState }: InputContainerProps) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const [typing, setTyping] = typingState;
+    const [, setTyping] = typingState;
     const [textLength, setTextLength] = useState(0);
-    //! TODO: GET PARTNER INPUT STATE AND REPLACE IT WITH TYPING, CAN BE MOVED UP TO PARENT
+
     useEffect(() => {
         const textarea = textareaRef.current;
         if (textarea === null) return;
@@ -592,13 +592,16 @@ const InputContainer = ({ setChat, typingState }: InputContainerProps) => {
 
         const handleTextareaChange = () => {
             const textareaValue = textarea.value;
-            if (textareaValue.length <= 0 && typing) setTyping(false);
+            if (textareaValue.length <= 0) {
+                socket.emit('typing', false);
+            }
+
             if (textareaValue.length <= 0) return;
 
-            setTyping(true);
+            socket.emit('typing', true);
             clearTimeout(debounceTimeout);
             debounceTimeout = setTimeout(() => {
-                setTyping(false);
+                socket.emit('typing', false);
             }, 2000);
 
             setTextLength(textareaValue.length);
@@ -606,9 +609,12 @@ const InputContainer = ({ setChat, typingState }: InputContainerProps) => {
 
         textarea.addEventListener('input', handleTextareaChange);
         textarea.addEventListener('keyup', (e) => setTextLength((e.target as HTMLTextAreaElement).value.length));
+
+        socket.on('partnerTyping', (typing) => setTyping(typing));
         return () => {
             textarea.removeEventListener('input', handleTextareaChange);
             clearTimeout(debounceTimeout);
+            socket.off('partnerTyping');
         };
     }, [textareaRef]);
 
@@ -619,7 +625,7 @@ const InputContainer = ({ setChat, typingState }: InputContainerProps) => {
         if (!content) return;
         setChat((prev: msg[]) => [...prev, { message: content, reaction: '', from: 0, id: prev.length + 1 }]);
         textarea.value = "";
-        setTyping(false);
+        socket.emit('typing', false);
         setTextLength(0);
     }
 

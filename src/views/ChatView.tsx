@@ -3,7 +3,7 @@ import SendIcon from '@atoms/SendIcon';
 import MapIcon from '@atoms/MapIcon';
 import Status from '@atoms/Status';
 import { useUserSettings } from '@store/userSettings';
-import { Gender, SearchState, UserStatus } from '@utils/enums';
+import { Gender, UserStatus } from '@utils/enums';
 import { AnimatePresence, motion as m } from 'framer-motion';
 import { useEffect, useState, useRef, useLayoutEffect, forwardRef, Ref, RefObject, SyntheticEvent } from 'react';
 import TextArea from '@components/TextArea';
@@ -35,10 +35,11 @@ import { UserCounty } from '@/atoms/GeoLocation';
 
 type ChatBubbleProps = {
     text: any,
-    type: BubbleType,
+    type?: BubbleType,
+    from: number | string,
     className?: string,
     reactionString?: string
-    messageId: number,
+    messageId: number | string,
     setReaction?: Function | undefined
 }
 
@@ -61,7 +62,6 @@ enum BubbleType {
 }
 
 type InputContainerProps = {
-    setChat: Function,
     typingState: [typing: boolean, setTyping: Function]
 }
 
@@ -79,68 +79,12 @@ interface AchievementInterface {
     onClick: Function | undefined,
     id: string,
 }
-interface msg {
-    message: string,
-    reaction: undefined | string,
-    from: number,
-    id: number,
-}
-
-let chat: msg[] = [
-    {
-        message: 'Szia!',
-        reaction: undefined,
-        from: 1,
-        id: 0,
-    },
-    {
-        message: 'Szia!',
-        reaction: undefined,
-        from: 0,
-        id: 1,
-    },
-    {
-        message: 'Hogy vagy?',
-        reaction: undefined,
-        from: 1,
-        id: 2,
-    },
-    {
-        message: 'Mi jót csinálsz?',
-        reaction: undefined,
-        from: 1,
-        id: 3,
-    },
-    {
-        message: 'Jól vagyok köszönöm! \n Éppen zenét hallgatok és próbálok valami hosszút irni, hogy megnézzem milyen. :)',
-        reaction: undefined,
-        from: 0,
-        id: 4,
-    },
-    {
-        message: 'Szia!',
-        reaction: undefined,
-        from: 1,
-        id: 5,
-    },
-    {
-        message: 'Megmutatod? :D',
-        reaction: 'cool',
-        from: 1,
-        id: 6,
-    },
-    {
-        message: 'Partnered kilépett.',
-        reaction: undefined,
-        from: 2,
-        id: 7,
-    },
-];
 
 interface ValidateChatEventResponseInterface {
     status: boolean,
     partnerData: any,
     partnerStatus: number,
+    messages: any
 }
 
 interface PartnerInfoPropsInterface {
@@ -151,18 +95,17 @@ interface PartnerInfoPropsInterface {
 
 const ChatView = () => {
     const chatAreaRef = useRef<HTMLDivElement>(null);
+    const { partnerStatus, partnerData, setPartnerStatus, setPartnerData, messages, setMessages } = useSocketStore();
 
     const [typing, setTyping] = useState(false);
-    const [chatData, setChatData] = useState(chat);
     const [partnerInfo, setPartnerInfo] = useState<boolean>(false);
-    const [lastMessageId, setLastMessageId] = useState<number>(chat[chat.length - 1].id);
+    const [lastMessageId, setLastMessageId] = useState<number>(-1);
     const [isChatValidated, setIsChatValidated] = useState<boolean | null>(null);
 
     const showAchvSetting = useUserSettings(state => state.showAchievements)
 
     const { roomId, token, setRoomId } = useUserData();
 
-    const { partnerStatus, partnerData, setPartnerStatus, setPartnerData } = useSocketStore();
 
     const navigate = useNavigate();
 
@@ -170,11 +113,13 @@ const ChatView = () => {
         console.log(roomId, token);
 
         socket.emit('validateChat', { roomId, token }, (response: ValidateChatEventResponseInterface) => {
+            console.log('validated message', response.messages);
+            setMessages(response.messages);
+            setLastMessageId(messages[messages.length - 1]?.id || -1);
             setIsChatValidated(response.status);
             setPartnerData(response.partnerData);
             setPartnerStatus(response.partnerStatus <= 1 ? UserStatus.DISCONNECTED : UserStatus.ONLINE);
 
-            console.log(response)
         })
     }
 
@@ -202,7 +147,7 @@ const ChatView = () => {
         {
             icon: <ArrowRightOnRectangleIcon className={iconClass} />,
             name: 'Kilépés',
-            onClick: undefined,
+            onClick: () => navigate('/search', { replace: true }),
             order: 4,
         }
     ];
@@ -211,6 +156,7 @@ const ChatView = () => {
         return () => {
             if (roomId != null && (isChatValidated === false || isChatValidated === null))
                 socket.emit('leavedChat');
+            setMessages([]);
         }
     }, []);
 
@@ -222,6 +168,7 @@ const ChatView = () => {
 
         if (roomId === null || roomId === undefined || isChatValidated === false) {
             //setSearch(SearchState.ACTIVE);
+            setMessages([]);
             setRoomId(undefined);
             navigate('/search');
         }
@@ -230,7 +177,7 @@ const ChatView = () => {
 
     useLayoutEffect(() => {
         const chatArea = chatAreaRef.current;
-        if (!chatArea || (!typing && lastMessageId === chatData[chatData.length - 1].id)) return;
+        if (!chatArea || (!typing && lastMessageId === messages[messages.length - 1]?.id)) return;
 
         chatArea.scrollTo({
             top: chatArea.scrollHeight,
@@ -239,12 +186,13 @@ const ChatView = () => {
         });
     });
 
-    const setReactionOnChatMessage = (messageId: number, reaction: string | undefined) => {
-        const newChatData: msg[] = chatData.filter(msg => msg.id !== messageId);
-        const updatedMsg: msg | undefined = chatData.find(msg => msg.id === messageId);
-        if (updatedMsg === undefined) return;
-
-        setChatData([...newChatData, { ...updatedMsg, reaction: reaction }].sort((a: msg, b: msg) => a.id - b.id));
+    const setReactionOnChatMessage = (messageId: string, reaction: string | undefined) => {
+        //const newChatData: msg[] = chatData.filter(msg => msg.id !== messageId);
+        //const updatedMsg: msg | undefined = chatData.find(msg => msg.id === messageId);
+        //if (updatedMsg === undefined) return;
+        socket.emit('addReaction', { messageId, reaction })
+        console.log('set reaction', [messageId, reaction]);
+        //setChatData([...newChatData, { ...updatedMsg, reaction: reaction }].sort((a: msg, b: msg) => a.id - b.id));
     }
 
     return isChatValidated ? (
@@ -263,18 +211,24 @@ const ChatView = () => {
                 <div className={'flex-grow h-fit flex overflow-hidden flex-col relative'}>
                     <ChatExtension showAchievements={showAchvSetting} showPartnerInfo={partnerInfo} partnerData={partnerData} />
                     <m.div className={'chat-area scroll-smooth'} ref={chatAreaRef} layout>
-                        {chatData.map((message: msg) =>
-                            <ChatBubble setReaction={setReactionOnChatMessage} messageId={message.id} key={message.id} text={message.message} type={message.from} reactionString={message.reaction} />
+                        {messages.map((message: any) =>
+                            message.visibleFor === token || !message.visibleFor ? <ChatBubble
+                                setReaction={setReactionOnChatMessage}
+                                messageId={message.id}
+                                key={message.id}
+                                text={message.content}
+                                from={message.from}
+                                reactionString={message.reaction} /> : <></>
                         )}
                         {typing &&
                             <>
-                                <ChatBubble key={-1} messageId={-1} className={'!w-fit !mb-1 !min-h-[48px]'} text={<TypingIndicator />} type={BubbleType.PARTNER} />
+                                <ChatBubble key={-1} messageId={-1} className={'!w-fit !mb-1 !min-h-[48px]'} text={<TypingIndicator />} type={BubbleType.PARTNER} from={-1} />
                                 <p className={'mb-5 text text-xs !text-gray-300'}>A partnered gépel...</p>
                             </>}
                     </m.div>
                     <AnimatePresence>
                         <m.div layout className={'relative chat-footer pb-6'}>
-                            <InputContainer setChat={setChatData} typingState={[typing, setTyping]} />
+                            <InputContainer typingState={[typing, setTyping]} />
                         </m.div>
                     </AnimatePresence>
                 </div>
@@ -424,24 +378,29 @@ const ChatExtension = ({ showAchievements, showPartnerInfo, partnerData }: ChatE
     return showAchievements ? <AchievementsShowcase /> : <></>;
 }
 
-const ChatBubble = ({ text, type, className, reactionString, messageId, setReaction = undefined }: ChatBubbleProps) => {
+const ChatBubble = ({ text, type, from, className, reactionString, messageId, setReaction = undefined }: ChatBubbleProps) => {
     const [reactionMenu, setReactionMenu] = useState<boolean>(false);
     const bubbleRef = useRef<HTMLDivElement>(null);
 
     const userColor = useUserSettings(state => state.color);
+    const userToken = useUserData(state => state.token);
+
+    const bubbleType = type
+        || (from === -1 ? BubbleType.NEUTRAL : from === userToken ? BubbleType.OWN : BubbleType.PARTNER);
+
     const bgColor = classNames({
-        'bg-[#DBDBDB]': type === BubbleType.PARTNER,
-        [`bg-${userColor}`]: type === BubbleType.OWN,
+        'bg-[#DBDBDB]': bubbleType === BubbleType.PARTNER,
+        [`bg-${userColor}`]: bubbleType === BubbleType.OWN,
     });
 
     const bubbleClasses = classNames({
-        'justify-end self-end text-white !rounded-br-none text-right': type === BubbleType.OWN,
-        'justify-start !rounded-bl-none': type === BubbleType.PARTNER,
-        'justify-center !w-[100%] !max-w-none text-gray-300 text-sm': type === BubbleType.NEUTRAL,
+        'justify-end self-end text-white !rounded-br-none text-right': bubbleType === BubbleType.OWN,
+        'justify-start !rounded-bl-none': bubbleType === BubbleType.PARTNER,
+        'justify-center !w-[100%] !max-w-none text-gray-300 text-sm': bubbleType === BubbleType.NEUTRAL,
     });
 
     const bind = useLongPress(() => {
-        if (type === BubbleType.OWN || type === BubbleType.NEUTRAL) return;
+        if (bubbleType === BubbleType.OWN || bubbleType === BubbleType.NEUTRAL) return;
 
         setReactionMenu(true);
     });
@@ -467,7 +426,7 @@ const ChatBubble = ({ text, type, className, reactionString, messageId, setReact
                 isOpen={reactionMenu}
                 onReactionSelected={(id: string) => setReaction?.(messageId, id)}
                 onSelectedReactionClicked={() => setReaction?.(messageId, undefined)}
-                reverse={type === BubbleType.OWN}
+                reverse={bubbleType === BubbleType.OWN}
             />
         </div>
     )
@@ -580,7 +539,7 @@ const Reaction = forwardRef(({ id, alwaysPlay = false, onClick = undefined }: Re
 
 const MotionReaction = m(Reaction);
 
-const InputContainer = ({ setChat, typingState }: InputContainerProps) => {
+const InputContainer = ({ typingState }: InputContainerProps) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [, setTyping] = typingState;
     const [textLength, setTextLength] = useState(0);
@@ -623,9 +582,10 @@ const InputContainer = ({ setChat, typingState }: InputContainerProps) => {
         if (!textarea) return;
         const content = text || textarea.value;
         if (!content) return;
-        setChat((prev: msg[]) => [...prev, { message: content, reaction: '', from: 0, id: prev.length + 1 }]);
         textarea.value = "";
+
         socket.emit('typing', false);
+        socket.emit('sendMessage', content);
         setTextLength(0);
     }
 

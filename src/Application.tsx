@@ -38,7 +38,7 @@ const Application = () => {
     const setRoomId = useUserData(state => state.setRoomId);
     const setToken = useUserData(state => state.setToken);
 
-    const { connected, setConnected, setConnectedUsers, setQueuePopulation, setRoom, setPartnerStatus } = useSocketStore();
+    const { connected, setConnected, setConnectedUsers, setQueuePopulation, setMessages, setPartnerStatus } = useSocketStore();
 
     const { notify } = useNotify();
 
@@ -51,8 +51,6 @@ const Application = () => {
         socket.on('userNumberChanged', (num) => setConnectedUsers(num));
         socket.on('queuePopulation', (num) => setQueuePopulation(num));
         socket.on('userAuthDone', ({ token, roomId }) => {
-            sessionStorage.setItem('chatup_socket_token', token);
-            sessionStorage.setItem('chatup_room_id', roomId.last || '');
             setToken(token);
             setRoomId(roomId.last || undefined);
         });
@@ -67,11 +65,20 @@ const Application = () => {
         });
         socket.on('partnerLeavedChat', () => {
             console.log('partner leaved');
+
             setPartnerStatus(UserStatus.DISCONNECTED);
+        });
+        socket.on('partnerJoinedChat', () => {
+            console.log('partner joined');
+            setPartnerStatus(UserStatus.ONLINE);
         });
         socket.on('roomDestroyed', () => {
             console.log('room destroyed');
             notify('Szoba megszűnt!', 'A szoba amiben tartózkodtál törlésre került mert partnered kilépett vagy túl régóta inaktív.', ToastVariant.DEFAULT, 5000);
+        });
+
+        socket.on('updatedMessages', (messages) => {
+            setMessages(messages);
         });
 
         return () => {

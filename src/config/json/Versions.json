@@ -132,5 +132,14 @@
             "Megszerzett achievementek megjelenítve (FUNKCIÓ MENTES - CSAK SZEMLÉLTETÉS)"
         ],
         "date": "2023.04.08"
+    },
+    {
+        "version": "0.0.8",
+        "changes": [
+            "Chat beta állapotban",
+            "Reakciók üzeneteken",
+            "Javítások szerver oldali hibák esetén"
+        ],
+        "date": "2023.05.02"
     }
 ]

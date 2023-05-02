@@ -9,6 +9,7 @@ interface SocketStoreInterface {
     partnerFound: boolean;
     partnerStatus: UserStatus | undefined;
     partnerData: any;
+    messages: any;
     setConnectedUsers: (num: number) => void;
     setConnected: (connectionState: boolean) => void;
     setQueuePopulation: (num: number) => void;
@@ -16,6 +17,7 @@ interface SocketStoreInterface {
     setPartnerFound: (b: boolean) => void;
     setPartnerStatus: (status: UserStatus) => void;
     setPartnerData: (data: any) => void;
+    setMessages: (data: any) => void;
 }
 
 interface roomIdInterface {
@@ -34,6 +36,7 @@ export const useSocketStore = create<SocketStoreInterface>((set, get) => ({
     partnerFound: false,
     partnerStatus: undefined,
     partnerData: {},
+    messages: [],
 
     setConnectedUsers: (num: number) => {
         set(state => ({ ...state, connectedUsers: num }))
@@ -57,6 +60,7 @@ export const useSocketStore = create<SocketStoreInterface>((set, get) => ({
         set(state => ({ ...state, partnerData: data }));
     },
     setMessages: (data: any) => {
+        console.log(data);
         set(state => ({ ...state, messages: data }));
     }
 }));

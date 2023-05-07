@@ -32,7 +32,7 @@ const getColor = (): string => {
 const getPrivacy = (): boolean[] => {
     const privacy: string | null = localStorage.getItem('chatup_privacy');
 
-    if (privacy === null) return [false, false, false, false, false];
+    if (privacy === null) return [true, true, true, true, true];
     else return JSON.parse(privacy);
 }
 

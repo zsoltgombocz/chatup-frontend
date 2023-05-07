@@ -35,6 +35,10 @@ const CountySelectionView = () => {
     useEffect(() => {
         const markable = markPageAsVisited(PrePage.LOCATION);
         if (!markable) navigate('/', { replace: true });
+
+        window.onpopstate = () => {
+            navigate('/', { replace: true });
+        }
     }, []);
 
 

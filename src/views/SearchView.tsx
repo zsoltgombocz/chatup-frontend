@@ -18,16 +18,17 @@ import { useInterestPreferences } from '@store/interestPreferences';
 
 const SearchView = () => {
     const { prePageSteps, prePagesVisited, search } = useUserData();
-    const allPrePageVisited = prePagesVisited(Object.keys(prePageSteps));
-    const { setRoomId } = useUserData();
+    //const allPrePageVisited = prePagesVisited(Object.keys(prePageSteps));
+    const { setRoomId, setSearch } = useUserData();
 
     useEffect(() => {
         setRoomId(undefined);
+        setSearch(SearchState.ACTIVE);
         socket.emit('roomLeaved');
     }, []);
 
 
-    if (search === undefined || !allPrePageVisited) {
+    if (search === undefined) {
         return <Navigate to={'/'} replace />
     }
 
@@ -72,11 +73,18 @@ const ActiveSearch = () => {
     }, []);
 
     useEffect(() => {
+        console.log('ez trigger???')
         if (roomId != null) {
             setSearch(SearchState.RE_SEARCH);
             navigate('/chat');
         }
     }, [roomId]);
+
+    useEffect(() => {
+        window.onpopstate = () => {
+            navigate('/pre/interest', { replace: true });
+        }
+    }, []);
 
     return (
         <>
@@ -107,6 +115,12 @@ const ReSearch = () => {
         setRoomId(undefined);
         navigate('/search', { replace: true });
     }
+
+    useEffect(() => {
+        window.onpopstate = () => {
+            setSearch(SearchState.ACTIVE);
+        }
+    }, []);
 
     return (
         <>

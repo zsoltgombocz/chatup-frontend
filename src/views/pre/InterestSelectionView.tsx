@@ -20,6 +20,10 @@ const InterestSelectionView = () => {
         const markable = markPageAsVisited(PrePage.INTERESTS);
         //if (!markable) navigate('/', { replace: true });
         setShuffledData(config.interests.sort(() => 0.5 - Math.random()));
+
+        window.onpopstate = () => {
+            navigate('/pre/gender', { replace: true });
+        }
     }, []);
     return (
         <>

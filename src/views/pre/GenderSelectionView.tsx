@@ -31,6 +31,10 @@ const SexSelectionView = () => {
     useEffect(() => {
         const markable = markPageAsVisited(PrePage.GENDER);
         if (!markable) navigate('/', { replace: true });
+
+        window.onpopstate = () => {
+            navigate('/pre/location', { replace: true });
+        }
     }, [])
 
 

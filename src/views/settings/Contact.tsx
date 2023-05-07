@@ -55,6 +55,7 @@ const Contact = () => {
             <p className={'text mb-6 font-extralight text-justify'}>
                 Amennyiben további kérdésed, ötleted vagy problémád merülne fel, keressd fel bátran a következő elérhetőségek egyikét!
             </p>
+            <p className={'text mb-6 font-extralight text-justify'}>E-mail: mail@chatup.hu</p>
 
             <h5 className={'text text-xl mb-3'}>Hibajelentés</h5>
             <form method={'POST'} onSubmit={onFormSubmit} className={'w-full'}>

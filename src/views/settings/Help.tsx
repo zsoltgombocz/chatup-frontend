@@ -1,7 +1,5 @@
 import { motion as m } from 'framer-motion';
 import faq from '@config/json/FAQ.json'
-import LinkButton from '@components/LinkButton';
-import { ChevronRightIcon } from '@heroicons/react/24/outline';
 
 const Help = () => {
     return (
@@ -15,9 +13,6 @@ const Help = () => {
                     </div>
                 ))
             }
-            <LinkButton linkTo={'/settings/contact'}>
-                <div className={'flex flex-row gap-1 items-center'}>Segítség kérése <ChevronRightIcon className={'w-4 h-4'} /></div>
-            </LinkButton>
         </m.div>
     )
 

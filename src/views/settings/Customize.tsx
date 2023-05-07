@@ -31,10 +31,13 @@ const Customize = () => {
                 <h5 className={'text text-xl'}>Hangok</h5>
                 <ToggleSwitch onStateChanged={(state) => setSoundState(state)} checked={sounds} />
             </div>
-            <div className={'flex items-center justify-between mt-5 mb-3'}>
-                <h5 className={'text text-xl w-2/3'}>Eredmények megjelnítése chat közben</h5>
-                <ToggleSwitch onStateChanged={(state) => setShowAchievements(state)} checked={showAchievements} />
-            </div>
+
+            {false &&
+                <div className={'flex items-center justify-between mt-5 mb-3'}>
+                    <h5 className={'text text-xl w-2/3'}>Eredmények megjelnítése chat közben</h5>
+                    <ToggleSwitch onStateChanged={(state) => setShowAchievements(state)} checked={showAchievements} />
+                </div>
+            }
         </m.div>
     );
 }

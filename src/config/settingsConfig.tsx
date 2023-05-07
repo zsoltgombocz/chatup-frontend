@@ -1,6 +1,7 @@
 import {
     EnvelopeIcon,
     FingerPrintIcon,
+    InformationCircleIcon,
     MoonIcon,
     PencilIcon,
     QuestionMarkCircleIcon,
@@ -50,9 +51,9 @@ export const config: SettingsConfigInterface = {
         },
         {
             name: 'information',
-            display: 'Névjegy',
-            route: '/settings/information',
-            icon: <UserIcon className={'h-8 w-8 text'} />
+            display: 'Development logs',
+            route: '/devlog',
+            icon: <InformationCircleIcon className={'h-8 w-8 text'} />
         },
         {
             name: 'help',
@@ -85,7 +86,7 @@ export const config: SettingsConfigInterface = {
             text: 'Képek / Videók küldése',
             index: 1,
         }, {
-            text: 'Aktivitási állapot megjelenítése',
+            text: 'Gépelés megjelenítése',
             index: 2,
         }, {
             text: 'Elérhetőség jelzése (AFK)',

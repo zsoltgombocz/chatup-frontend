@@ -39,6 +39,18 @@ const HomeView = () => {
                 </AnimatePresence>
             </m.div>
             <AnimatePresence>
+                {!socketState && !isLoading && (
+                    <m.div className={'text-2xl dark:text-white text-gray-600 dark:font-pridi text-center'}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                    >
+                        Nem sikerült kapcsolatot létesíteni a szerverrel! <br />
+                        Kérjük próbáld újra késöbb!
+                    </m.div>
+                )}
+            </AnimatePresence>
+            <AnimatePresence>
                 {!isLoading && (<div className={'absolute bottom-20 flex flex-col gap-5 justify-center items-center'}>
                     <m.div
                         initial={{ opacity: 0, y: -250 }}

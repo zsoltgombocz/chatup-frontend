@@ -190,6 +190,10 @@ const ChatView = () => {
         //const newChatData: msg[] = chatData.filter(msg => msg.id !== messageId);
         //const updatedMsg: msg | undefined = chatData.find(msg => msg.id === messageId);
         //if (updatedMsg === undefined) return;
+        const message = messages.find((msg: any) => msg.id === messageId);
+        if (message === undefined) return;
+        if (message.from === token) return;
+
         socket.emit('addReaction', { messageId, reaction })
         console.log('set reaction', [messageId, reaction]);
         //setChatData([...newChatData, { ...updatedMsg, reaction: reaction }].sort((a: msg, b: msg) => a.id - b.id));
@@ -592,7 +596,7 @@ const InputContainer = ({ typingState }: InputContainerProps) => {
     const userColor = useUserSettings(state => state.color);
 
     return (<m.div layoutRoot className={'input-container z-20'}>
-        <TextArea placeholder='teszt' textareaRef={textareaRef} onSend={handleOnSend} />
+        <TextArea placeholder='Kezdj el ide gépelni...' textareaRef={textareaRef} onSend={handleOnSend} />
         <m.button layout={'position'} className={'chat-more'}>
             <MapIcon size={25} className={'cursor-pointer dark:fill-white fill-gray-600'} />
         </m.button>

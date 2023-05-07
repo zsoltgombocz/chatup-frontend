@@ -8,7 +8,7 @@ import { useUserSettings } from '@store/userSettings';
 import { setTheme } from '@utils/theme';
 import { connectToSocket, socket } from './socket';
 import { useSocketStore } from '@store/socketStore';
-import { ToastVariant, UserStatus } from '@utils/enums';
+import { SearchState, ToastVariant, UserStatus } from '@utils/enums';
 import NotFound from '@views/NotFound';
 import { useUserData } from './store/userData';
 import { useNotify } from './hooks/useNotify';
@@ -37,6 +37,7 @@ const Application = () => {
 
     const setRoomId = useUserData(state => state.setRoomId);
     const setToken = useUserData(state => state.setToken);
+    const setSearch = useUserData(state => state.setSearch);
 
     const { connected, setConnected, setConnectedUsers, setQueuePopulation, setMessages, setPartnerStatus } = useSocketStore();
 
@@ -46,6 +47,11 @@ const Application = () => {
         setTheme(theme);
         initAudio();
         connectToSocket();
+        socket.io.on("error", (error) => {
+            console.log(error);
+        });
+        setSearch(SearchState.ACTIVE);
+
         socket.on('connect', () => setConnected(true));
         socket.on('disconnect', () => setConnected(false));
         socket.on('userNumberChanged', (num) => setConnectedUsers(num));

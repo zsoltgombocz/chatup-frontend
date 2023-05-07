@@ -32,12 +32,14 @@ const NavigationTitle = () => {
     const location = useLocation();
     const [title, setTitle] = useState('');
     const socketState = useSocketStore(state => state.connected);
+    const customErrorHeader = ['pre', 'search', 'chat'];
 
     useEffect(() => {
         const segment: string = getURLSegment(location.pathname, null) || '';
         setTitle(config.routeNames[segment] ?? 'headerConfig: No entry');
-        if (!socketState) setTitle('HIBA')
-    }, [location]);
+
+        if (!socketState && customErrorHeader.includes(segment)) setTitle('HIBA')
+    }, [location, socketState]);
 
     return <>{title}</>;
 }

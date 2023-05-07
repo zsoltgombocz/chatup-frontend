@@ -40,7 +40,7 @@ const GeoLocation = ({ permission, location }: GeoLocation) => {
         case GeoLocationPermission.GRANTED:
             return <GeoLocationWrapper>Jelenlegi tartózkodási helyed: <UserCounty location={location} bold={true} /> vármegye</GeoLocationWrapper>
         case GeoLocationPermission.DENIED:
-            return <UserCounty forceUnknown={true} bold={true} />;
+            return <GeoLocationWrapper>Jelenlegi tartózkodási helyed:<UserCounty forceUnknown={true} bold={true} /></GeoLocationWrapper>;
         default:
             return loadingComponent;
     }

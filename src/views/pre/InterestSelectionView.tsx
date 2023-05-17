@@ -1,3 +1,4 @@
+import { socket } from '@/socket';
 import Button from '@components/Button'
 import InterestCarousel from '@components/carousels/InterestCarousel'
 import { config } from '@config/interestConfig'
@@ -20,8 +21,10 @@ const InterestSelectionView = () => {
         setShuffledData(config.interests.sort(() => 0.5 - Math.random()));
 
         window.onpopstate = () => {
-            navigate('/pre/gender', { replace: true });
+            navigate('/pre/interest', { replace: true });
         }
+
+        socket.emit('cancelSearch');
     }, []);
 
     useEffect(() => {

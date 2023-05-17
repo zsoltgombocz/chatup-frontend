@@ -3,7 +3,7 @@ import SendIcon from '@atoms/SendIcon';
 import MapIcon from '@atoms/MapIcon';
 import Status from '@atoms/Status';
 import { useUserSettings } from '@store/userSettings';
-import { Gender, UserStatus } from '@utils/enums';
+import { Gender, SearchState, UserStatus } from '@utils/enums';
 import { AnimatePresence, motion as m } from 'framer-motion';
 import { useEffect, useState, useRef, useLayoutEffect, forwardRef, Ref, RefObject, SyntheticEvent } from 'react';
 import TextArea from '@components/TextArea';
@@ -104,7 +104,7 @@ const ChatView = () => {
 
     const showAchvSetting = useUserSettings(state => state.showAchievements)
 
-    const { roomId, token, setRoomId } = useUserData();
+    const { roomId, token, setRoomId, setSearch } = useUserData();
 
 
     const navigate = useNavigate();
@@ -132,7 +132,7 @@ const ChatView = () => {
             onClick: () => setPartnerInfo(prev => !prev),
             order: 1,
         },
-        {
+        /*{
             icon: <ShieldExclamationIcon className={`${iconClass} text-toast-red`} />,
             name: 'Jelentés',
             onClick: undefined,
@@ -143,11 +143,15 @@ const ChatView = () => {
             name: 'Beállítások',
             onClick: undefined,
             order: 2,
-        },
+        },*/
         {
             icon: <ArrowRightOnRectangleIcon className={iconClass} />,
             name: 'Kilépés',
-            onClick: () => navigate('/search', { replace: true }),
+            onClick: () => {
+                socket.emit('roomLeaved');
+                setSearch(SearchState.RE_SEARCH);
+                //navigate('/search', { replace: true })
+            },
             order: 4,
         }
     ];
@@ -422,9 +426,19 @@ const ChatBubble = ({ text, type, from, className, reactionString, messageId, se
         }
     }, [reactionMenu]);
 
+    const filterURL = (text: any) => {
+        console.log(text);
+        if (text === undefined || text.length === 0 || typeof text !== "string") return text;
+
+        let expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+        let regex = new RegExp(expression);
+        return text.match(regex) && userToken !== from
+            ? (<span className={'font-bold italic'}>Üzenet eltávolítva!</span>) : text;
+    }
+
     return (
         <div className={`chat-bubble-wrapper ${bgColor} ${bubbleClasses} ${className}`} {...bind()} ref={bubbleRef}>
-            <div> {text} </div>
+            <div> {filterURL(text)} </div>
             <ChatBubbleReaction
                 selected={reactionString}
                 isOpen={reactionMenu}
@@ -597,9 +611,9 @@ const InputContainer = ({ typingState }: InputContainerProps) => {
 
     return (<m.div layoutRoot className={'input-container z-20'}>
         <TextArea placeholder='Kezdj el ide gépelni...' textareaRef={textareaRef} onSend={handleOnSend} />
-        <m.button layout={'position'} className={'chat-more'}>
+        {false && <m.button layout={'position'} className={'chat-more'}>
             <MapIcon size={25} className={'cursor-pointer dark:fill-white fill-gray-600'} />
-        </m.button>
+        </m.button>}
 
         {textLength > 0 ? (
             <m.button

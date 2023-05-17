@@ -17,7 +17,7 @@ const NavigationHeader = ({ hideRouteText = false }: Props) => {
     const { play } = useAudio();
     const handleBackClick = () => {
         if (sounds) play('navigate');
-
+        console.log('back');
         navigate(-1);
     }
     return (

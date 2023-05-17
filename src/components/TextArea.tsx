@@ -7,11 +7,13 @@ interface Props {
     initialRows?: number,
     maxRows?: number,
     className?: string,
-    onSend?: Function
+    onSend?: Function,
+    rowState: [number, Function]
 }
 
-const TextArea = ({ placeholder, textareaRef, initialRows = 1, maxRows = 3, className, onSend }: Props) => {
-    const [rows, setRows] = useState(initialRows);
+const TextArea = ({ placeholder, textareaRef, initialRows = 1, maxRows = 3, className, onSend, rowState }: Props) => {
+    const [rows, setRows] = rowState;
+
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const textareaLineHeight = 24;
@@ -49,7 +51,6 @@ const TextArea = ({ placeholder, textareaRef, initialRows = 1, maxRows = 3, clas
 
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();
-            setRows(1);
             onSend?.(event, textarea.value);
         }
     };

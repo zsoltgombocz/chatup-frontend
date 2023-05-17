@@ -547,6 +547,7 @@ const InputContainer = ({ typingState }: InputContainerProps) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [, setTyping] = typingState;
     const [textLength, setTextLength] = useState(0);
+    const [rows, setRows] = useState(1);
 
     useEffect(() => {
         const textarea = textareaRef.current;
@@ -590,13 +591,14 @@ const InputContainer = ({ typingState }: InputContainerProps) => {
 
         socket.emit('typing', false);
         socket.emit('sendMessage', content);
+        setRows(1);
         setTextLength(0);
     }
 
     const userColor = useUserSettings(state => state.color);
 
     return (<m.div layoutRoot className={'input-container z-20'}>
-        <TextArea placeholder='Kezdj el ide gépelni...' textareaRef={textareaRef} onSend={handleOnSend} />
+        <TextArea placeholder='Kezdj el ide gépelni...' textareaRef={textareaRef} onSend={handleOnSend} rowState={[rows, setRows]} />
         <m.button layout={'position'} className={'chat-more'}>
             <MapIcon size={25} className={'cursor-pointer dark:fill-white fill-gray-600'} />
         </m.button>

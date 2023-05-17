@@ -32,6 +32,7 @@ const NavigationHeader = ({ hideRouteText = false }: Props) => {
 
     const handleBackClick = () => {
         if (sounds) play('navigate');
+
         console.log(!socketState, socketEffectedRoutes.includes(segment));
         if (!socketState && socketEffectedRoutes.includes(segment)) {
             console.log('nav??,')
@@ -39,7 +40,6 @@ const NavigationHeader = ({ hideRouteText = false }: Props) => {
         } else {
             navigate(-1);
         }
-
     }
 
     return (

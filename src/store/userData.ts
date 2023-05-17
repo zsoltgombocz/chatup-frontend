@@ -19,6 +19,7 @@ interface userData {
     setAchievements: (id: string) => void,
     markPageAsVisited: (id: PrePage) => boolean,
     prePagesVisited: (arrayOfPages: string[]) => boolean,
+    everyPrePageVisited: () => boolean,
     setRoomId: (roomId: string | undefined) => void,
 }
 
@@ -43,6 +44,21 @@ const getSavedRoomId = (): string | undefined => {
     else return roomId;
 }
 
+
+const getVisitedPages = (): prePageInterface => {
+    const visitedPages: string | null = sessionStorage.getItem('chatup_visited');
+
+    if (visitedPages === null) return initialPrePageSteps;
+
+    try {
+        const parsedVisitedPages = JSON.parse(visitedPages);
+        return parsedVisitedPages;
+    } catch (error) {
+        return initialPrePageSteps;
+    }
+
+}
+
 const initialPrePageSteps: prePageInterface = {
     [PrePage.LOCATION]: false,
     [PrePage.GENDER]: false,
@@ -54,7 +70,7 @@ export const useUserData = create<userData>((set, get) => ({
     location: Location.NOT_DEFINED,
     search: undefined,
     achievements: getAchievements(),
-    prePageSteps: initialPrePageSteps,
+    prePageSteps: getVisitedPages(),
     roomId: getSavedRoomId(),
 
     setUserLocation: (location: UserLocation) => {
@@ -65,6 +81,7 @@ export const useUserData = create<userData>((set, get) => ({
         set(state => ({ ...state, token }))
     },
     setSearch: (search: SearchState | undefined) => {
+        console.log('setted', search);
         set(state => ({ ...state, search }));
     },
     setAchievements: (id: string) => {
@@ -73,6 +90,10 @@ export const useUserData = create<userData>((set, get) => ({
         set(state => ({ ...state, achievements: achievementList }));
     },
 
+    everyPrePageVisited: () => {
+        return Object.keys(get().prePageSteps)
+            .every((page) => get().prePageSteps[page] === true);
+    },
     //Limit the pages by removing by sliceBy index
     prePagesVisited: (arrayOfPages: string[]): boolean => {
         return arrayOfPages
@@ -94,6 +115,7 @@ export const useUserData = create<userData>((set, get) => ({
                 initialPrePageSteps;
 
         set(state => ({ ...state, prePageSteps: prePageState }));
+        sessionStorage.setItem('chatup_visited', JSON.stringify(prePageState))
 
         if (id === PrePage.INTERESTS && isPreviousPagesVisited) {
             get().setSearch(SearchState.ACTIVE);

@@ -14,6 +14,7 @@ import { useSocketStore } from '@store/socketStore';
 import { useGenderPreferebces } from '@store/genderPreferences';
 import { useMapPreferences } from '@store/mapPreferences';
 import { useInterestPreferences } from '@store/interestPreferences';
+import LoadingIcon from '@/atoms/LoadingIcon';
 
 
 const SearchView = () => {
@@ -23,7 +24,7 @@ const SearchView = () => {
 
     useEffect(() => {
         setRoomId(undefined);
-        setSearch(SearchState.ACTIVE);
+        //setSearch(SearchState.ACTIVE);
         socket.emit('roomLeaved');
     }, []);
 
@@ -51,20 +52,26 @@ const ActiveSearch = () => {
     const { connectedUsers, queuePopulation } = useSocketStore();
 
     const userLocation = useUserData(state => state.location);
+    const everyPrePageVisited = useUserData(state => state.everyPrePageVisited);
+    const userColor = useUserSettings(state => state.color);
     const genderPref = useGenderPreferebces();
     const mapPref = useMapPreferences();
     const interests = useInterestPreferences(state => state.interests);
 
     useEffect(() => {
         setRoomId(undefined);
-        socket.emit('updateData', {
-            location: userLocation,
-            ownGender: genderPref.ownGender,
-            partnerGender: genderPref.partnerGender,
-            counties: mapPref.counties,
-            mapPref: mapPref.mapCheckbox,
-            interests: interests,
-        })
+        setTimeout(() => {
+            socket.emit('startSearch', {
+                location: userLocation,
+                ownGender: genderPref.ownGender,
+                partnerGender: genderPref.partnerGender,
+                counties: mapPref.counties,
+                mapPref: mapPref.mapCheckbox,
+                interests: interests,
+                valid: everyPrePageVisited()
+            });
+        }, 1000);
+
 
         /*setTimeout(() => {
             setSearch(SearchStat.RE_SEARCH);
@@ -76,7 +83,7 @@ const ActiveSearch = () => {
         console.log('ez trigger???')
         if (roomId != null) {
             setSearch(SearchState.RE_SEARCH);
-            navigate('/chat');
+            navigate('/chat', { replace: true });
         }
     }, [roomId]);
 
@@ -86,21 +93,21 @@ const ActiveSearch = () => {
         }
     }, []);
 
-    return (
+    return everyPrePageVisited() ? (
         <>
             <img src={BG} className={'object-none h-full w-full absolute top-0 left-0 z-0'} />
-            <m.div className={`view !pt-1 z-10`} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
-                <h1>Jelenleg ennyi ember van csatlakozva: {connectedUsers} </h1>
-                <h1>Jelenleg ennyi ember vár sorban: {queuePopulation} </h1>
-                <button type={'button'} onClick={() => socket.emit('startSearch')}>irany a queue</button>
-                <button type={'button'} onClick={() => socket.emit('cancelSearch')}>ki a queuebol</button>
-                <h1>Szoba id: {roomId} </h1>
+            <m.div className={`view !pt-1 z-10 justify-center items-center`} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
+                <div className={'w-24 h-24'}>
+                    <LoadingIcon size={13} />
+                </div>
+                <h1 className={'text text-2xl'}>Partner keresése...</h1>
+                <h1 className={'text text-base'}>Jelenleg <span className={`text-${userColor}`}>{queuePopulation}</span> felhasználó áll sorban.</h1>
             </m.div>
             <Footer showVersion={false}>
                 <Button size={'primary'} style={'filled'} text={'mégse'} className={'mb-3'} onClick={() => navigate(-1)} />
             </Footer>
         </>
-    )
+    ) : <Navigate to="/" replace />
 }
 
 const ReSearch = () => {
@@ -126,9 +133,7 @@ const ReSearch = () => {
         <>
             <img src={BG} className={'object-none h-full w-full absolute top-0 left-0 z-0'} />
             <m.div className={'view !pt-1 z-10'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>
-                <div className={'flex flex-col flex-grow'}>
-                    ReSearch
-                </div>
+
             </m.div>
             <Footer showVersion={false}>
                 <p className={'text text-xl text-center mt-1 max-w-[400px]'}>
@@ -138,7 +143,7 @@ const ReSearch = () => {
                     Beszélgess, ismerj meg új embereket!
                 </p>
                 <Button onClick={onReSearchButtonClicked} size={'primary'} style={'filled'} text={'új partner keresése'} className={'mb-3'} />
-                <p onClick={() => navigate('/pre/interests')} className={'cursor-pointer mt-1 mb-4 text text-sm dark:text-[#dbdbdb] text-gray-300 underline underline-offset-1'}>
+                <p onClick={() => navigate('/pre/interest')} className={'cursor-pointer mt-1 mb-4 text text-sm dark:text-[#dbdbdb] text-gray-300 underline underline-offset-1'}>
                     Szűrő módosítása
                 </p>
             </Footer>

@@ -18,8 +18,6 @@ const InterestSelectionView = () => {
     const [shuffledData, setShuffledData] = useState<InterestInterface[]>([]);
 
     useEffect(() => {
-        const markable = markPageAsVisited(PrePage.INTERESTS);
-        //if (!markable) navigate('/', { replace: true });
         setShuffledData(config.interests.sort(() => 0.5 - Math.random()));
 
         window.onpopstate = () => {
@@ -28,6 +26,13 @@ const InterestSelectionView = () => {
 
         socket.emit('cancelSearch');
     }, []);
+
+    useEffect(() => {
+        if (interests.length === 3) {
+            const markable = markPageAsVisited(PrePage.INTERESTS);
+            if (!markable) navigate('/', { replace: true })
+        }
+    }, [interests]);
     return (
         <>
             <m.div className={'view !pt-1'} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }}>

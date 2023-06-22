@@ -1,4 +1,4 @@
-import { lazy, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useAudio } from '@hooks/useAudio';
 
@@ -12,20 +12,9 @@ import { SearchState, ToastVariant, UserStatus } from '@utils/enums';
 import NotFound from '@views/NotFound';
 import { useUserData } from './store/userData';
 import { useNotify } from './hooks/useNotify';
+import { ROUTES } from './config/linkedRoutes';
 
-const HomeView = lazy(() => import('@views/HomeView'));
-const SettingsView = lazy(() => import('@views/SettingsView'));
-const Privacy = lazy(() => import('@views/settings/Privacy'));
-const Customize = lazy(() => import('@views/settings/Customize'));
-const Information = lazy(() => import('@views/settings/Information'));
-const Help = lazy(() => import('@views/settings/Help'));
-const Contact = lazy(() => import('@views/settings/Contact'));
-const DevlogView = lazy(() => import('@views/DevlogView'));
-const CountySelectionView = lazy(() => import('@views/pre/CountySelectionView'));
-const GenderSelectionView = lazy(() => import('@views/pre/GenderSelectionView'));
-const InterestSelectionView = lazy(() => import('@views/pre/InterestSelectionView'));
-const SearchView = lazy(() => import('@views/SearchView'));
-const ChatView = lazy(() => import('@views/ChatView'));
+
 
 const Application = () => {
 
@@ -97,29 +86,13 @@ const Application = () => {
 
     return (
         <Routes>
+
             <Route path="/" element={<AppLayout disableLayout={location.pathname === '/'} />}>
-                <Route index element={<LazyLoad><HomeView /></LazyLoad>} />
-                <Route path={'devlog'} element={<LazyLoad><DevlogView /></LazyLoad>} />
-                <Route path="settings">
-                    <Route index element={<LazyLoad><SettingsView /></LazyLoad>} />
-                    <Route path={'privacy'} element={<LazyLoad><Privacy /></LazyLoad>} />
-                    <Route path={'customize'} element={<LazyLoad><Customize /></LazyLoad>} />
-                    <Route path={'information'} element={<LazyLoad><Information /></LazyLoad>} />
-                    <Route path={'help'} element={<LazyLoad><Help /></LazyLoad>} />
-                    <Route path={'contact'} element={<LazyLoad><Contact /></LazyLoad>} />
-                </Route>
-                {connected && (
-                    <>
-                        <Route path={'pre'}>
-                            <Route index element={<LazyLoad><CountySelectionView /></LazyLoad>} />
-                            <Route path={'location'} element={<LazyLoad><CountySelectionView /></LazyLoad>} />
-                            <Route path={'gender'} element={<LazyLoad><GenderSelectionView /></LazyLoad>} />
-                            <Route path={'interest'} element={<LazyLoad><InterestSelectionView /></LazyLoad>} />
-                        </Route>
-                        <Route path={'search'} element={<LazyLoad><SearchView /></LazyLoad>} />
-                        <Route path={'chat'} element={<LazyLoad><ChatView /></LazyLoad>} />
-                    </>
-                )}
+                {
+                    ROUTES.map(route =>
+                        <Route path={route.route} element={<LazyLoad>{route.view}</LazyLoad>} />
+                    )
+                }
                 <Route path={'*'} element={<NotFound />} />
             </Route>
         </Routes>

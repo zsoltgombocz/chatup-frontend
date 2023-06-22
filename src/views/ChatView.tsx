@@ -392,6 +392,7 @@ const ChatBubble = ({ text, type, from, className, reactionString, messageId, se
 
     const userColor = useUserSettings(state => state.color);
     const userToken = useUserData(state => state.token);
+    const urlFilterPrivacy = useUserSettings(state => state.privacy[0]);
 
     const bubbleType = type
         || (from === -1 ? BubbleType.NEUTRAL : from === userToken ? BubbleType.OWN : BubbleType.PARTNER);
@@ -427,8 +428,7 @@ const ChatBubble = ({ text, type, from, className, reactionString, messageId, se
     }, [reactionMenu]);
 
     const filterURL = (text: any) => {
-        console.log(text);
-        if (text === undefined || text.length === 0 || typeof text !== "string") return text;
+        if (text === undefined || text.length === 0 || typeof text !== "string" || !urlFilterPrivacy) return text;
 
         let expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
         let regex = new RegExp(expression);

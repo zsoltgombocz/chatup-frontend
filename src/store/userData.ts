@@ -9,7 +9,7 @@ interface prePageInterface {
 interface userData {
     token: string | undefined,
     location: UserLocation,
-    search: SearchState | undefined,
+    searchType: SearchState | undefined,
     achievements: string[],
     prePageSteps: prePageInterface,
     roomId: string | undefined,
@@ -68,7 +68,7 @@ const initialPrePageSteps: prePageInterface = {
 export const useUserData = create<userData>((set, get) => ({
     token: getTokenFromCookie(),
     location: Location.NOT_DEFINED,
-    search: undefined,
+    searchType: undefined,
     achievements: getAchievements(),
     prePageSteps: getVisitedPages(),
     roomId: getSavedRoomId(),
@@ -82,7 +82,7 @@ export const useUserData = create<userData>((set, get) => ({
     },
     setSearch: (search: SearchState | undefined) => {
         console.log('setted', search);
-        set(state => ({ ...state, search }));
+        set(state => ({ ...state, searchType: search }));
     },
     setAchievements: (id: string) => {
         const achievementList = [...get().achievements, id];

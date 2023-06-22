@@ -8,7 +8,7 @@ import { SearchState } from '@utils/enums';
 import DarkPatternedBackground from '@media/images/pattern_randomized_dark.png';
 import LightPatternedBackground from '@media/images/pattern_randomized_light.png';
 import { useUserSettings } from '@store/userSettings';
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { socket } from '@/socket';
 import { useSocketStore } from '@store/socketStore';
 import { useGenderPreferebces } from '@store/genderPreferences';
@@ -20,16 +20,26 @@ import { useNavigateBack } from '@/hooks/useNavigateBack';
 
 const SearchView = () => {
     const searchType = useUserData(state => state.searchType);
-    //const allPrePageVisited = prePagesVisited(Object.keys(prePageSteps));
-    const { setRoomId, roomId } = useUserData();
+
+    const { setRoomId, roomId, setSearch, prePageSteps, prePagesVisited } = useUserData();
+
+    const allPrePageVisited = prePagesVisited(Object.keys(prePageSteps));
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         setRoomId(undefined);
         socket.emit('roomLeaved');
     }, []);
 
-    const renderPage = () => {
-        if (roomId !== undefined) return <></>;
+    const renderPage = (): ReactElement => {
+        console.log('Renderpage', roomId);
+        console.log('allPrePageVisited', allPrePageVisited);
+
+        if (roomId != null) {
+            setSearch(SearchState.RE_SEARCH);
+            return <Navigate to={'/chat'} replace />
+        }
 
         if (searchType === SearchState.ACTIVE) {
             return <ActiveSearch />
@@ -47,7 +57,7 @@ const ActiveSearch = () => {
 
     const { theme } = useUserSettings();
     const BG = theme === 0 ? LightPatternedBackground : DarkPatternedBackground;
-    const { roomId, setSearch, setRoomId } = useUserData();
+    const { setRoomId } = useUserData();
 
     const { queuePopulation } = useSocketStore();
 
@@ -72,13 +82,6 @@ const ActiveSearch = () => {
             });
         }, 1000);
     }, []);
-
-    useEffect(() => {
-        if (roomId != null) {
-            setSearch(SearchState.RE_SEARCH);
-            navigate('/chat', { replace: true });
-        }
-    }, [roomId]);
 
     return everyPrePageVisited() ? (
         <>

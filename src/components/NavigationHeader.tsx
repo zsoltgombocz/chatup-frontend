@@ -7,6 +7,8 @@ import { config } from '@config/headerConfig';
 import { getURLSegment } from '@utils/url';
 import { useSocketStore } from '@/store/socketStore';
 import { socket } from '@/socket';
+import { getPreviousRoute, getRouteName } from '@/config/linkedRoutes';
+import { useNavigateBack } from '@/hooks/useNavigateBack';
 
 type Props = {
     hideRouteText: boolean
@@ -23,6 +25,7 @@ const socketEffectedRoutes = [
 
 const NavigationHeader = ({ hideRouteText = false }: Props) => {
     const navigate = useNavigate();
+    const { navigateBack } = useNavigateBack();
     const sounds = useUserSettings(state => state.sounds);
     const { play } = useAudio();
 
@@ -33,12 +36,10 @@ const NavigationHeader = ({ hideRouteText = false }: Props) => {
     const handleBackClick = () => {
         if (sounds) play('navigate');
 
-        console.log(!socketState, socketEffectedRoutes.includes(segment));
         if (!socketState && socketEffectedRoutes.includes(segment)) {
-            console.log('nav??,')
             navigate('/', { replace: true });
         } else {
-            navigate(-1);
+            navigateBack();
         }
     }
 
@@ -57,9 +58,10 @@ const NavigationTitle = () => {
 
     useEffect(() => {
         const segment: string = getURLSegment(location.pathname, null) || '';
-        setTitle(config.routeNames[segment] ?? 'headerConfig: No entry');
+        const routeName: string = getRouteName(location.pathname) || '';
+        setTitle(routeName);
 
-        if (!socketState && socketEffectedRoutes.includes(segment)) setTitle('HIBA')
+        if (!socketState && socketEffectedRoutes.includes(segment)) setTitle('HIBA!')
     }, [location, socketState]);
 
     return <>{title}</>;

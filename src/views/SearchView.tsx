@@ -1,5 +1,5 @@
 import { motion as m } from 'framer-motion';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Button from '@components/Button';
 import Footer from '@layout/Footer';
 import { useUserData } from '@store/userData';
@@ -15,41 +15,41 @@ import { useGenderPreferebces } from '@store/genderPreferences';
 import { useMapPreferences } from '@store/mapPreferences';
 import { useInterestPreferences } from '@store/interestPreferences';
 import LoadingIcon from '@/atoms/LoadingIcon';
+import { useNavigateBack } from '@/hooks/useNavigateBack';
 
 
 const SearchView = () => {
-    const { prePageSteps, prePagesVisited, search } = useUserData();
+    const searchType = useUserData(state => state.searchType);
     //const allPrePageVisited = prePagesVisited(Object.keys(prePageSteps));
-    const { setRoomId, setSearch } = useUserData();
+    const { setRoomId, roomId } = useUserData();
 
     useEffect(() => {
         setRoomId(undefined);
-        //setSearch(SearchState.ACTIVE);
         socket.emit('roomLeaved');
     }, []);
 
+    const renderPage = () => {
+        if (roomId !== undefined) return <></>;
 
-    if (search === undefined) {
-        return <Navigate to={'/'} replace />
-    }
-
-    switch (search) {
-        case SearchState.ACTIVE:
+        if (searchType === SearchState.ACTIVE) {
             return <ActiveSearch />
-        case SearchState.RE_SEARCH:
+        } else {
             return <ReSearch />
-        default:
-            return <>nem kene ide jutni</>
+        }
     }
+
+    return renderPage();
 }
 
 const ActiveSearch = () => {
     const navigate = useNavigate();
+    const { navigateBack } = useNavigateBack();
+
     const { theme } = useUserSettings();
     const BG = theme === 0 ? LightPatternedBackground : DarkPatternedBackground;
     const { roomId, setSearch, setRoomId } = useUserData();
 
-    const { connectedUsers, queuePopulation } = useSocketStore();
+    const { queuePopulation } = useSocketStore();
 
     const userLocation = useUserData(state => state.location);
     const everyPrePageVisited = useUserData(state => state.everyPrePageVisited);
@@ -71,27 +71,14 @@ const ActiveSearch = () => {
                 valid: everyPrePageVisited()
             });
         }, 1000);
-
-
-        /*setTimeout(() => {
-            setSearch(SearchStat.RE_SEARCH);
-            navigate('/chat')
-        }, 5000);*/
     }, []);
 
     useEffect(() => {
-        console.log('ez trigger???')
         if (roomId != null) {
             setSearch(SearchState.RE_SEARCH);
             navigate('/chat', { replace: true });
         }
     }, [roomId]);
-
-    useEffect(() => {
-        window.onpopstate = () => {
-            navigate('/pre/interest', { replace: true });
-        }
-    }, []);
 
     return everyPrePageVisited() ? (
         <>
@@ -104,7 +91,7 @@ const ActiveSearch = () => {
                 <h1 className={'text text-base'}>Jelenleg <span className={`text-${userColor}`}>{queuePopulation}</span> felhasználó áll sorban.</h1>
             </m.div>
             <Footer showVersion={false}>
-                <Button size={'primary'} style={'filled'} text={'mégse'} className={'mb-3'} onClick={() => navigate(-1)} />
+                <Button size={'primary'} style={'filled'} text={'mégse'} className={'mb-3'} onClick={() => navigateBack()} />
             </Footer>
         </>
     ) : <Navigate to="/" replace />
@@ -122,12 +109,6 @@ const ReSearch = () => {
         setRoomId(undefined);
         navigate('/search', { replace: true });
     }
-
-    useEffect(() => {
-        window.onpopstate = () => {
-            setSearch(SearchState.ACTIVE);
-        }
-    }, []);
 
     return (
         <>

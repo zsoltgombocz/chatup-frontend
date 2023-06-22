@@ -51,13 +51,13 @@ export const config: SettingsConfigInterface = {
         },
         {
             name: 'information',
-            display: 'Development logs',
-            route: '/devlog',
+            display: 'Verzióelőzmények',
+            route: '/settings/devlog',
             icon: <InformationCircleIcon className={'h-8 w-8 text'} />
         },
         {
             name: 'help',
-            display: 'GY.I.K.',
+            display: 'Súgó',
             route: '/settings/help',
             icon: <QuestionMarkCircleIcon className={'h-8 w-8 text'} />
         },

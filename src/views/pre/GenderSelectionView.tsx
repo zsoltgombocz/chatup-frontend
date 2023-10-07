@@ -7,7 +7,7 @@ import Switch from '@components/Switch';
 import { config } from '@config/genderConfig';
 import { useGenderPreferebces } from '@store/genderPreferences';
 import { useEffect } from 'react';
-import { PrePage } from '@utils/enums';
+import { Gender, PrePage } from '@utils/enums';
 import { useUserData } from '@store/userData';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +22,7 @@ const SexSelectionView = () => {
     const navigate = useNavigate();
 
     const ownSexChanged = (index: number) => {
-        setOwnsex(index);
+        setOwnsex(index === 0 ? Gender.MALE : Gender.FEMALE);
     }
     const partnerSexChanged = (index: number) => {
         setPartnerSex(index);

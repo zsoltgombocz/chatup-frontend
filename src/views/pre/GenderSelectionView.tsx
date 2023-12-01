@@ -46,7 +46,7 @@ const SexSelectionView = () => {
                         <div className={'flex flex-col flex-auto'}>
                             <p className={'font-light text-sm text text-center mb-6'}>Kérjük, hogy a valós nemed add meg a komoly és eredménydús beszélgetés érdekében.</p>
 
-                            <Switch options={config.ownGender} className={'mb-6 self-center'} initialSelectedIndex={ownGenderState} onChange={ownSexChanged} />
+                            <Switch options={config.ownGender} className={'mb-6 self-center'} initialSelectedIndex={ownGenderState === Gender.MALE ? 0 : 1} onChange={ownSexChanged} />
                         </div>
                         <div className={'flex flex-col flex-auto'}>
                             <h5 className={'text-cabin font-semibold text-center text-xl mb-6'}>Kivel szeretnél beszélgetni:</h5>

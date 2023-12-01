@@ -11,13 +11,11 @@ import TypingIndicator from '@atoms/TypingIndicator';
 import InlineMenu from '@components/InlineMenu';
 import { menuElementInterface } from '@utils/interfaces/menuElementInterface';
 import { AdjustmentsHorizontalIcon, ArrowRightOnRectangleIcon, EyeIcon, EyeSlashIcon, ShieldExclamationIcon } from '@heroicons/react/24/outline';
-import ChatOverlay from './chat/ChatOverlay';
 import classNames from 'classnames';
 
 import { useLongPress } from 'use-long-press';
 import { EMOJIS } from '@config/emojis';
 import { EmojiInterface } from '@utils/interfaces/emojiInterface';
-import { counties } from '@config/mapConfig';
 import { config as interestConfig } from '@config/interestConfig';
 import ImageCircle from '@atoms/ImageCircle';
 import VerticalDivider from '@atoms/VerticalDivider';
@@ -28,7 +26,7 @@ import interests from '@media/interests';
 import { useDraggable } from "react-use-draggable-scroll";
 import { useSocketStore } from '@store/socketStore';
 import { useNavigate } from 'react-router-dom';
-import { connectToSocket, socket } from '../socket';
+import { socket } from '../socket';
 import { useUserData } from '@/store/userData';
 import { UserLocation } from '@/utils/types';
 import { UserCounty } from '@/atoms/GeoLocation';
@@ -113,7 +111,6 @@ const ChatView = () => {
         console.log(roomId, token);
 
         socket.emit('validateChat', { roomId, token }, (response: ValidateChatEventResponseInterface) => {
-            console.log('validated message', response.messages);
             setMessages(response.messages);
             setLastMessageId(messages[messages.length - 1]?.id || -1);
             setIsChatValidated(response.status);
@@ -165,13 +162,11 @@ const ChatView = () => {
     }, []);
 
     useEffect(() => {
-        console.log(roomId, isChatValidated)
         if (isChatValidated === null && roomId) {
             validateChat();
         }
 
         if (roomId === null || roomId === undefined || isChatValidated === false) {
-            //setSearch(SearchState.ACTIVE);
             setMessages([]);
             setRoomId(undefined);
             navigate('/search');
@@ -438,7 +433,7 @@ const ChatBubble = ({ text, type, from, className, reactionString, messageId, se
 
     return (
         <div className={`chat-bubble-wrapper ${bgColor} ${bubbleClasses} ${className}`} {...bind()} ref={bubbleRef}>
-            <div> {filterURL(text)} </div>
+            <div class="whitespace-pre-wrap"> {filterURL(text)} </div>
             <ChatBubbleReaction
                 selected={reactionString}
                 isOpen={reactionMenu}

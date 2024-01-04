@@ -1,5 +1,217 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import '../src/css/colors.css';
+@import '../src/css/toast.css';
+@import '../src/css/typing-indicator.css';
+
+
+::-webkit-scrollbar {
+  width: 5px;
+} 
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-lg;
+}
+
+.blue *::-webkit-scrollbar-thumb {
+  background-color: #34ACBC;
+}
+
+.red *::-webkit-scrollbar-thumb {
+  background-color:#A91B12;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html, body, #root {
+  margin: 0; height: 100%; overflow: hidden;
+}
+a {
+  text-decoration: none;
+}
+svg.map {
+  pointer-events: none;
+}
+
+path.county {
+  pointer-events: all;
+}
+
+.text {
+  @apply text-gray-600 dark:text-white font-pridi
+}
+
+.text-cabin {
+  @apply text-gray-600 dark:text-white font-cabin
+}
+.link-basic {
+  @apply underline underline-offset-2 text cursor-pointer;
+}
+.btn {
+  @apply text-xl flex justify-center items-center tracking-wide font-cabin rounded-full;
+}
+.btn.outlined {
+  @apply bg-transparent border-solid border text-gray-600 border-gray-600 hover:text-white hover:bg-gray-600;
+}
+.btn.outlined-dark {
+  @apply dark:text-white dark:border-white hover:dark:text-gray-600 hover:dark:bg-white;
+}
+.header {
+  @apply flex justify-center items-center bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl rounded-br-xl rounded-bl-xl py-5 select-none;
+}
+.footer {
+  @apply flex flex-col justify-center items-center bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl rounded-tr-xl rounded-tl-xl py-5 w-screen h-fit;
+}
+
+.view {
+  @apply flex-grow h-fit flex overflow-hidden flex-col px-10 py-10 w-screen max-w-[600px] self-center;
+}
+
+.bg-chat {
+  @apply bg-bg-light-outer dark:bg-bg-dark-inner;
+}
+.scrollable-view {
+  @apply view !overflow-y-auto;
+}
+
+.switch-base {
+  @apply w-14 h-7 border inline-block relative rounded-full;
+}
+.switch-circle {
+  @apply rounded-full w-5 h-5 absolute mx-1;
+}
+.textarea {
+  @apply rounded-xl bg-bg-light-outer p-3 text-gray-600 border border-bg-dark-inner resize-none;
+}
+.textarea:focus {
+   outline: none;
+}
+
+.interest {
+  @apply rounded-full w-[110px] h-[110px] object-center object-contain bg-white;
+}
+
+.toast-base {
+  @apply cursor-pointer z-50 bg-bg-light-outer dark:bg-bg-dark-outer shadow-xl mx-auto relative items-center h-fit flex flex-row;
+}
+
+.toast-icon {
+  @apply mt-[2px] ml-[2px] h-[60px] w-[60px] flex justify-center items-center rounded-full;
+}
+
+.input-container {
+  @apply flex flex-grow flex-row px-5 py-3 bg-bg-light-inner dark:bg-bg-dark-outer text-gray-600 dark:text-white rounded-xl;
+}
+
+.input-container > textarea::placeholder {
+  @apply text-gray-300;
+}
+
+.chat-area {
+  @apply flex flex-col overflow-auto h-full px-5 pt-5;
+}
+
+.chat-footer {
+  @apply flex flex-col h-fit text px-3 md:px-0;
+}
+.chat-input {
+  @apply inline-flex flex-grow outline-none mr-2 bg-transparent text-base relative resize-none;
+}
+
+.chat-more, chat-send {
+  @apply relative mx-2;
+}
+
+.chat-more::after {
+  @apply bg-gray-600 dark:bg-white;
+  content: " ";
+  height: 100%;
+  width: 1px;
+  position: absolute;
+  left: -0.5rem;
+  top: 0;
+}
+
+.chat-bubble-wrapper {
+  word-break: break-word;
+  @apply w-[70%] max-w-[500px] h-min rounded-[15px] py-3 px-4 my-3 flex items-center relative;
+}
+
+.chat-reaction {
+  @apply relative;
+}
+
+.chat-bubble-reaction-wrapper {
+  @apply absolute -bottom-[18px] left-5 flex flex-row align-middle items-center w-full h-8;
+}
+
+.chat-bubble-reaction-wrapper.reverse {
+  @apply -left-5 flex-row-reverse;
+}
+
+.chat-bubble-reaction-list {
+  @apply bg-bg-light-inner dark:bg-bg-dark-outer ml-8 flex flex-row content-center justify-center rounded-xl;
+}
+
+.select-input {
+  @apply text !text-black text-base select-none outline-none rounded-lg p-2;
+}
+
+.select-input > select:hover {
+  @apply bg-red;
+}
+
+.emoji {
+  @apply inline-block absolute select-none;
+}
+
+.emoji.active {
+  @apply bg-bg-light-outer dark:bg-bg-dark-inner rounded-full;
+}
+
+.emoji-container {
+  @apply relative flex items-center w-8 h-8;
+}
+
+.image-circle {
+  @apply object-center object-contain bg-white z-20;
+}
+
+.image-circle-border {
+  @apply absolute w-[105%] h-[105%] rounded-full z-10 -top-[2%] -left-[2%];
+}
+
+.vertical-divider {
+  @apply w-1 h-10 rounded-xl;
+}
+
+.blur-left{
+  content: ' ';
+  position: absolute;
+  top: 0;
+  width: 20px;
+  height: 100%;
+  left: 0;  
+  z-index: 999;
+}
+.blur-right{
+  content: ' ';
+  position: absolute;
+  top: 0;
+  width: 30px;
+  height: 100%;
+  left: calc(100% - 30px);  
+  z-index: 999;
+}
+.scrollbar-hidden::-webkit-scrollbar{
+  display: none;
 }

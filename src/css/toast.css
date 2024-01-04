@@ -1,0 +1,7 @@
+.border-color-toast-red {
+    @apply border-toast-red;
+}
+
+.border-color-toast-green {
+    @apply border-toast-green;
+}

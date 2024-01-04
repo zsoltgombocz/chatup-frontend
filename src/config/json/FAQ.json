@@ -1,0 +1,22 @@
+[
+    {
+        "q": "Mi a ChatUp?",
+        "a": "A ChatUp egy beszélgető oldal, melyet a felhasználók anonim módon használhatnak és beszélgethetnek más anonim felhasználókkal."
+    },
+    {
+        "q": "Kötelező kitölteni a szűrőket?",
+        "a": "A saját nem kiválasztásán kivül a felhasználó nem köteles a többi szűrőt kitölteni. A kitöltés hiányában az alapértelmezett szűrők lépnek érvénybe."
+    },
+    {
+        "q": "A szűrők mentésre kerülnek?",
+        "a": "Amennyiben a beszélgetés végét követően új partnert keres a felhasználó, úgy az előzőleg beállitott szűrő lesz érvényben. Ha a felhasználó megszakitja a kapcsolatot az oldallal, úgy a szűrők kitöltése alapértelmezettre vált."
+    },
+    {
+        "q": "Mitől függ a keresési idő?",
+        "a": "A keresési idő a beállitott szűrőktől és az aktuálisan beszélgető partnerek számától függenek."
+    },
+    {
+        "q": "Nem találtál választ a kérdésedre?",
+        "a": "Amennyiben kérdésed adódik, tedd fel bátran számunka és mi készséggel megválaszoljuk."
+    }
+]

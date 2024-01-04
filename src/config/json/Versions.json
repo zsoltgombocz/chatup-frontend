@@ -1,0 +1,154 @@
+[
+    {
+        "version": "Pre-alpha",
+        "changes": [
+            "Alkalmazás UI impelemtálása",
+            "Beállítások mentése/betöltése, testreszabhatóság"
+        ]
+    },
+    {
+        "version": "0.0.2",
+        "changes": [
+            "Térképes szűrő oldal hozzáadva",
+            "Kisebb javítások alkalmazás szerte"
+        ],
+        "date": "2023.01.28"
+    },
+    {
+        "version": "0.0.3",
+        "changes": [
+            "Nemi identitás választó oldal"
+        ],
+        "date": "2023.01.28"
+    },
+    {
+        "version": "0.0.4",
+        "changes": [
+            "Mobil: Megye választásnál kék jelőlő négyzet kivéve",
+            "Egyéb apró hibajavítások nézeteknél"
+        ],
+        "date": "2023.02.02"
+    },
+    {
+        "version": "0.0.41",
+        "changes": [
+            "Téma körök I. fázis"
+        ],
+        "date": "2023.02.02"
+    },
+    {
+        "version": "0.0.42",
+        "changes": [
+            "Téma körök extra információ",
+            "Teljesítmény növelése I. fázis"
+        ],
+        "date": "2023.02.03"
+    },
+    {
+        "version": "0.0.43",
+        "changes": [
+            "Teljesítmény növelés: Töltő implementálva",
+            "Apró javítások téma választáskor",
+            "Téma választó teljesen implementáláva"
+        ],
+        "date": "2023.02.03"
+    },
+    {
+        "version": "0.0.44",
+        "changes": [
+            "Teszt keresés oldal hozzáadva szerver tesztelés érdekében",
+            "Téma választó hiba javítása"
+        ],
+        "date": "2023.02.12"
+    },
+    {
+        "version": "0.0.5",
+        "changes": [
+            "További teljesítmény javítás a 'pre' oldalon",
+            "Automatikus helymeghatározás implementálva",
+            "Apró render problémák javítva",
+            "Nemi identitás választó kapcsoló bug javítva"
+        ],
+        "date": "2023.02.16"
+    },
+    {
+        "version": "0.0.6",
+        "changes": [
+            "UI változások 'pre' oldalakon",
+            "Helymeghatározás: Apró hibák javítva"
+        ],
+        "date": "2023.02.25"
+    },
+    {
+        "version": "0.0.7",
+        "changes": [
+            "Javítások: Töltő képernyő",
+            "Hangok implementáva (Navigációs)",
+            "Teljesíthető eredmények (achievements) 1. interáció megvalósítva",
+            "Felugró üzenet ablak"
+        ],
+        "date": "2023.02.26"
+    },
+    {
+        "version": "0.0.71",
+        "changes": [
+            "Hibajavítás az első elérhető eredmény elérésekor",
+            "Gazdaságosabb hang betöltés és lejátszás",
+            "Helymeghatározás: Elutasított állapot megjelenítés javítva"
+        ],
+        "date": "2023.03.02"
+    },
+    {
+        "version": "0.0.72",
+        "changes": [
+            "Keresés oldal 1. iterációs UI hozzáadva",
+            "Chat nézet hozzáadva (funkció mentes)",
+            "Hibajelentés funkció élesítve beállításokban",
+            "Chat nézet 2. interációs UI felület - WIP",
+            "Téma színű görgő sáv"
+        ],
+        "date": "2023.03.07"
+    },
+    {
+        "version": "0.0.73",
+        "changes": [
+            "Chat nézet 2. interációs UI felület kész"
+        ],
+        "date": "2023.03.13"
+    },
+    {
+        "version": "0.0.74",
+        "changes": [
+            "Üzenet reakciók hozzáadva",
+            "Felső menü WIP"
+        ],
+        "date": "2023.03.16"
+    },
+    {
+        "version": "0.0.75",
+        "changes": [
+            "Chat nézet javítások",
+            "Chat nézet partner infó elkészítve",
+            "Megszerzett achievementek megjelenítve (FUNKCIÓ MENTES - CSAK SZEMLÉLTETÉS)"
+        ],
+        "date": "2023.04.08"
+    },
+    {
+        "version": "0.0.8",
+        "changes": [
+            "Chat beta állapotban",
+            "Reakciók üzeneteken",
+            "Javítások szerver oldali hibák esetén"
+        ],
+        "date": "2023.05.02"
+    },
+    {
+        "version": "BETA",
+        "changes": [
+            "Stabil chat biztosítva",
+            "Nem választás hiba javítása",
+            "Több sorba törés javítva a chat buborékban"
+        ],
+        "date": "2024.01.04"
+    }
+]

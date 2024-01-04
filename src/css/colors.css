@@ -1,0 +1,55 @@
+.color-circle {
+    @apply w-10 h-10 rounded-full cursor-pointer border-2 border-transparent;
+}
+
+.color-circle.red {
+    @apply bg-primary-red-light hover:border-primary-red dark:bg-primary-red dark:hover:border-primary-red-light;
+}
+.color-circle.red.border {
+    @apply border-primary-red dark:border-primary-red-light;
+}
+.color-circle.blue {
+    @apply bg-primary-blue-light hover:border-primary-blue dark:bg-primary-blue dark:hover:border-primary-blue-light;
+}
+.color-circle.blue.border {
+    @apply border-primary-blue dark:border-primary-blue-light;
+}
+.bg-red {
+    @apply bg-primary-red;
+}
+.bg-blue {
+    @apply bg-primary-blue;
+}
+.bg-red-light-hovered {
+    @apply hover:bg-primary-red-light;
+}
+.bg-blue-light-hovered {
+    @apply hover:bg-primary-blue-light;
+}
+.bg-darker-red {
+    @apply bg-primary-red-dark;
+}
+.bg-darker-blue {
+    @apply bg-primary-blue-dark;
+}
+
+.fill-red {
+    @apply fill-primary-red;
+}
+.fill-blue {
+    @apply fill-primary-blue;
+}
+  
+.border-color-blue {
+    @apply border-primary-blue;
+}
+.border-color-red {
+    @apply border-primary-red;
+}
+
+.text-red {
+    @apply text-primary-red;
+}
+.text-blue {
+    @apply text-primary-blue;
+}

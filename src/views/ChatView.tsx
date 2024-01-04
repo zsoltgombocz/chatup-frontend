@@ -433,7 +433,7 @@ const ChatBubble = ({ text, type, from, className, reactionString, messageId, se
 
     return (
         <div className={`chat-bubble-wrapper ${bgColor} ${bubbleClasses} ${className}`} {...bind()} ref={bubbleRef}>
-            <div class="whitespace-pre-wrap"> {filterURL(text)} </div>
+            <div className={'whitespace-pre-wrap'}> {filterURL(text)} </div>
             <ChatBubbleReaction
                 selected={reactionString}
                 isOpen={reactionMenu}

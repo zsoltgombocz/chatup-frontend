@@ -142,4 +142,13 @@
         ],
         "date": "2023.05.02"
     }
+    {
+        "version": "BETA",
+        "changes": [
+            "Stabil chat biztosítva",
+            "Nem választás hiba javítása",
+            "Több sorba törés javítva a chat buborékban"
+        ],
+        "date": "2024.01.04"
+    }
 ]
